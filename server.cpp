@@ -30,6 +30,11 @@
 
 #define BACKLOG 5 // Allowed length of queue of waiting connections
 
+std::mutex serverThreadsMutex;
+std::condition_variable serverThreadsCondition;
+int activeServerThreads = 0;
+const int maxServerThreads = 10;
+
 typedef struct {
   int sock;
   std::string name;
@@ -116,7 +121,10 @@ void serverCommand(int clientsocket, char *buffer) {}
  * logic
  * @param int socketfd
  */
-int handleServer(int sock) { return 0; }
+int handleServer(int sock) {
+  std::cout << "This is server:" << sock << std::endl;
+  return 0;
+}
 
 /*
  * @description Handle client communications with the server, encapsulates
@@ -132,7 +140,20 @@ int handleClient(int sock) {
  * @description Accept incoming server connection requests
  * @param int listensocket
  */
-int acceptServerConnection(int listenSocket) { return 0; }
+int acceptServerConnection(int listenSocket) {
+  struct sockaddr_in serverAddress;
+  socklen_t serverLen = sizeof(serverAddress);
+
+  int serverSocket =
+      accept(listenSocket, (struct sockaddr *)&serverAddress, &serverLen);
+
+  if (serverSocket < 0) {
+    // std::cerr << "Failed to accept connection" << std::endl;
+    return -1;
+  }
+  std::cout << "Connection accepted" << std::endl;
+  return serverSocket;
+}
 
 /*
  * @description Accept incoming client connection requests
@@ -158,16 +179,38 @@ int main(int argc, char *argv[]) {
   int clientSocket = open_socket(4022);
 
   // Server thread
+  std::thread serverThread([&]() {
+    while (true) {
+      int acceptedServerSocket = acceptServerConnection(serverSocket);
+      if (acceptedServerSocket > 0) {
+        std::unique_lock<std::mutex> lock(serverThreadsMutex);
+
+        // Wait if we've reached the maximum number of threads.
+        serverThreadsCondition.wait(
+            lock, []() { return activeServerThreads < maxServerThreads; });
+
+        ++activeServerThreads;
+        lock.unlock();
+
+        std::thread handleServerThread(handleServer, acceptedServerSocket);
+        handleServerThread.detach();
+      }
+    }
+  });
 
   // Client thread
-  while (true) {
-    int acceptedClientSocket = acceptClientConnection(clientSocket);
-    if (acceptedClientSocket > 0) {
-      std::thread clientThread(handleClient, acceptedClientSocket);
-      clientThread.detach();
+  std::thread clientThread([&]() {
+    while (true) {
+      int acceptedClientSocket = acceptClientConnection(clientSocket);
+      if (acceptedClientSocket > 0) {
+        std::thread handleClientThread(handleClient, acceptedClientSocket);
+        handleClientThread.detach();
+      }
     }
-  }
+  });
 
   // Join threads
+  serverThread.join();
+  clientThread.join();
   return 0;
 }
