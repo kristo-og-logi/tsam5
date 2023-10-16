@@ -79,10 +79,18 @@ int open_socket(int portno) {
   if (bind(sock, (struct sockaddr *)&sk_addr, sizeof(sk_addr)) < 0) {
     perror("Failed to bind to socket:");
     return (-1);
-  } else {
-    return (sock);
   }
+
+  if (listen(sock, SOMAXCONN) <
+      0) { // SOMAXCONN is the maximum number of queued connections
+    std::cerr << "Listen failed!" << std::endl;
+    close(sock);
+    return -1;
+  }
+
+  return (sock);
 }
+
 /*
  * @description Close client that is connected to the server
  * @param int clientsocketfd
@@ -115,7 +123,10 @@ int handleServer(int sock) { return 0; }
  * client to server logic
  * @param int socketfd
  */
-int handleClient(int sock) { return 0; }
+int handleClient(int sock) {
+  std::cout << "This is client:" << sock << std::endl;
+  return 0;
+}
 
 /*
  * @description Accept incoming server connection requests
@@ -135,7 +146,7 @@ int acceptClientConnection(int listenSocket) {
       accept(listenSocket, (struct sockaddr *)&clientAddress, &clientLen);
 
   if (clientSocket < 0) {
-    std::cerr << "Failed to accept connection" << std::endl;
+    // std::cerr << "Failed to accept connection" << std::endl;
     return -1;
   }
   std::cout << "Connection accepted" << std::endl;
@@ -143,9 +154,19 @@ int acceptClientConnection(int listenSocket) {
 }
 
 int main(int argc, char *argv[]) {
+  int serverSocket = open_socket(4044);
+  int clientSocket = open_socket(4022);
+
   // Server thread
 
   // Client thread
+  while (true) {
+    int acceptedClientSocket = acceptClientConnection(clientSocket);
+    if (acceptedClientSocket > 0) {
+      std::thread clientThread(handleClient, acceptedClientSocket);
+      clientThread.detach();
+    }
+  }
 
   // Join threads
   return 0;
