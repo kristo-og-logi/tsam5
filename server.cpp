@@ -127,7 +127,20 @@ int acceptServerConnection(int listenSocket) { return 0; }
  * @description Accept incoming client connection requests
  * @param int listensocket
  */
-int acceptClientConnection(int listenSocket) { return 0; }
+int acceptClientConnection(int listenSocket) {
+  struct sockaddr_in clientAddress;
+  socklen_t clientLen = sizeof(clientAddress);
+
+  int clientSocket =
+      accept(listenSocket, (struct sockaddr *)&clientAddress, &clientLen);
+
+  if (clientSocket < 0) {
+    std::cerr << "Failed to accept connection" << std::endl;
+    return -1;
+  }
+  std::cout << "Connection accepted" << std::endl;
+  return clientSocket;
+}
 
 int main(int argc, char *argv[]) {
   // Server thread
