@@ -154,13 +154,12 @@ int acceptServerConnection(int listenSocket) {
   }
   std::cout << "Connection accepted" << std::endl;
 
-
   Client newServer;
   newServer.sock = serverSocket;
   newServer.name = "Server" + std::to_string(serverSocket);
 
   servers[serverSocket] = newServer;
-  
+
   return serverSocket;
 }
 
