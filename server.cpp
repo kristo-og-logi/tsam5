@@ -40,7 +40,8 @@ typedef struct {
   std::string name;
 } Client;
 
-std::map<int, Client *> clients;
+std::map<int, Client> clients;
+std::map<int, Client> servers;
 
 int open_socket(int portno) {
   struct sockaddr_in sk_addr; // address settings for bind()
@@ -152,6 +153,14 @@ int acceptServerConnection(int listenSocket) {
     return -1;
   }
   std::cout << "Connection accepted" << std::endl;
+
+
+  Client newServer;
+  newServer.sock = serverSocket;
+  newServer.name = "Server" + std::to_string(serverSocket);
+
+  servers[serverSocket] = newServer;
+  
   return serverSocket;
 }
 
@@ -171,6 +180,13 @@ int acceptClientConnection(int listenSocket) {
     return -1;
   }
   std::cout << "Connection accepted" << std::endl;
+
+  Client newClient;
+  newClient.sock = clientSocket;
+  newClient.name = "Server" + std::to_string(clientSocket);
+
+  servers[clientSocket] = newClient;
+
   return clientSocket;
 }
 
