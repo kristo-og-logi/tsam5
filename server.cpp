@@ -16,11 +16,8 @@
 #include <vector>
 
 #include <iostream>
-#include <map>
 #include <sstream>
 #include <thread>
-
-#include <unistd.h>
 
 // fix SOCK_NONBLOCK for OSX
 #ifndef SOCK_NONBLOCK
@@ -66,6 +63,13 @@ int open_socket(int portno) {
   // program exit.
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &set, sizeof(set)) < 0) {
+    perror("Failed to set SO_REUSEADDR:");
+  }
+
+  // Turn on SO_REUSEPORT so kristofer's mac can run code,
+  // as first seen in https://piazza.com/class/llmkmqion5w282/post/208
+  set = 1;
+  if (setsockopt(sock, SOL_SOCKET, SO_REUSEPORT, &set, sizeof(set)) < 0) {
     perror("Failed to set SO_REUSEADDR:");
   }
   set = 1;
@@ -190,8 +194,12 @@ int acceptClientConnection(int listenSocket) {
 }
 
 int main(int argc, char *argv[]) {
-  int serverSocket = open_socket(4044);
-  int clientSocket = open_socket(4022);
+
+  // these should come from argv
+  int serverPort = 4044;
+  int clientPort = 4022;
+  int serverSocket = open_socket(serverPort);
+  int clientSocket = open_socket(clientPort);
 
   // Server thread
   std::thread serverThread([&]() {
