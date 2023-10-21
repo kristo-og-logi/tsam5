@@ -1,8 +1,8 @@
 #include <cstring>
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
-#include <map>          // for std::map
 #include <netinet/in.h> // for sockaddr_in
+#include <set>          // for storing sockets
 #include <sstream>      // for stream()
 #include <sys/socket.h> // for socket, listen
 #include <unistd.h>     // for close
@@ -26,23 +26,24 @@ class Client {
     ~Client() {} // Virtual destructor defined for base class
 };
 
-// Note: map is not necessarily the most efficient method to use here,
-// especially for a server with large numbers of simulataneous connections,
-// where performance is also expected to be an issue.
-//
-// Quite often a simple array can be used as a lookup table,
-// (indexed on socket no.) sacrificing memory for speed.
-
-std::map<int, Client *> clients; // Lookup table for per Client information
+std::set<Client *> servers; // Lookup table for servers
+std::set<Client *> clients; // Lookup table for clients
 
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
 
+#ifdef __APPLE__
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1) {
         std::cerr << "Failed to create socket." << std::endl;
         return 1;
     }
+#else
+    if ((sock = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) < 0) {
+        perror("Failed to open socket");
+        return (-1);
+    }
+#endif
 
     int set = 1; // for setsockopt
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &set, sizeof(set)) < 0) {
@@ -52,10 +53,13 @@ int createSocket(int portno, struct sockaddr_in addr) {
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEPORT, &set, sizeof(set)) < 0) {
         perror("Failed to set SO_REUSEADDR:");
     }
+
+#ifdef __APPLE__
     set = 1;
     if (setsockopt(sock, SOL_SOCKET, SOCK_NONBLOCK, &set, sizeof(set)) < 0) {
         perror("Failed to set SOCK_NOBBLOCK");
     }
+#endif
 
     // Setup server address structure
     memset(&addr, 0, sizeof(addr));
@@ -65,16 +69,14 @@ int createSocket(int portno, struct sockaddr_in addr) {
 
     // Bind socket
     if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-        std::cerr << "Failed to bind socket." << std::endl;
         close(sock);
-        return 1;
+        perror("Failed to bind socket.");
     }
 
     // Listen
     if (listen(sock, 5) == -1) {
-        std::cerr << "Failed to listen on socket." << std::endl;
         close(sock);
-        return 1;
+        perror("Listen failed on socket.");
     }
 
     return sock;
@@ -86,8 +88,8 @@ void closeClient(int clientSocket, fd_set *openSockets, int *maxfds) {
     close(clientSocket);
 
     if (*maxfds == clientSocket) {
-        for (auto const &p : clients) {
-            *maxfds = std::max(*maxfds, p.second->sock);
+        for (auto const &c : clients) {
+            *maxfds = std::max(*maxfds, c->sock);
         }
     }
 
@@ -116,15 +118,11 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 int main(int argc, char *argv[]) {
     bool finished;
-    int listenSock;       // Socket for connections to server
-    int clientSock;       // Socket of connecting client
     fd_set openSockets;   // Current open sockets
     fd_set readSockets;   // Socket list for select()
     fd_set exceptSockets; // Exception socket list
     int maxfds;           // Passed to select() as max fd in set
-    struct sockaddr_in client;
-    socklen_t clientLen;
-    char buffer[1025]; // buffer for reading from clients
+    char buffer[1025];    // buffer for reading from clients
 
     if (argc != 3) {
         printf("Usage: chat_server <server port> <client port>\n");
@@ -168,7 +166,8 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        if (FD_ISSET(clientSocket, &readSockets)) {
+        if (FD_ISSET(clientSocket,
+                     &readSockets)) { // we have a new client connection
 
             // Accept
             socklen_t clientLen = sizeof(client_addr);
@@ -186,7 +185,7 @@ int main(int argc, char *argv[]) {
             maxfds = std::max(maxfds, newClientSock);
 
             // create a new client to store information.
-            clients[newClientSock] = new Client(newClientSock);
+            clients.insert(new Client(newClientSock));
 
             printf("Client connected on server: %d\n", newClientSock);
 
@@ -194,7 +193,8 @@ int main(int argc, char *argv[]) {
             const char *message = "Hello, Client!\n";
             send(newClientSock, message, strlen(message), 0);
         }
-        if (FD_ISSET(serverSocket, &readSockets)) {
+        if (FD_ISSET(serverSocket,
+                     &readSockets)) { // we have a new server connection
 
             // Accept
             socklen_t serverLen = sizeof(server_addr);
@@ -211,8 +211,8 @@ int main(int argc, char *argv[]) {
             // And update the maximum file descriptor
             maxfds = std::max(maxfds, newServerSock);
 
-            // create a new client to store information.
-            clients[newServerSock] = new Client(newServerSock);
+            // store the new server
+            servers.insert(new Client(newServerSock));
 
             printf("Server connected on server: %d\n", newServerSock);
 
@@ -223,9 +223,9 @@ int main(int argc, char *argv[]) {
 
         // Now check for commands from clients
         std::list<Client *> disconnectedClients;
+        std::list<Client *> disconnectedServers;
 
-        for (auto const &pair : clients) {
-            Client *client = pair.second;
+        for (auto const &client : clients) {
 
             if (FD_ISSET(client->sock, &readSockets)) {
                 // recv() == 0 means client has closed connection
@@ -252,26 +252,37 @@ int main(int argc, char *argv[]) {
         }
         // Remove client from the clients list
         for (auto const &c : disconnectedClients)
-            clients.erase(c->sock);
+            clients.erase(c);
 
-        // while (true) {
+        for (auto const &server : servers) {
 
-        //   ssize_t bytes_received =
-        //       recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
-        //   if (bytes_received < 0) {
-        //     std::cerr << "Failed to receive data from client." << std::endl;
-        //   } else if (bytes_received == 0) {
-        //     std::cout << "Client disconnected." << std::endl;
-        //   } else {
-        //     std::cout << "Received from client: " << buffer << std::endl;
-        //   }
+            if (FD_ISSET(server->sock, &readSockets)) {
+                // recv() == 0 means client has closed connection
+                if (recv(server->sock, buffer, sizeof(buffer), MSG_DONTWAIT) ==
+                    0) {
+                    disconnectedServers.push_back(server);
+                    closeClient(server->sock, &openSockets, &maxfds);
 
-        //   if (strncmp(buffer, "bye", 3) == 0)
-        //     break;
-        // }
+                }
+                // We don't check for -1 (nothing received) because select()
+                // only triggers if there is something on the socket for us.
+                else {
+                    if (strncmp(buffer, "bye", 3) == 0) {
+                        disconnectedServers.push_back(server);
+                        closeClient(server->sock, &openSockets, &maxfds);
+                    }
 
-        // Close client socket
-        // close(clientSocket);
+                    else
+                        // std::cout << buffer << std::endl;
+                        clientCommand(server->sock, &openSockets, &maxfds,
+                                      buffer);
+                }
+            }
+        }
+
+        // Remove client from the clients list
+        for (auto const &s : disconnectedServers)
+            servers.erase(s);
     }
 
     // Close server socket (in practice, you'll likely never reach this point)
