@@ -16,8 +16,6 @@
 enum class ClientType { SERVER, CLIENT };
 
 // Simple class for handling connections from clients.
-//
-// Client(int socket) - socket to send/receive traffic from client.
 class Client {
   public:
     int sock; // socket of client connection
@@ -150,8 +148,7 @@ int acceptConnection(int socket, sockaddr_in socketAddress,
         std::cerr << "Failed to accept client." << std::endl;
     }
 
-    std::cout << clientType
-              << " connected with connection: " << newSocketConnection
+    std::cout << clientType << " " << newSocketConnection << " connected"
               << std::endl;
 
     // Send a message to the client
@@ -207,7 +204,7 @@ int main(int argc, char *argv[]) {
     char buffer[1025]; // buffer for reading from clients
 
     if (argc != 3) {
-        printf("Usage: chat_server <server port> <client port>\n");
+        printf("Usage: ./server <server port> <client port>\n");
         exit(0);
     }
 
