@@ -138,27 +138,38 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
     std::vector<std::string> tokens;
     std::string token;
+    const char *invalidMessage = "invalid message\n";
+    int msgLength = strlen(buffer);
 
     if (!bufferIsValid(buffer)) {
-        const char *message = "invalid message\n";
-        std::cout << message;
-        send(clientSocket, message, strlen(message), 0);
+        std::cout << invalidMessage;
+        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
         return;
     }
 
-    int msgLength = strlen(buffer);
-    std::cout << msgLength << " chars sent: ";
+    std::string content(buffer + 1, msgLength - 2);
 
-    // Split command from client into tokens for parsing
-    std::stringstream stream(buffer);
+    // under here, we should only have commands which must include comma's.
+    size_t firstCommaIndex = content.find(',');
 
-    while (stream >> token)
-        tokens.push_back(token);
-
-    for (const auto &token : tokens) {
-        std::cout << token << "-";
+    if (firstCommaIndex == std::string::npos) {
+        std::cout << invalidMessage;
+        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+        return;
     }
-    std::cout << std::endl;
+
+    std::string command = content.substr(0, firstCommaIndex);
+
+    if (command == "LISTSERVERS") {
+        std::cout << "listservers received" << std::endl;
+    } else if (command == "GETMSG") {
+        std::cout << "getmsg received" << std::endl;
+    } else if (command == "SENDMSG") {
+        std::cout << "sendmsg received" << std::endl;
+    } else {
+        std::cout << "unsupported client command: " << command << " received"
+                  << std::endl;
+    }
 }
 
 void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
@@ -201,23 +212,10 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
         std::cout << "unsupported command: " << command << " received"
                   << std::endl;
     }
-
-    // std::cout << msgLength << " chars sent: ";
-
-    // Split command from client into tokens for parsing
-    // std::stringstream stream(buffer);
-
-    // while (stream >> token)
-    //     tokens.push_back(token);
-
-    // for (const auto &token : tokens) {
-    //     std::cout << token << "-";
-    // }
 }
 
 int acceptConnection(int socket, sockaddr_in socketAddress,
                      std::string clientType) {
-    // Accept
     socklen_t clientLen = sizeof(socketAddress);
     int newSocketConnection =
         accept(socket, (struct sockaddr *)&socketAddress, &clientLen);
