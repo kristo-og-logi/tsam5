@@ -13,17 +13,33 @@
 #define SOCK_NONBLOCK O_NONBLOCK
 #endif
 
+enum class ClientType { SERVER, CLIENT };
+
 // Simple class for handling connections from clients.
 //
 // Client(int socket) - socket to send/receive traffic from client.
 class Client {
   public:
-    int sock;         // socket of client connection
+    int sock; // socket of client connection
+    ClientType type;
     std::string name; // Limit length of name of client's user
 
-    Client(int socket) : sock(socket) {}
+    Client(int socket, ClientType clientType)
+        : sock(socket), type(clientType) {}
 
     ~Client() {} // Virtual destructor defined for base class
+
+    // Convert the 'type' member variable to its corresponding string
+    std::string clientTypeToString() const {
+        switch (type) {
+        case ClientType::SERVER:
+            return "server";
+        case ClientType::CLIENT:
+            return "client";
+        default:
+            return "unknown";
+        }
+    }
 };
 
 std::set<Client *> servers; // Lookup table for servers
@@ -82,20 +98,28 @@ int createSocket(int portno, struct sockaddr_in addr) {
     return sock;
 }
 
-void closeClient(int clientSocket, fd_set *openSockets, int *maxfds) {
-    printf("Client closed connection: %d\n", clientSocket);
+void closeClient(Client *const &client, fd_set *openSockets, int *maxfds) {
+    std::cout << client->clientTypeToString() << " " << client->sock
+              << " disconnected" << std::endl;
 
-    close(clientSocket);
+    close(client->sock);
 
-    if (*maxfds == clientSocket) {
-        for (auto const &c : clients) {
-            *maxfds = std::max(*maxfds, c->sock);
+    if (*maxfds == client->sock) {
+        *maxfds = -1; // reinitialize the max fd
+        // check the clients for maxfd
+        for (Client *c : clients) {
+            if (client->sock != c->sock)
+                *maxfds = std::max(*maxfds, c->sock);
+        }
+        // check the servers for maxfd
+        for (Client *s : servers) {
+            if (client->sock != s->sock)
+                *maxfds = std::max(*maxfds, s->sock);
         }
     }
 
-    // And remove from the list of open sockets.
-
-    FD_CLR(clientSocket, openSockets);
+    // remove the socket from the list of open sockets.
+    FD_CLR(client->sock, openSockets);
 }
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
@@ -116,7 +140,8 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::cout << std::endl;
 }
 
-int acceptConnection(int socket, sockaddr_in socketAddress) {
+int acceptConnection(int socket, sockaddr_in socketAddress,
+                     std::string clientType) {
     // Accept
     socklen_t clientLen = sizeof(socketAddress);
     int newSocketConnection =
@@ -125,7 +150,9 @@ int acceptConnection(int socket, sockaddr_in socketAddress) {
         std::cerr << "Failed to accept client." << std::endl;
     }
 
-    printf("Server connected on server: %d\n", newSocketConnection);
+    std::cout << clientType
+              << " connected with connection: " << newSocketConnection
+              << std::endl;
 
     // Send a message to the client
     const char *message = "Hello!\n";
@@ -138,16 +165,15 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedClients,
                          int *maxfds) {
-    // recv() == 0 means client has closed connection
     if (recv(client->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedClients.push_back(client);
-        closeClient(client->sock, openSockets, maxfds);
+        closeClient(client, openSockets, maxfds);
         return;
     }
 
     if (strncmp(buffer, "bye", 3) == 0) {
         disconnectedClients.push_back(client);
-        closeClient(client->sock, openSockets, maxfds);
+        closeClient(client, openSockets, maxfds);
     }
 
     else
@@ -161,13 +187,13 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     // receive the message from the server
     if (recv(server->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedServers.push_back(server);
-        closeClient(server->sock, openSockets, maxfds);
+        closeClient(server, openSockets, maxfds);
         return;
     }
 
     if (strncmp(buffer, "bye", 3) == 0) {
         disconnectedServers.push_back(server);
-        closeClient(server->sock, openSockets, maxfds);
+        closeClient(server, openSockets, maxfds);
     }
 
     else
@@ -175,10 +201,9 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
 };
 
 int main(int argc, char *argv[]) {
-    bool finished;
     fd_set openSockets, readSockets,
         exceptSockets; // open, listed, and exception sockets.
-    int maxfds;        // Passed to select() as max fd in set
+    int maxfds, socketsReady, serverSocket, clientSocket;
     char buffer[1025]; // buffer for reading from clients
 
     if (argc != 3) {
@@ -188,11 +213,7 @@ int main(int argc, char *argv[]) {
 
     int serverPort = atoi(argv[1]);
     int clientPort = atoi(argv[2]);
-
     struct sockaddr_in server_addr, client_addr;
-
-    int serverSocket, clientSocket;
-    std::cout << "Starting a server" << std::endl;
 
     // Create socket
     serverSocket = createSocket(serverPort, server_addr);
@@ -207,17 +228,16 @@ int main(int argc, char *argv[]) {
     FD_SET(clientSocket, &openSockets);
     maxfds = std::max(serverSocket, clientSocket);
 
-    finished = false;
-
+    bool finished = false;
     while (!finished) {
         // Get modifiable copy of readSockets
         readSockets = exceptSockets = openSockets;
         memset(buffer, 0, sizeof(buffer)); // Initialize the buffer
 
         // Look at sockets and see which ones have something to be read()
-        int n = select(maxfds + 1, &readSockets, NULL, &exceptSockets, NULL);
 
-        if (n < 0) {
+        if ((socketsReady = select(maxfds + 1, &readSockets, NULL,
+                                   &exceptSockets, NULL)) < 0) {
             perror("select failed - closing down\n");
             finished = true;
             break;
@@ -227,12 +247,12 @@ int main(int argc, char *argv[]) {
                      &readSockets)) { // we have a new client connection
 
             int newClientSock;
-            if ((newClientSock = acceptConnection(clientSocket, client_addr)) !=
-                -1) {
+            if ((newClientSock = acceptConnection(clientSocket, client_addr,
+                                                  "client")) != -1) {
                 // Add new client to the list of open sockets
                 FD_SET(newClientSock, &openSockets);
                 maxfds = std::max(maxfds, newClientSock);
-                clients.insert(new Client(newClientSock));
+                clients.insert(new Client(newClientSock, ClientType::CLIENT));
             }
         }
 
@@ -240,12 +260,12 @@ int main(int argc, char *argv[]) {
                      &readSockets)) { // we have a new server connection
 
             int newServerSock;
-            if ((newServerSock = acceptConnection(serverSocket, server_addr)) !=
-                -1) {
+            if ((newServerSock = acceptConnection(serverSocket, server_addr,
+                                                  "server")) != -1) {
                 // Add new client to the list of open sockets
                 FD_SET(newServerSock, &openSockets);
                 maxfds = std::max(maxfds, newServerSock);
-                servers.insert(new Client(newServerSock));
+                servers.insert(new Client(newServerSock, ClientType::SERVER));
             }
         }
 
