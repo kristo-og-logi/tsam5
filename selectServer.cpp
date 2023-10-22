@@ -120,10 +120,33 @@ void closeClient(Client *const &client, fd_set *openSockets, int *maxfds) {
     FD_CLR(client->sock, openSockets);
 }
 
+bool bufferIsValid(char *buffer) {
+    const char FIRST_BYTE = 0x02;
+    const char LAST_BYTE = 0x03;
+    int msgLength = strlen(buffer);
+
+    // std::cout << "1st check: " << buffer[0] << " = " << FIRST_BYTE <<
+    // std::endl; std::cout << "2nd check: " << buffer[msgLength - 1] << " = "
+    // << LAST_BYTE << std::endl;
+
+    return !(msgLength < 2 || buffer[0] != FIRST_BYTE ||
+             buffer[msgLength - 1] != LAST_BYTE);
+}
+
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
     std::vector<std::string> tokens;
     std::string token;
+
+    if (!bufferIsValid(buffer)) {
+        const char *message = "invalid message\n";
+        std::cout << message;
+        send(clientSocket, message, strlen(message), 0);
+        return;
+    }
+
+    int msgLength = strlen(buffer);
+    std::cout << msgLength << " chars sent: ";
 
     // Split command from client into tokens for parsing
     std::stringstream stream(buffer);
@@ -132,8 +155,34 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
         tokens.push_back(token);
 
     for (const auto &token : tokens) {
-        std::cout << token << "-"; // or just " " instead of std::endl if
-                                   // you want them on the same line
+        std::cout << token << "-";
+    }
+    std::cout << std::endl;
+}
+
+void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
+                   char *buffer) {
+    std::vector<std::string> tokens;
+    std::string token;
+
+    if (!bufferIsValid(buffer)) {
+        const char *message = "invalid message\n";
+        std::cout << message;
+        send(clientSocket, message, strlen(message), 0);
+        return;
+    }
+
+    int msgLength = strlen(buffer);
+    std::cout << msgLength << " chars sent: ";
+
+    // Split command from client into tokens for parsing
+    std::stringstream stream(buffer);
+
+    while (stream >> token)
+        tokens.push_back(token);
+
+    for (const auto &token : tokens) {
+        std::cout << token << "-";
     }
     std::cout << std::endl;
 }
@@ -232,7 +281,6 @@ int main(int argc, char *argv[]) {
         memset(buffer, 0, sizeof(buffer)); // Initialize the buffer
 
         // Look at sockets and see which ones have something to be read()
-
         if ((socketsReady = select(maxfds + 1, &readSockets, NULL,
                                    &exceptSockets, NULL)) < 0) {
             perror("select failed - closing down\n");

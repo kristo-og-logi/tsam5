@@ -105,7 +105,11 @@ int main(int argc, char *argv[]) {
     while (!finished) {
         bzero(buffer, sizeof(buffer)); // clean the buffer
 
-        fgets(buffer, sizeof(buffer), stdin); // read a line from stdin
+        fgets(buffer + 1, sizeof(buffer) - 1, stdin); // read a line from stdin
+
+        buffer[0] = 0x02;
+        buffer[strlen(buffer) - 1] = 0x03; // replace the new line character
+                                           // with the specified last byte.
 
         if ((nwrite = send(serverSocket, buffer, strlen(buffer), 0)) == -1) {
             perror("send() to server failed: ");
