@@ -164,27 +164,54 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
     std::vector<std::string> tokens;
     std::string token;
+    const char *invalidMessage = "invalid message\n";
+    int msgLength = strlen(buffer);
 
     if (!bufferIsValid(buffer)) {
-        const char *message = "invalid message\n";
-        std::cout << message;
-        send(clientSocket, message, strlen(message), 0);
+        std::cout << invalidMessage;
+        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
         return;
     }
 
-    int msgLength = strlen(buffer);
-    std::cout << msgLength << " chars sent: ";
+    std::string content(buffer + 1, msgLength - 2);
+    size_t firstCommaIndex = content.find(',');
+
+    if (firstCommaIndex == std::string::npos) {
+        std::cout << invalidMessage;
+        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+        return;
+    }
+
+    std::string command = content.substr(0, firstCommaIndex);
+
+    if (command == "KEEPALIVE") {
+        std::cout << "keepalive received" << std::endl;
+    } else if (command == "QUERYSERVERS") {
+        std::cout << "queryservers received" << std::endl;
+    } else if (command == "FETCH_MSGS") {
+        std::cout << "fetch_msgs received" << std::endl;
+    } else if (command == "SEND_MSG") {
+        std::cout << "send_msg received" << std::endl;
+    } else if (command == "STATUSREQ") {
+        std::cout << "statusreq received" << std::endl;
+    } else if (command == "STATUSRESP") {
+        std::cout << "statusresp received" << std::endl;
+    } else {
+        std::cout << "unsupported command: " << command << " received"
+                  << std::endl;
+    }
+
+    // std::cout << msgLength << " chars sent: ";
 
     // Split command from client into tokens for parsing
-    std::stringstream stream(buffer);
+    // std::stringstream stream(buffer);
 
-    while (stream >> token)
-        tokens.push_back(token);
+    // while (stream >> token)
+    //     tokens.push_back(token);
 
-    for (const auto &token : tokens) {
-        std::cout << token << "-";
-    }
-    std::cout << std::endl;
+    // for (const auto &token : tokens) {
+    //     std::cout << token << "-";
+    // }
 }
 
 int acceptConnection(int socket, sockaddr_in socketAddress,
@@ -243,7 +270,7 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     }
 
     else
-        clientCommand(server->sock, openSockets, maxfds, buffer);
+        serverCommand(server->sock, openSockets, maxfds, buffer);
 };
 
 int main(int argc, char *argv[]) {
