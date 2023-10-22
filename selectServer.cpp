@@ -116,6 +116,24 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::cout << std::endl;
 }
 
+int acceptConnection(int socket, sockaddr_in socketAddress) {
+    // Accept
+    socklen_t clientLen = sizeof(socketAddress);
+    int newSocketConnection =
+        accept(socket, (struct sockaddr *)&socketAddress, &clientLen);
+    if (newSocketConnection == -1) {
+        std::cerr << "Failed to accept client." << std::endl;
+    }
+
+    printf("Server connected on server: %d\n", newSocketConnection);
+
+    // Send a message to the client
+    const char *message = "Hello!\n";
+    send(newSocketConnection, message, strlen(message), 0);
+
+    return newSocketConnection;
+};
+
 int main(int argc, char *argv[]) {
     bool finished;
     fd_set openSockets;   // Current open sockets
@@ -169,56 +187,26 @@ int main(int argc, char *argv[]) {
         if (FD_ISSET(clientSocket,
                      &readSockets)) { // we have a new client connection
 
-            // Accept
-            socklen_t clientLen = sizeof(client_addr);
-            int newClientSock = accept(
-                clientSocket, (struct sockaddr *)&client_addr, &clientLen);
-            if (newClientSock == -1) {
-                std::cerr << "Failed to accept client." << std::endl;
-                continue; // Go back to listening for the next client
+            int newClientSock;
+            if ((newClientSock = acceptConnection(clientSocket, client_addr)) !=
+                -1) {
+                // Add new client to the list of open sockets
+                FD_SET(newClientSock, &openSockets);
+                maxfds = std::max(maxfds, newClientSock);
+                clients.insert(new Client(newClientSock));
             }
-
-            // Add new client to the list of open sockets
-            FD_SET(newClientSock, &openSockets);
-
-            // And update the maximum file descriptor
-            maxfds = std::max(maxfds, newClientSock);
-
-            // create a new client to store information.
-            clients.insert(new Client(newClientSock));
-
-            printf("Client connected on server: %d\n", newClientSock);
-
-            // Send a message to the client
-            const char *message = "Hello, Client!\n";
-            send(newClientSock, message, strlen(message), 0);
         }
         if (FD_ISSET(serverSocket,
                      &readSockets)) { // we have a new server connection
 
-            // Accept
-            socklen_t serverLen = sizeof(server_addr);
-            int newServerSock = accept(
-                serverSocket, (struct sockaddr *)&server_addr, &serverLen);
-            if (newServerSock == -1) {
-                std::cerr << "Failed to accept server." << std::endl;
-                continue; // Go back to listening for the next client
+            int newServerSock;
+            if ((newServerSock = acceptConnection(serverSocket, server_addr)) !=
+                -1) {
+                // Add new client to the list of open sockets
+                FD_SET(newServerSock, &openSockets);
+                maxfds = std::max(maxfds, newServerSock);
+                servers.insert(new Client(newServerSock));
             }
-
-            // Add new client to the list of open sockets
-            FD_SET(newServerSock, &openSockets);
-
-            // And update the maximum file descriptor
-            maxfds = std::max(maxfds, newServerSock);
-
-            // store the new server
-            servers.insert(new Client(newServerSock));
-
-            printf("Server connected on server: %d\n", newServerSock);
-
-            // Send a message to the client
-            const char *message = "Hello, Server!\n";
-            send(newServerSock, message, strlen(message), 0);
         }
 
         // Now check for commands from clients
@@ -226,25 +214,23 @@ int main(int argc, char *argv[]) {
         std::list<Client *> disconnectedServers;
 
         for (auto const &client : clients) {
-
             if (FD_ISSET(client->sock, &readSockets)) {
+                // handleClient();
                 // recv() == 0 means client has closed connection
                 if (recv(client->sock, buffer, sizeof(buffer), MSG_DONTWAIT) ==
                     0) {
                     disconnectedClients.push_back(client);
                     closeClient(client->sock, &openSockets, &maxfds);
+                    // clients.erase(client);
 
-                }
-                // We don't check for -1 (nothing received) because select()
-                // only triggers if there is something on the socket for us.
-                else {
+                } else {
                     if (strncmp(buffer, "bye", 3) == 0) {
                         disconnectedClients.push_back(client);
                         closeClient(client->sock, &openSockets, &maxfds);
+                        // clients.erase(client);
                     }
 
                     else
-                        // std::cout << buffer << std::endl;
                         clientCommand(client->sock, &openSockets, &maxfds,
                                       buffer);
                 }
@@ -257,12 +243,12 @@ int main(int argc, char *argv[]) {
         for (auto const &server : servers) {
 
             if (FD_ISSET(server->sock, &readSockets)) {
-                // recv() == 0 means client has closed connection
+                // handleServer();
                 if (recv(server->sock, buffer, sizeof(buffer), MSG_DONTWAIT) ==
                     0) {
                     disconnectedServers.push_back(server);
                     closeClient(server->sock, &openSockets, &maxfds);
-
+                    // servers.erase(server);
                 }
                 // We don't check for -1 (nothing received) because select()
                 // only triggers if there is something on the socket for us.
@@ -270,10 +256,10 @@ int main(int argc, char *argv[]) {
                     if (strncmp(buffer, "bye", 3) == 0) {
                         disconnectedServers.push_back(server);
                         closeClient(server->sock, &openSockets, &maxfds);
+                        // servers.erase(server);
                     }
 
                     else
-                        // std::cout << buffer << std::endl;
                         clientCommand(server->sock, &openSockets, &maxfds,
                                       buffer);
                 }
