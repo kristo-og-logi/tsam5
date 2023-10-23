@@ -143,14 +143,17 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string command = content.substr(0, firstCommaIndex);
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "GETMSG") {
-        std::cout << "getmsg received" << std::endl;
-    } else if (command == "SENDMSG") {
-        std::cout << "sendmsg received" << std::endl;
-    } else {
-        std::cout << "unsupported client command: " << command << " received"
-                  << std::endl;
-    }
+    if (command == "GETMSG")
+        return handleGETMSG(clientSocket);
+
+    else if (command == "SENDMSG")
+        return handleSENDMSG(clientSocket);
+
+    else if (command == "CONNECT")
+        return handleCONNECT(clientSocket);
+
+    else
+        return handleUNSUPPORTEDCLIENT(clientSocket, command);
 }
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,

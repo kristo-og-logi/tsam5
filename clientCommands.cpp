@@ -21,3 +21,14 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
 
     return;
 }
+
+void handleGETMSG(int socket) { std::cout << "getmsg received" << std::endl; }
+
+void handleSENDMSG(int socket) { std::cout << "sendmsg received" << std::endl; }
+
+void handleCONNECT(int socket) { std::cout << "CONNECTING to " << std::endl; }
+
+void handleUNSUPPORTEDCLIENT(int socket, std::string command) {
+    std::cout << "unsupported client command: " << command << " received"
+              << std::endl;
+}

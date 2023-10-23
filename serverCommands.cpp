@@ -83,8 +83,3 @@ void handleUNSUPPORTED(int socket, const std::string command,
 
     return;
 }
-
-// int main() {
-//     handleQUERYSERVERS("Test data");
-//     return 0;
-// }
