@@ -79,6 +79,12 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
+    if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEPORT, &set, sizeof(set)) <
+        0) {
+        printf("Failed to set SO_REUSEPORT for port %s\n", argv[2]);
+        perror("setsockopt failed: ");
+    }
+
     if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &set, sizeof(set)) <
         0) {
         printf("Failed to set SO_REUSEADDR for port %s\n", argv[2]);

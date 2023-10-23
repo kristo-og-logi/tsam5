@@ -1,3 +1,4 @@
+#include <arpa/inet.h> // for inet_ntoa
 #include <cstring>
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
@@ -26,6 +27,8 @@ class Client {
     int sock; // socket of client connection
     ClientType type;
     std::string name; // Limit length of name of client's user
+    std::string ip;
+    int port;
 
     Client(int socket, ClientType clientType)
         : sock(socket), type(clientType) {}
@@ -226,23 +229,38 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleUNSUPPORTED(serverSocket, command, data);
 }
 
-int acceptConnection(int socket, sockaddr_in socketAddress,
-                     std::string clientType) {
+void acceptConnection(int socket, sockaddr_in socketAddress,
+                      fd_set *openSockets, int *maxfds, ClientType clientType) {
     socklen_t clientLen = sizeof(socketAddress);
     int newSocketConnection =
         accept(socket, (struct sockaddr *)&socketAddress, &clientLen);
     if (newSocketConnection == -1) {
         std::cerr << "Failed to accept client." << std::endl;
+        return;
     }
 
-    std::cout << clientType << " " << newSocketConnection << " connected"
+    // Add new client to the list of open sockets
+    FD_SET(newSocketConnection, openSockets);
+    *maxfds = std::max(*maxfds, newSocketConnection);
+
+    Client *newClient = new Client(newSocketConnection, clientType);
+
+    if (clientType == ClientType::CLIENT)
+        clients.insert(newClient);
+    else
+        servers.insert(newClient);
+
+    // Retrieve the IP address and port
+    std::string clientIP = inet_ntoa(socketAddress.sin_addr);
+    uint16_t clientPort = ntohs(socketAddress.sin_port);
+
+    std::cout << newClient->clientTypeToString() << " " << newSocketConnection
+              << " connected from " << clientIP << ":" << clientPort
               << std::endl;
 
     // Send a message to the client
     const char *message = "Hello!\n";
     send(newSocketConnection, message, strlen(message), 0);
-
-    return newSocketConnection;
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
@@ -327,30 +345,15 @@ int main(int argc, char *argv[]) {
         }
 
         if (FD_ISSET(clientSocket,
-                     &readSockets)) { // we have a new client connection
-
-            int newClientSock;
-            if ((newClientSock = acceptConnection(clientSocket, client_addr,
-                                                  "client")) != -1) {
-                // Add new client to the list of open sockets
-                FD_SET(newClientSock, &openSockets);
-                maxfds = std::max(maxfds, newClientSock);
-                clients.insert(new Client(newClientSock, ClientType::CLIENT));
-            }
-        }
+                     &readSockets)) // we have a new client connection
+            acceptConnection(clientSocket, client_addr, &openSockets, &maxfds,
+                             ClientType::CLIENT);
 
         if (FD_ISSET(serverSocket,
-                     &readSockets)) { // we have a new server connection
+                     &readSockets)) // we have a new server connection
 
-            int newServerSock;
-            if ((newServerSock = acceptConnection(serverSocket, server_addr,
-                                                  "server")) != -1) {
-                // Add new client to the list of open sockets
-                FD_SET(newServerSock, &openSockets);
-                maxfds = std::max(maxfds, newServerSock);
-                servers.insert(new Client(newServerSock, ClientType::SERVER));
-            }
-        }
+            acceptConnection(serverSocket, server_addr, &openSockets, &maxfds,
+                             ClientType::SERVER);
 
         // Now check for commands from clients
         std::list<Client *> disconnectedClients;
