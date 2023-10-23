@@ -15,6 +15,7 @@
 
 // importing helper files
 
+#include "clientCommands.h"
 #include "serverCommands.h"
 
 enum class ClientType { SERVER, CLIENT };
@@ -153,6 +154,9 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     std::string content(buffer + 1, msgLength - 2);
 
+    if (content == "LISTSERVERS")
+        return handleLISTSERVERS(clientSocket);
+
     // under here, we should only have commands which must include comma's.
     size_t firstCommaIndex = content.find(',');
 
@@ -163,10 +167,9 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     }
 
     std::string command = content.substr(0, firstCommaIndex);
+    std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "LISTSERVERS") {
-        std::cout << "listservers received" << std::endl;
-    } else if (command == "GETMSG") {
+    if (command == "GETMSG") {
         std::cout << "getmsg received" << std::endl;
     } else if (command == "SENDMSG") {
         std::cout << "sendmsg received" << std::endl;
