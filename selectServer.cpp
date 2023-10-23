@@ -30,8 +30,8 @@ class Client {
     std::string ip;
     int port;
 
-    Client(int socket, ClientType clientType)
-        : sock(socket), type(clientType) {}
+    Client(int socket, ClientType clientType, std::string ip, int port)
+        : sock(socket), type(clientType), ip(ip), port(port) {}
 
     ~Client() {} // Virtual destructor defined for base class
 
@@ -239,20 +239,21 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
         return;
     }
 
+    // Retrieve the IP address and port
+    std::string clientIP = inet_ntoa(socketAddress.sin_addr);
+    uint16_t clientPort = ntohs(socketAddress.sin_port);
+
     // Add new client to the list of open sockets
     FD_SET(newSocketConnection, openSockets);
     *maxfds = std::max(*maxfds, newSocketConnection);
 
-    Client *newClient = new Client(newSocketConnection, clientType);
+    Client *newClient =
+        new Client(newSocketConnection, clientType, clientIP, clientPort);
 
     if (clientType == ClientType::CLIENT)
         clients.insert(newClient);
     else
         servers.insert(newClient);
-
-    // Retrieve the IP address and port
-    std::string clientIP = inet_ntoa(socketAddress.sin_addr);
-    uint16_t clientPort = ntohs(socketAddress.sin_port);
 
     std::cout << newClient->clientTypeToString() << " " << newSocketConnection
               << " connected from " << clientIP << ":" << clientPort
