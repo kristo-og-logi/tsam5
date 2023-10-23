@@ -5,6 +5,6 @@
 
 #include <string>
 
-void handleLISTSERVERS(int socket);
+void handleLISTSERVERS(int socket, std::set<Client *> &servers);
 
 #endif // CLIENT_COMMANDS_H

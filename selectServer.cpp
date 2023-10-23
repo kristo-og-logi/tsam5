@@ -129,7 +129,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string content(buffer + 1, msgLength - 2);
 
     if (content == "LISTSERVERS")
-        return handleLISTSERVERS(clientSocket);
+        return handleLISTSERVERS(clientSocket, servers);
 
     // under here, we should only have commands which must include comma's.
     size_t firstCommaIndex = content.find(',');
