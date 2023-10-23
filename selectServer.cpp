@@ -176,7 +176,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     }
 }
 
-void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
+void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
     std::vector<std::string> tokens;
     std::string token;
@@ -185,7 +185,7 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     if (!bufferIsValid(buffer)) {
         std::cout << invalidMessage;
-        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+        send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
         return;
     }
 
@@ -194,31 +194,33 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     if (firstCommaIndex == std::string::npos) {
         std::cout << invalidMessage;
-        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+        send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
         return;
     }
 
     std::string command = content.substr(0, firstCommaIndex);
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "KEEPALIVE") {
-        std::cout << "keepalive received" << std::endl;
-    } else if (command == "QUERYSERVERS") {
-        std::cout << "queryservers received" << std::endl;
-        handleQUERYSERVERS(clientSocket, data);
-        return;
-    } else if (command == "FETCH_MSGS") {
-        std::cout << "fetch_msgs received" << std::endl;
-    } else if (command == "SEND_MSG") {
-        std::cout << "send_msg received" << std::endl;
-    } else if (command == "STATUSREQ") {
-        std::cout << "statusreq received" << std::endl;
-    } else if (command == "STATUSRESP") {
-        std::cout << "statusresp received" << std::endl;
-    } else {
-        std::cout << "unsupported server command: " << command << " received"
-                  << std::endl;
-    }
+    if (command == "KEEPALIVE")
+        return handleKEEPALIVE(serverSocket, data);
+
+    else if (command == "QUERYSERVERS")
+        return handleQUERYSERVERS(serverSocket, data);
+
+    else if (command == "FETCH_MSGS")
+        return handleFETCH_MSGS(serverSocket, data);
+
+    else if (command == "SEND_MSG")
+        return handleSEND_MSG(serverSocket, data);
+
+    else if (command == "STATUSREQ")
+        return handleSTATUSREQ(serverSocket, data);
+
+    else if (command == "STATUSRESP")
+        return handleSTATUSRESP(serverSocket, data);
+
+    else
+        return handleUNSUPPORTED(serverSocket, command, data);
 }
 
 int acceptConnection(int socket, sockaddr_in socketAddress,
