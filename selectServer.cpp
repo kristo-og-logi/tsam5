@@ -182,7 +182,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleKEEPALIVE(serverSocket, data);
 
     else if (command == "QUERYSERVERS")
-        return handleQUERYSERVERS(serverSocket, data);
+        return handleQUERYSERVERS(serverSocket, data, servers);
 
     else if (command == "FETCH_MSGS")
         return handleFETCH_MSGS(serverSocket, data);
@@ -323,7 +323,6 @@ int main(int argc, char *argv[]) {
 
         if (FD_ISSET(serverSocket,
                      &readSockets)) // we have a new server connection
-
             acceptConnection(serverSocket, server_addr, &openSockets, &maxfds,
                              ClientType::SERVER);
 

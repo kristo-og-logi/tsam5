@@ -1,7 +1,9 @@
 #include <iostream>     // for std::cout + endl
+#include <set>          // set
 #include <string>       // for std::string
 #include <sys/socket.h> // for socket, listen, send
 
+#include "Client.h"
 #include "serverCommands.h"
 
 void handleKEEPALIVE(int socket, const std::string data) {
@@ -13,10 +15,23 @@ void handleKEEPALIVE(int socket, const std::string data) {
     return;
 }
 
-void handleQUERYSERVERS(int socket, const std::string data) {
+void handleQUERYSERVERS(int socket, const std::string data,
+                        const std::set<Client *> &servers) {
     std::cout << data << std::endl;
 
-    std::string response = "SERVERS, P3_GROUP_6\n";
+    std::string response = "SERVERS,";
+    std::string serverString;
+
+    for (Client *server : servers) {
+        if (server->sock == socket) {
+            server->name = data;
+            response += server->toString();
+        } else {
+            serverString += server->toString();
+        }
+    }
+
+    response += serverString + "\n";
     send(socket, response.c_str(), response.size(), 0);
 
     return;

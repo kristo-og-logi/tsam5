@@ -7,7 +7,8 @@
 
 void handleKEEPALIVE(int socket, const std::string data);
 
-void handleQUERYSERVERS(int socket, const std::string data);
+void handleQUERYSERVERS(int socket, const std::string data,
+                        const std::set<Client *> &servers);
 
 void handleFETCH_MSGS(int socket, const std::string data);
 
