@@ -13,6 +13,10 @@
 #define SOCK_NONBLOCK O_NONBLOCK
 #endif
 
+// importing helper files
+
+#include "serverCommands.h"
+
 enum class ClientType { SERVER, CLIENT };
 
 // Simple class for handling connections from clients.
@@ -195,11 +199,13 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     }
 
     std::string command = content.substr(0, firstCommaIndex);
+    std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
     if (command == "KEEPALIVE") {
         std::cout << "keepalive received" << std::endl;
     } else if (command == "QUERYSERVERS") {
         std::cout << "queryservers received" << std::endl;
+        handleQUERYSERVERS(data);
     } else if (command == "FETCH_MSGS") {
         std::cout << "fetch_msgs received" << std::endl;
     } else if (command == "SEND_MSG") {
@@ -209,7 +215,7 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     } else if (command == "STATUSRESP") {
         std::cout << "statusresp received" << std::endl;
     } else {
-        std::cout << "unsupported command: " << command << " received"
+        std::cout << "unsupported server command: " << command << " received"
                   << std::endl;
     }
 }
