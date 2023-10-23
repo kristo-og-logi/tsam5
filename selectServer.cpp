@@ -16,37 +16,9 @@
 
 // importing helper files
 
+#include "Client.h"
 #include "clientCommands.h"
 #include "serverCommands.h"
-
-enum class ClientType { SERVER, CLIENT };
-
-// Simple class for handling connections from clients.
-class Client {
-  public:
-    int sock; // socket of client connection
-    ClientType type;
-    std::string name; // Limit length of name of client's user
-    std::string ip;
-    int port;
-
-    Client(int socket, ClientType clientType, std::string ip, int port)
-        : sock(socket), type(clientType), ip(ip), port(port) {}
-
-    ~Client() {} // Virtual destructor defined for base class
-
-    // Convert the 'type' member variable to its corresponding string
-    std::string clientTypeToString() const {
-        switch (type) {
-        case ClientType::SERVER:
-            return "server";
-        case ClientType::CLIENT:
-            return "client";
-        default:
-            return "unknown";
-        }
-    }
-};
 
 std::set<Client *> servers; // Lookup table for servers
 std::set<Client *> clients; // Lookup table for clients
@@ -114,15 +86,14 @@ void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
     if (*maxfds == client->sock) {
         *maxfds = *basemaxfds; // reinitialize the max fd
         // check the clients for maxfd
-        for (Client *c : clients) {
+        for (Client *c : clients)
             if (client->sock != c->sock)
                 *maxfds = std::max(*maxfds, c->sock);
-        }
+
         // check the servers for maxfd
-        for (Client *s : servers) {
+        for (Client *s : servers)
             if (client->sock != s->sock)
                 *maxfds = std::max(*maxfds, s->sock);
-        }
     }
 
     // remove the socket from the list of open sockets.
