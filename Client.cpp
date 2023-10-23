@@ -17,3 +17,7 @@ std::string Client::clientTypeToString() const {
         return "unknown";
     }
 }
+
+std::string Client::toString() const {
+    return name + "," + ip + "," + std::to_string(port) + ";";
+}
