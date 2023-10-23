@@ -4,7 +4,7 @@
 #include <netinet/in.h> // for sockaddr_in
 #include <set>          // for storing sockets
 #include <sstream>      // for stream()
-#include <sys/socket.h> // for socket, listen
+#include <sys/socket.h> // for socket, listen, send
 #include <unistd.h>     // for close
 
 // fix SOCK_NONBLOCK for OSX
@@ -205,7 +205,8 @@ void serverCommand(int clientSocket, fd_set *openSockets, int *maxfds,
         std::cout << "keepalive received" << std::endl;
     } else if (command == "QUERYSERVERS") {
         std::cout << "queryservers received" << std::endl;
-        handleQUERYSERVERS(data);
+        handleQUERYSERVERS(clientSocket, data);
+        return;
     } else if (command == "FETCH_MSGS") {
         std::cout << "fetch_msgs received" << std::endl;
     } else if (command == "SEND_MSG") {

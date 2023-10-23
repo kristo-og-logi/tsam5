@@ -5,6 +5,6 @@
 
 #include <string>
 
-void handleQUERYSERVERS(const std::string data);
+void handleQUERYSERVERS(int socket, const std::string data);
 
 #endif // SERVER_COMMANDS_H
