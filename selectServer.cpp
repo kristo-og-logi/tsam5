@@ -115,7 +115,6 @@ bool bufferIsValid(char *buffer) {
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
-    std::string token;
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -157,7 +156,6 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
-    std::string token;
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
