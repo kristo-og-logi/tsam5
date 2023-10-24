@@ -116,7 +116,7 @@ bool bufferIsValid(char *buffer) {
 }
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
-                   char *buffer) {
+                   char *buffer, int serverPort) {
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -144,7 +144,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
     if (command == "CONNECT") {
-        Client *newClient = handleCONNECT(clientSocket, data);
+        Client *newClient = handleCONNECT(clientSocket, data, serverPort);
         newServers.insert(newClient);
         return;
     }
@@ -242,7 +242,7 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedClients, int *maxfds,
-                         int *basemaxfds) {
+                         int *basemaxfds, int serverPort) {
     if (recv(client->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedClients.push_back(client);
         closeClient(client, openSockets, maxfds, basemaxfds);
@@ -255,7 +255,7 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
     }
 
     else
-        clientCommand(client->sock, openSockets, maxfds, buffer);
+        clientCommand(client->sock, openSockets, maxfds, buffer, serverPort);
 };
 
 void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
@@ -338,7 +338,7 @@ int main(int argc, char *argv[]) {
             if (FD_ISSET(client->sock, &readSockets))
                 handleClientMessage(client, buffer, sizeof(buffer),
                                     &openSockets, disconnectedClients, &maxfds,
-                                    &basemaxfds);
+                                    &basemaxfds, serverPort);
 
         // Remove client from the clients list
         for (auto const &c : disconnectedClients)

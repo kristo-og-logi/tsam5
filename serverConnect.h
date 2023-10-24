@@ -11,6 +11,6 @@
 
 #include "Client.h"
 
-Client *connectToServer(std::string &data);
+Client *connectToServer(std::string &data, int serverPort);
 
 #endif // SERVER_CONNECT_H

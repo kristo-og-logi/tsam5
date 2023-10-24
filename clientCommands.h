@@ -10,7 +10,7 @@
 
 void handleLISTSERVERS(int socket, std::set<Client *> &servers);
 
-Client *handleCONNECT(int socket, std::string data);
+Client *handleCONNECT(int socket, std::string data, int serverPort);
 
 void handleGETMSG(int socket);
 
