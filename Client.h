@@ -4,6 +4,7 @@
 #define CLIENT_H
 
 #include <string>
+#include <queue>
 
 enum class ClientType { SERVER, CLIENT };
 
@@ -14,6 +15,8 @@ class Client {
     std::string name; // Limit length of name of client's user
     std::string ip;
     int port;
+    std::queue<std::string> messages;
+  
 
     Client(int socket, ClientType clientType, std::string ip, int port);
     virtual ~Client(); // Virtual destructor if intended to be a base class

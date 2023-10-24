@@ -27,8 +27,9 @@ std::set<Client *> newServers; // servers which have been newly connected
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
 
+    int sock;
 #ifdef __APPLE__
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1) {
         std::cerr << "Failed to create socket." << std::endl;
         return 1;
@@ -116,7 +117,6 @@ bool bufferIsValid(char *buffer) {
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
-    std::string token;
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -161,7 +161,6 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    char *buffer) {
-    std::string token;
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -193,7 +192,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleFETCH_MSGS(serverSocket, data);
 
     else if (command == "SEND_MSG")
-        return handleSEND_MSG(serverSocket, data);
+        return handleSEND_MSG(serverSocket, data, servers);
 
     else if (command == "STATUSREQ")
         return handleSTATUSREQ(serverSocket, data);
