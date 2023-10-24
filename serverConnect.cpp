@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 
 #include "Client.h"
+#include "ip.h"
 #include "serverConnect.h"
 
 Client *connectToServer(std::string &data, int serverPort) {
@@ -42,10 +43,10 @@ Client *connectToServer(std::string &data, int serverPort) {
 
     std::cout << "Connected to server " << ip << ":" << port << std::endl;
 
-    std::string message = "QUERYSERVERS,P3_GROUP_6,130.208.243.61," +
+    std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
                           std::to_string(serverPort) + "\n";
-	
-	std::cout << "sent (" << sock << "): " << message << std::endl;
+
+    std::cout << "sent (" << sock << "): " << message << std::endl;
 
     message.insert(0, 1, char(0x02));
     message += char(0x03);
