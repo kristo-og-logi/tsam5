@@ -160,7 +160,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 }
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
-                   char *buffer) {
+                   char *buffer, int serverPort) {
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -186,7 +186,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleKEEPALIVE(serverSocket, data);
 
     else if (command == "QUERYSERVERS")
-        return handleQUERYSERVERS(serverSocket, data, servers);
+        return handleQUERYSERVERS(serverSocket, data, servers, serverPort);
 
     else if (command == "FETCH_MSGS")
         return handleFETCH_MSGS(serverSocket, data);
@@ -261,7 +261,7 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
 void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedServers, int *maxfds,
-                         int *basemaxfds) {
+                         int *basemaxfds, int serverPort) {
     // receive the message from the server
     if (recv(server->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedServers.push_back(server);
@@ -275,7 +275,7 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     }
 
     else
-        serverCommand(server->sock, openSockets, maxfds, buffer);
+        serverCommand(server->sock, openSockets, maxfds, buffer, serverPort);
 };
 
 int main(int argc, char *argv[]) {
@@ -348,7 +348,7 @@ int main(int argc, char *argv[]) {
             if (FD_ISSET(server->sock, &readSockets))
                 handleServerMessage(server, buffer, sizeof(buffer),
                                     &openSockets, disconnectedServers, &maxfds,
-                                    &basemaxfds);
+                                    &basemaxfds, serverPort);
 
         // Remove client from the clients list
         for (auto const &s : disconnectedServers)
