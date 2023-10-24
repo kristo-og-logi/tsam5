@@ -20,8 +20,8 @@
 #include "clientCommands.h"
 #include "serverCommands.h"
 
-std::set<Client *> servers; // Lookup table for servers
-std::set<Client *> clients; // Lookup table for clients
+std::set<Client *> servers;    // Lookup table for servers
+std::set<Client *> clients;    // Lookup table for clients
 std::set<Client *> newServers; // servers which have been newly connected
 
 int createSocket(int portno, struct sockaddr_in addr) {
@@ -145,7 +145,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     if (command == "CONNECT") {
         Client *newClient = handleCONNECT(clientSocket, data);
-		newServers.insert(newClient);
+        newServers.insert(newClient);
         return;
     }
 
@@ -353,13 +353,14 @@ int main(int argc, char *argv[]) {
         // Remove client from the clients list
         for (auto const &s : disconnectedServers)
             servers.erase(s);
-		
-		// add servers created during this execution cycle to the set of servers.
-		for (auto const &newS : newServers) {
-			FD_SET(newS->sock, &openSockets);
-			servers.insert(newS);
-		}
-		newServers.clear();
+
+        // add servers created during this execution cycle to the set of
+        // servers.
+        for (auto const &newS : newServers) {
+            FD_SET(newS->sock, &openSockets);
+            servers.insert(newS);
+        }
+        newServers.clear();
     }
 
     // Close sockets

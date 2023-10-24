@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string>
+#include <sys/socket.h>
 
 #include "Client.h"
 #include "serverConnect.h"
 
-Client *connectToServer(std::string &data) {
+Client *connectToServer(std::string &data, int serverPort) {
     size_t firstCommaIndex = data.find(",");
 
     if (firstCommaIndex == std::string::npos) {
@@ -14,8 +15,6 @@ Client *connectToServer(std::string &data) {
     std::string ip = data.substr(0, firstCommaIndex);
     int port = std::stoi(
         data.substr(firstCommaIndex + 1, data.size())); // TODO this could crash
-
-    std::cout << "ip is: " << ip << " and port is: " << port << std::endl;
 
     // TODO check whether this server is already connected
 
@@ -41,11 +40,26 @@ Client *connectToServer(std::string &data) {
         return nullptr;
     }
 
-    std::cout << "Connected to the server!" << std::endl;
+    std::cout << "Connected to server " << ip << ":" << port << std::endl;
 
-    // Here, you can now use the socket to communicate with the server.
+    std::string message =
+        "QUERYSERVERS,P3_GROUP_6,130.208.243.61," + std::to_string(serverPort) + "\n";
+    
+	message.insert(0, 1, char(0x02));
+    message += char(0x03);
+
+    send(sock, message.c_str(), message.size(), 0);
+	 char buffer[1024] = {0};
+    ssize_t bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0);
+    if (bytes_received < 0) {
+        perror("recv");
+        exit(EXIT_FAILURE);
+    }
+
+    buffer[bytes_received] = '\0';  // Null-terminate the received data to treat it as a C-string
+    std::cout << "Received from server: " << buffer << std::endl;
+
 
     Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
-
     return newClient;
 }
