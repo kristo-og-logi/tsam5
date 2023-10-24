@@ -3,11 +3,14 @@
 #ifndef CLIENT_COMMANDS_H
 #define CLIENT_COMMANDS_H
 
+#include <set>
 #include <string>
+
+#include "Client.h"
 
 void handleLISTSERVERS(int socket, std::set<Client *> &servers);
 
-void handleCONNECT(int socket, std::string data);
+Client *handleCONNECT(int socket, std::string data);
 
 void handleGETMSG(int socket);
 

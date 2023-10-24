@@ -1,15 +1,16 @@
 #ifndef SERVER_CONNECT_H
 #define SERVER_CONNECT_H
 
+#include <arpa/inet.h> // For inet_addr()
+#include <cstring>     // For std::strerror()
 #include <iostream>
-#include <cstring>      // For std::strerror()
-#include <sys/socket.h> // For socket(), connect()
 #include <netinet/in.h> // For sockaddr_in
-#include <arpa/inet.h>  // For inet_addr()
-#include <unistd.h>     // For close()
 #include <string>
+#include <sys/socket.h> // For socket(), connect()
+#include <unistd.h>     // For close()
 
-int connectToServer(const std::string& data);
+#include "Client.h"
+
+Client *connectToServer(std::string &data);
 
 #endif // SERVER_CONNECT_H
-

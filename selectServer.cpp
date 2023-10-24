@@ -22,6 +22,7 @@
 
 std::set<Client *> servers; // Lookup table for servers
 std::set<Client *> clients; // Lookup table for clients
+std::set<Client *> newServers; // servers which have been newly connected
 
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
@@ -142,8 +143,11 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string command = content.substr(0, firstCommaIndex);
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "CONNECT")
-        return handleCONNECT(clientSocket, data);
+    if (command == "CONNECT") {
+        Client *newClient = handleCONNECT(clientSocket, data);
+		newServers.insert(newClient);
+        return;
+    }
 
     else if (command == "GETMSG")
         return handleGETMSG(clientSocket);
@@ -350,6 +354,13 @@ int main(int argc, char *argv[]) {
         // Remove client from the clients list
         for (auto const &s : disconnectedServers)
             servers.erase(s);
+		
+		// add servers created during this execution cycle to the set of servers.
+		for (auto const &newS : newServers) {
+			FD_SET(newS->sock, &openSockets);
+			servers.insert(newS);
+		}
+		newServers.clear();
     }
 
     // Close sockets

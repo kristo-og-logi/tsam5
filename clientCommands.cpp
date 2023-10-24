@@ -23,12 +23,12 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
     return;
 }
 
-void handleCONNECT(int socket, std::string data) {
+Client *handleCONNECT(int socket, std::string data) {
     // std::cout << "CONNECTING to " << data << std::endl;
     //
     std::cout << "data is: " << data << std::endl;
-    int ans = connectToServer(data);
-    return;
+    Client *newClient = connectToServer(data);
+    return newClient;
 }
 
 void handleGETMSG(int socket) { std::cout << "getmsg received" << std::endl; }
