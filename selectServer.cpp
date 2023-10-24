@@ -26,8 +26,9 @@ std::set<Client *> clients; // Lookup table for clients
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
 
+    int sock;
 #ifdef __APPLE__
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1) {
         std::cerr << "Failed to create socket." << std::endl;
         return 1;
