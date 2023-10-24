@@ -15,3 +15,6 @@ selectClient:
 
 compileServer:
 	g++ -std=c++11 Client.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp selectServer.cpp -o selectServer
+
+compileClient:
+	g++ -std=c++11 selectClient.cpp -o selectClient
