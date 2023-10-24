@@ -3,6 +3,8 @@
 #ifndef SERVER_COMMANDS_H
 #define SERVER_COMMANDS_H
 
+#include "Client.h"
+#include <set>
 #include <string>
 
 void handleKEEPALIVE(int socket, const std::string data);
@@ -12,7 +14,8 @@ void handleQUERYSERVERS(int socket, const std::string data,
 
 void handleFETCH_MSGS(int socket, const std::string data);
 
-void handleSEND_MSG(int socket, const std::string data);
+void handleSEND_MSG(int socket, const std::string data,
+                    const std::set<Client *> &servers);
 
 void handleSTATUSREQ(int socket, const std::string data);
 

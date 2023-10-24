@@ -187,7 +187,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleFETCH_MSGS(serverSocket, data);
 
     else if (command == "SEND_MSG")
-        return handleSEND_MSG(serverSocket, data);
+        return handleSEND_MSG(serverSocket, data, servers);
 
     else if (command == "STATUSREQ")
         return handleSTATUSREQ(serverSocket, data);
