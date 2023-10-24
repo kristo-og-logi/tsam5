@@ -1,7 +1,9 @@
-#include <iostream>     // for std::cout + endl
-#include <set>          // set
+#include <iostream> // for std::cout + endl
+#include <set>      // set
+#include <sstream>
 #include <string>       // for std::string
 #include <sys/socket.h> // for socket, listen, send
+#include <vector>
 
 #include "Client.h"
 #include "serverCommands.h"
@@ -46,11 +48,62 @@ void handleFETCH_MSGS(int socket, const std::string data) {
     return;
 }
 
-void handleSEND_MSG(int socket, const std::string data) {
-    std::cout << "SEND_MSG: " << data << std::endl;
+std::vector<unsigned char>
+constructMessage(std::vector<std::string> command_msg) {
+    unsigned char prefix = 0x02;
+    unsigned char postfix = 0x03;
+    std::vector<unsigned char> buffer;
 
-    std::string response = "SEND_MSG, P3_GROUP_6\n";
-    send(socket, response.c_str(), response.size(), 0);
+    buffer.push_back(prefix);
+
+    for (size_t i = 0; i < command_msg.size(); i++) {
+        if (i > 0) {
+            buffer.push_back(',');
+        }
+        buffer.insert(buffer.end(), command_msg[i].begin(),
+                      command_msg[i].end());
+    }
+
+    buffer.push_back('\n');
+    buffer.push_back(postfix);
+
+    return buffer;
+}
+
+void handleSEND_MSG(int socket, const std::string data,
+                    const std::set<Client *> &servers) {
+    unsigned char prefix = 0x02;
+    unsigned char postfix = 0x03;
+    int messageSent = 0;
+
+    std::string toGroup, fromGroup, content;
+    std::string command = "SEND_MSG";
+
+    std::stringstream ss(data);
+    std::getline(ss, toGroup, ',');
+    std::getline(ss, fromGroup, ',');
+    std::getline(ss, content);
+
+    std::vector<std::string> command_msg = {command, toGroup, fromGroup,
+                                            content};
+
+    for (Client *server : servers) {
+        if (server->name == toGroup) {
+            std::vector<unsigned char> buffer = constructMessage(command_msg);
+            std::vector<unsigned char> success =
+                constructMessage({"Successfully sent message"});
+
+            send(server->sock, buffer.data(), buffer.size(), 0);
+            send(socket, success.data(), success.size(), 0);
+            messageSent = 1;
+        }
+    }
+
+    if (messageSent == 0) {
+        std::vector<unsigned char> response =
+            constructMessage({"Could not send message"});
+        send(socket, response.data(), response.size(), 0);
+    }
 
     return;
 }
