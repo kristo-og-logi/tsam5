@@ -1,9 +1,10 @@
 // Client.cpp
 
 #include "Client.h"
+#include <queue>
 
 Client::Client(int socket, ClientType clientType, std::string ip, int port)
-    : sock(socket), type(clientType), ip(ip), port(port) {}
+    : sock(socket), type(clientType), ip(ip), port(port), messages() {}
 
 Client::~Client() {}
 
