@@ -12,9 +12,10 @@ const std::string GROUP_NAME = "P3_GROUP_6";
 const std::string MY_IP = "130.208.243.61";
 
 void handleKEEPALIVE(int socket, const std::string data) {
-    std::cout << "keepalive: " << data << std::endl;
+    std::cout << "Received (" << socket << "): KEEPALIVE," << data << std::endl;
 
     std::string response = "KEEPALIVE, P3_GROUP_6\n";
+	std::cout << "Responds (" << socket << "): " << response << std::endl;
     send(socket, response.c_str(), response.size(), 0);
 
     return;
@@ -22,7 +23,8 @@ void handleKEEPALIVE(int socket, const std::string data) {
 
 void handleQUERYSERVERS(int socket, const std::string data,
                         const std::set<Client *> &servers, int serverPort) {
-    std::cout << "QUERYSERVERS sent with data: " << data << std::endl;
+    std::cout << "Received (" << socket << "): QUERYSERVERS," << data
+              << std::endl;
 
     std::string response = "SERVERS," + GROUP_NAME + "," + MY_IP + "," +
                            std::to_string(serverPort) + ";";
@@ -35,16 +37,21 @@ void handleQUERYSERVERS(int socket, const std::string data,
 
     response += "\n";
 
+	std::cout << "responds (" << socket << "): " << response << std::endl;
+
     send(socket, response.c_str(), response.size(), 0);
     return;
 }
 
 void handleFETCH_MSGS(int socket, const std::string data) {
-    std::cout << "FETCH_MSGS: " << data << std::endl;
+    std::cout << "received (" << socket << "): FETCH_MSGS," << data
+              << std::endl;
 
     std::string response = "FETCH_MSGS, P3_GROUP_6\n";
-    send(socket, response.c_str(), response.size(), 0);
 
+	std::cout << "responds (" << socket << "): " << response << std::endl;
+
+    send(socket, response.c_str(), response.size(), 0);
     return;
 }
 
