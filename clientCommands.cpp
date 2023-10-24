@@ -5,6 +5,7 @@
 
 #include "Client.h"
 #include "clientCommands.h"
+#include "serverConnect.h"
 
 void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
     std::cout << "listservers received" << std::endl;
@@ -22,11 +23,17 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
     return;
 }
 
+void handleCONNECT(int socket, std::string data) {
+    // std::cout << "CONNECTING to " << data << std::endl;
+    //
+    std::cout << "data is: " << data << std::endl;
+    int ans = connectToServer(data);
+    return;
+}
+
 void handleGETMSG(int socket) { std::cout << "getmsg received" << std::endl; }
 
 void handleSENDMSG(int socket) { std::cout << "sendmsg received" << std::endl; }
-
-void handleCONNECT(int socket) { std::cout << "CONNECTING to " << std::endl; }
 
 void handleUNSUPPORTEDCLIENT(int socket, std::string command) {
     std::cout << "unsupported client command: " << command << " received"

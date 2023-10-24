@@ -7,11 +7,11 @@
 
 void handleLISTSERVERS(int socket, std::set<Client *> &servers);
 
+void handleCONNECT(int socket, std::string data);
+
 void handleGETMSG(int socket);
 
 void handleSENDMSG(int socket);
-
-void handleCONNECT(int socket);
 
 void handleUNSUPPORTEDCLIENT(int socket, std::string command);
 

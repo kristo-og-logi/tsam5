@@ -142,14 +142,14 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string command = content.substr(0, firstCommaIndex);
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "GETMSG")
+    if (command == "CONNECT")
+        return handleCONNECT(clientSocket, data);
+
+    else if (command == "GETMSG")
         return handleGETMSG(clientSocket);
 
     else if (command == "SENDMSG")
         return handleSENDMSG(clientSocket);
-
-    else if (command == "CONNECT")
-        return handleCONNECT(clientSocket);
 
     else
         return handleUNSUPPORTEDCLIENT(clientSocket, command);
