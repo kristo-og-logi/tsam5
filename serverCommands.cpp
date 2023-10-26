@@ -8,36 +8,40 @@
 
 #include "Client.h"
 #include "ServerSettings.h"
+#include "ip.h"
 #include "serverCommands.h"
 
+const std::string GROUP_NAME = "P3_GROUP_6";
+
 void handleKEEPALIVE(int socket, const std::string data) {
-    std::cout << "keepalive: " << data << std::endl;
+    std::cout << "Received (" << socket << "): KEEPALIVE," << data << std::endl;
 
     std::string response = "KEEPALIVE, P3_GROUP_6\n";
+    std::cout << "Responds (" << socket << "): " << response << std::endl;
     send(socket, response.c_str(), response.size(), 0);
 
     return;
 }
 
 void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers) {
-    std::cout << data << std::endl;
+                        const std::set<Client *> &servers, int serverPort) {
+    std::cout << "Received (" << socket << "): QUERYSERVERS," << data
+              << std::endl;
 
-    std::string response = "SERVERS,";
-    std::string serverString;
+    std::string response = "SERVERS," + GROUP_NAME + "," + getMyIp() + "," +
+                           std::to_string(serverPort) + ";";
 
     for (Client *server : servers) {
-        if (server->sock == socket) {
+        if (server->sock == socket)
             server->name = data;
-            response += server->toString();
-        } else {
-            serverString += server->toString();
-        }
+        response += server->toString();
     }
 
-    response += serverString + "\n";
-    send(socket, response.c_str(), response.size(), 0);
+    response += "\n";
 
+    std::cout << "responds (" << socket << "): " << response << std::endl;
+
+    send(socket, response.c_str(), response.size(), 0);
     return;
 }
 

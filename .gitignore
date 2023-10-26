@@ -34,6 +34,7 @@ server
 client
 selectServer
 selectClient
+findMyIp
 
 .vscode
 
