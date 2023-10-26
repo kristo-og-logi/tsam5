@@ -1,4 +1,4 @@
-.PHONY: server client selectServer selectClient
+.PHONY: server client selectServer selectClient findMyIp
 
 server:
 	g++ -std=c++11 server.cpp -o server && ./server
@@ -18,3 +18,7 @@ compileServer:
 
 compileClient:
 	g++  -lpthread -std=c++11 selectClient.cpp -o selectClient
+
+
+findMyIp:
+	g++ -std=c++11 findMyIp.cpp -o findMyIp && ./findMyIp

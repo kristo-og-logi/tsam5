@@ -100,4 +100,10 @@ std::string getMyIp() {
         return getEns192IPAddress(output);
     }
     return en0Ip;
+
+}
+
+int main() {
+    std::cout << getMyIp() << std::endl;
+    return 0;
 }
