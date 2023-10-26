@@ -18,10 +18,12 @@
 
 #include "Client.h"
 #include "clientCommands.h"
+#include "ip.h"
 #include "serverCommands.h"
 
-std::set<Client *> servers; // Lookup table for servers
-std::set<Client *> clients; // Lookup table for clients
+std::set<Client *> servers;    // Lookup table for servers
+std::set<Client *> clients;    // Lookup table for clients
+std::set<Client *> newServers; // servers which have been newly connected
 
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
@@ -115,7 +117,7 @@ bool bufferIsValid(char *buffer) {
 }
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
-                   char *buffer) {
+                   char *buffer, int serverPort) {
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -142,21 +144,24 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string command = content.substr(0, firstCommaIndex);
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "GETMSG")
+    if (command == "CONNECT") {
+        Client *newClient = handleCONNECT(clientSocket, data, serverPort);
+        newServers.insert(newClient);
+        return;
+    }
+
+    else if (command == "GETMSG")
         return handleGETMSG(clientSocket);
 
     else if (command == "SENDMSG")
         return handleSENDMSG(clientSocket);
-
-    else if (command == "CONNECT")
-        return handleCONNECT(clientSocket);
 
     else
         return handleUNSUPPORTEDCLIENT(clientSocket, command);
 }
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
-                   char *buffer) {
+                   char *buffer, int serverPort) {
     const char *invalidMessage = "invalid message\n";
     int msgLength = strlen(buffer);
 
@@ -182,7 +187,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleKEEPALIVE(serverSocket, data);
 
     else if (command == "QUERYSERVERS")
-        return handleQUERYSERVERS(serverSocket, data, servers);
+        return handleQUERYSERVERS(serverSocket, data, servers, serverPort);
 
     else if (command == "FETCH_MSGS")
         return handleFETCH_MSGS(serverSocket, data);
@@ -238,7 +243,7 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedClients, int *maxfds,
-                         int *basemaxfds) {
+                         int *basemaxfds, int serverPort) {
     if (recv(client->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedClients.push_back(client);
         closeClient(client, openSockets, maxfds, basemaxfds);
@@ -251,13 +256,13 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
     }
 
     else
-        clientCommand(client->sock, openSockets, maxfds, buffer);
+        clientCommand(client->sock, openSockets, maxfds, buffer, serverPort);
 };
 
 void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedServers, int *maxfds,
-                         int *basemaxfds) {
+                         int *basemaxfds, int serverPort) {
     // receive the message from the server
     if (recv(server->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedServers.push_back(server);
@@ -271,7 +276,7 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     }
 
     else
-        serverCommand(server->sock, openSockets, maxfds, buffer);
+        serverCommand(server->sock, openSockets, maxfds, buffer, serverPort);
 };
 
 int main(int argc, char *argv[]) {
@@ -293,9 +298,9 @@ int main(int argc, char *argv[]) {
     serverSocket = createSocket(serverPort, server_addr);
     clientSocket = createSocket(clientPort, client_addr);
 
-    std::cout << "Server listening on port " << serverPort
-              << " for servers and port " << clientPort << " for clients..."
-              << std::endl;
+    std::cout << "Server listening at ip " << getMyIp() << " on port "
+              << serverPort << " for servers and port " << clientPort
+              << " for clients..." << std::endl;
 
     FD_ZERO(&openSockets);
     FD_SET(serverSocket, &openSockets);
@@ -334,7 +339,7 @@ int main(int argc, char *argv[]) {
             if (FD_ISSET(client->sock, &readSockets))
                 handleClientMessage(client, buffer, sizeof(buffer),
                                     &openSockets, disconnectedClients, &maxfds,
-                                    &basemaxfds);
+                                    &basemaxfds, serverPort);
 
         // Remove client from the clients list
         for (auto const &c : disconnectedClients)
@@ -344,11 +349,19 @@ int main(int argc, char *argv[]) {
             if (FD_ISSET(server->sock, &readSockets))
                 handleServerMessage(server, buffer, sizeof(buffer),
                                     &openSockets, disconnectedServers, &maxfds,
-                                    &basemaxfds);
+                                    &basemaxfds, serverPort);
 
         // Remove client from the clients list
         for (auto const &s : disconnectedServers)
             servers.erase(s);
+
+        // add servers created during this execution cycle to the set of
+        // servers.
+        for (auto const &newS : newServers) {
+            FD_SET(newS->sock, &openSockets);
+            servers.insert(newS);
+        }
+        newServers.clear();
     }
 
     // Close sockets

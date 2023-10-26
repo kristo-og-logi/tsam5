@@ -10,7 +10,7 @@
 void handleKEEPALIVE(int socket, const std::string data);
 
 void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers);
+                        const std::set<Client *> &servers, int serverPort);
 
 void handleFETCH_MSGS(int socket, const std::string data);
 
