@@ -23,13 +23,12 @@
 #include "ip.h"
 #include "serverCommands.h"
 
-
 ServerSettings groupSixServer;
 
 std::set<Client *> unknownServers; // Set for for unknownServers
 std::set<Client *> servers;        // Lookup table for servers
 std::set<Client *> clients;        // Lookup table for clients
-std::set<Client *> newServers; // servers which have been newly connected
+std::set<Client *> newServers;     // servers which have been newly connected
 
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
@@ -348,6 +347,21 @@ int main(int argc, char *argv[]) {
                 handleClientMessage(client, buffer, sizeof(buffer),
                                     &openSockets, disconnectedClients, &maxfds,
                                     &basemaxfds, serverPort);
+
+        for (Client *server : servers) {
+            auto it = std::find_if(
+                unknownServers.begin(), unknownServers.end(),
+                [server](const Client *unknownServer) {
+                    return *server == *unknownServer; // Assumes operator== is
+                                                      // defined for Client
+                });
+
+            if (it != unknownServers.end()) {
+                Client *unknownServer = *it;
+                server->messages = unknownServer->messages;
+                unknownServers.erase(it);
+            }
+        }
 
         // Remove client from the clients list
         for (auto const &c : disconnectedClients)
