@@ -3,6 +3,7 @@
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
 #include <netinet/in.h> // for sockaddr_in
+#include <queue>
 #include <set>          // for storing sockets
 #include <sstream>      // for stream()
 #include <sys/socket.h> // for socket, listen, send
@@ -17,11 +18,15 @@
 // importing helper files
 
 #include "Client.h"
+#include "ServerSettings.h"
 #include "clientCommands.h"
 #include "serverCommands.h"
 
-std::set<Client *> servers; // Lookup table for servers
-std::set<Client *> clients; // Lookup table for clients
+ServerSettings groupSixServer;
+
+std::set<Client *> unknownServers; // Set for for unknownServers
+std::set<Client *> servers;        // Lookup table for servers
+std::set<Client *> clients;        // Lookup table for clients
 
 int createSocket(int portno, struct sockaddr_in addr) {
     socklen_t addr_len = sizeof(addr);
@@ -185,10 +190,11 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleQUERYSERVERS(serverSocket, data, servers);
 
     else if (command == "FETCH_MSGS")
-        return handleFETCH_MSGS(serverSocket, data);
+        return handleFETCH_MSGS(serverSocket, data, servers);
 
     else if (command == "SEND_MSG")
-        return handleSEND_MSG(serverSocket, data, servers);
+        return handleSEND_MSG(serverSocket, data, servers, unknownServers,
+                              groupSixServer);
 
     else if (command == "STATUSREQ")
         return handleSTATUSREQ(serverSocket, data);
@@ -279,6 +285,7 @@ int main(int argc, char *argv[]) {
         exceptSockets; // open, listed, and exception sockets.
     int basemaxfds, maxfds, socketsReady, serverSocket, clientSocket;
     char buffer[1025]; // buffer for reading from clients
+    groupSixServer.serverName = "P3_GROUP_6";
 
     if (argc != 3) {
         printf("Usage: ./server <server port> <client port>\n");

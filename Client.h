@@ -24,6 +24,13 @@ class Client {
     // Convert the 'type' member variable to its corresponding string
     std::string clientTypeToString() const;
     std::string toString() const;
+
+  bool operator<(const Client& other) const {
+        return name < other.name;
+    }
+  bool operator==(const Client& other) const {
+        return this->name == other.name;
+    }
 };
 
 #endif // CLIENT_H
