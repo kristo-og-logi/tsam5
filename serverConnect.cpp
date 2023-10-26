@@ -6,6 +6,19 @@
 #include "ip.h"
 #include "serverConnect.h"
 
+void sendQUERYSERVERS(int serverPort, int sock) {
+
+    std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
+                          std::to_string(serverPort) + "\n";
+
+    std::cout << "sent (" << sock << "): " << message << std::endl;
+
+    message.insert(0, 1, char(0x02));
+    message += char(0x03);
+
+    send(sock, message.c_str(), message.size(), 0);
+}
+
 Client *connectToServer(std::string &data, int serverPort) {
     size_t firstCommaIndex = data.find(",");
 
@@ -43,15 +56,7 @@ Client *connectToServer(std::string &data, int serverPort) {
 
     std::cout << "Connected to server " << ip << ":" << port << std::endl;
 
-    std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
-                          std::to_string(serverPort) + "\n";
-
-    std::cout << "sent (" << sock << "): " << message << std::endl;
-
-    message.insert(0, 1, char(0x02));
-    message += char(0x03);
-
-    send(sock, message.c_str(), message.size(), 0);
+    sendQUERYSERVERS(serverPort, sock);
 
     Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
     return newClient;

@@ -22,6 +22,7 @@
 #include "clientCommands.h"
 #include "ip.h"
 #include "serverCommands.h"
+#include "serverConnect.h"
 
 ServerSettings groupSixServer;
 
@@ -53,13 +54,13 @@ int createSocket(int portno, struct sockaddr_in addr) {
     }
     set = 1;
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEPORT, &set, sizeof(set)) < 0) {
-        perror("Failed to set SO_REUSEADDR:");
+        perror("Failed to set SO_REUSEPORT:");
     }
 
 #ifdef __APPLE__
     set = 1;
     if (setsockopt(sock, SOL_SOCKET, SOCK_NONBLOCK, &set, sizeof(set)) < 0) {
-        perror("Failed to set SOCK_NOBBLOCK");
+        perror("Failed to set SOCK_NONBLOCK");
     }
 #endif
 
@@ -215,8 +216,10 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
 }
 
 void acceptConnection(int socket, sockaddr_in socketAddress,
-                      fd_set *openSockets, int *maxfds, ClientType clientType) {
+                      fd_set *openSockets, int *maxfds, ClientType clientType,
+                      int serverPort) {
     socklen_t clientLen = sizeof(socketAddress);
+
     int newSocketConnection =
         accept(socket, (struct sockaddr *)&socketAddress, &clientLen);
     if (newSocketConnection == -1) {
@@ -226,14 +229,13 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
 
     // Retrieve the IP address and port
     std::string clientIP = inet_ntoa(socketAddress.sin_addr);
-    uint16_t clientPort = ntohs(socketAddress.sin_port);
 
     // Add new client to the list of open sockets
     FD_SET(newSocketConnection, openSockets);
     *maxfds = std::max(*maxfds, newSocketConnection);
 
     Client *newClient =
-        new Client(newSocketConnection, clientType, clientIP, clientPort);
+        new Client(newSocketConnection, clientType, clientIP, -1);
 
     if (clientType == ClientType::CLIENT)
         clients.insert(newClient);
@@ -241,12 +243,10 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
         servers.insert(newClient);
 
     std::cout << newClient->clientTypeToString() << " " << newSocketConnection
-              << " connected from " << clientIP << ":" << clientPort
-              << std::endl;
+              << " connected from " << clientIP << std::endl;
 
     // Send a message to the client
-    const char *message = "Hello!\n";
-    send(newSocketConnection, message, strlen(message), 0);
+    sendQUERYSERVERS(serverPort, newSocketConnection);
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
@@ -334,12 +334,12 @@ int main(int argc, char *argv[]) {
         if (FD_ISSET(clientSocket,
                      &readSockets)) // we have a new client connection
             acceptConnection(clientSocket, client_addr, &openSockets, &maxfds,
-                             ClientType::CLIENT);
+                             ClientType::CLIENT, serverPort);
 
         if (FD_ISSET(serverSocket,
                      &readSockets)) // we have a new server connection
             acceptConnection(serverSocket, server_addr, &openSockets, &maxfds,
-                             ClientType::SERVER);
+                             ClientType::SERVER, serverPort);
 
         // Now check for commands from clients
         std::list<Client *> disconnectedClients;
