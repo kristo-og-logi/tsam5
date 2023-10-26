@@ -17,8 +17,8 @@
 // importing helper files
 
 #include "Client.h"
-#include "ip.h"
 #include "clientCommands.h"
+#include "ip.h"
 #include "serverCommands.h"
 
 std::set<Client *> servers;    // Lookup table for servers
@@ -290,20 +290,17 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
-
     int serverPort = atoi(argv[1]);
     int clientPort = atoi(argv[2]);
     struct sockaddr_in server_addr, client_addr;
-
-
 
     // Create socket
     serverSocket = createSocket(serverPort, server_addr);
     clientSocket = createSocket(clientPort, client_addr);
 
-    std::cout << "Server listening at ip " << getMyIp() << " on port " << serverPort
-              << " for servers and port " << clientPort << " for clients..."
-              << std::endl;
+    std::cout << "Server listening at ip " << getMyIp() << " on port "
+              << serverPort << " for servers and port " << clientPort
+              << " for clients..." << std::endl;
 
     FD_ZERO(&openSockets);
     FD_SET(serverSocket, &openSockets);

@@ -69,8 +69,8 @@ std::string getMyIp() {
             printf("%s: inet_ntop failed!\n", ifa->ifa_name);
         } else {
             output += ifa->ifa_name;
-			output += ": ";
-			output += std::string(buf) + "\n";
+            output += ": ";
+            output += std::string(buf) + "\n";
             // printf("%s: %s\n", ifa->ifa_name, buf);
         }
     }
