@@ -3,6 +3,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <cstring>
 
 // fix SOCK_NONBLOCK for OSX
 #ifndef SOCK_NONBLOCK
