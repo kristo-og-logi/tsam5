@@ -7,6 +7,8 @@
 #include <set>
 #include <string>
 
+void handleSERVERS(int socket, const std::string data);
+
 void handleKEEPALIVE(int socket, const std::string data);
 
 void handleQUERYSERVERS(int socket, const std::string data,

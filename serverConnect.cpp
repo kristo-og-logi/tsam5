@@ -52,16 +52,6 @@ Client *connectToServer(std::string &data, int serverPort) {
     message += char(0x03);
 
     send(sock, message.c_str(), message.size(), 0);
-    char buffer[1024] = {0};
-    ssize_t bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0);
-    if (bytes_received < 0) {
-        perror("recv");
-        exit(EXIT_FAILURE);
-    }
-
-    buffer[bytes_received] =
-        '\0'; // Null-terminate the received data to treat it as a C-string
-    std::cout << "Received (" << sock << "): " << buffer << std::endl;
 
     Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
     return newClient;

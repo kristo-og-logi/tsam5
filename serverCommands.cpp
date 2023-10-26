@@ -11,6 +11,11 @@
 
 const std::string GROUP_NAME = "P3_GROUP_6";
 
+void handleSERVERS(int socket, const std::string data) {
+	std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
+	return;
+}
+
 void handleKEEPALIVE(int socket, const std::string data) {
     std::cout << "Received (" << socket << "): KEEPALIVE," << data << std::endl;
 

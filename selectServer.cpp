@@ -183,7 +183,10 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     std::string command = content.substr(0, firstCommaIndex);
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
-    if (command == "KEEPALIVE")
+    if (command == "SERVERS")
+        return handleSERVERS(serverSocket, data);
+
+    else if (command == "KEEPALIVE")
         return handleKEEPALIVE(serverSocket, data);
 
     else if (command == "QUERYSERVERS")
@@ -358,8 +361,11 @@ int main(int argc, char *argv[]) {
         // add servers created during this execution cycle to the set of
         // servers.
         for (auto const &newS : newServers) {
+            std::cout << "adding server " << newS->toString()
+                      << " to servers set" << std::endl;
             FD_SET(newS->sock, &openSockets);
             servers.insert(newS);
+            maxfds = std::max(maxfds, newS->sock);
         }
         newServers.clear();
     }
