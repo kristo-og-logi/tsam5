@@ -138,20 +138,6 @@ void handleSEND_MSG(int socket, const std::string data,
 
     for (Client *server : servers) {
 
-        auto it = std::find_if(
-            unknownServers.begin(), unknownServers.end(),
-            [server](const Client *unknownServer) {
-                return *server == *unknownServer; // Assumes operator== is
-                                                  // defined for Client
-            });
-
-        if (it != unknownServers.end()) {
-            Client *unknownServer = *it;
-            server->messages = unknownServer->messages;
-            unknownServers.erase(it);
-            std::cout << "I was here" << std::endl;
-        }
-
         if (server->name == toGroup) {
             std::vector<unsigned char> success =
                 constructMessage({"Successfully sent message"});
