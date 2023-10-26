@@ -1,4 +1,5 @@
 #include <arpa/inet.h> // for inet_ntoa
+#include <algorithm>  // for find_if on linux
 #include <cstring>
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
