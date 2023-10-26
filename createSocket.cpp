@@ -79,9 +79,12 @@ int createConnection(std::string outIp, int outPort, struct sockaddr_in addr) {
 
     // Connect to the server
     if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-        std::cerr << "Failed to connect: " << std::strerror(errno) << std::endl;
-        close(sock);
-        return -1;
+        if (errno != EINPROGRESS) {
+            std::cerr << "Failed to connect: " << std::strerror(errno)
+                      << std::endl;
+            close(sock);
+            return -1;
+        }
     }
 
     std::cout << "Connected to server " << outIp << ":" << outPort << std::endl;
