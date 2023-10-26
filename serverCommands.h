@@ -4,6 +4,8 @@
 #define SERVER_COMMANDS_H
 
 #include "Client.h"
+#include "ServerSettings.h"
+#include <queue>
 #include <set>
 #include <string>
 
@@ -12,10 +14,13 @@ void handleKEEPALIVE(int socket, const std::string data);
 void handleQUERYSERVERS(int socket, const std::string data,
                         const std::set<Client *> &servers, int serverPort);
 
-void handleFETCH_MSGS(int socket, const std::string data);
+void handleFETCH_MSGS(int socket, const std::string data,
+                      const std::set<Client *> &servers);
 
 void handleSEND_MSG(int socket, const std::string data,
-                    const std::set<Client *> &servers);
+                    const std::set<Client *> &servers,
+                    std::set<Client *> &unknownServers,
+                    ServerSettings myServer);
 
 void handleSTATUSREQ(int socket, const std::string data);
 
