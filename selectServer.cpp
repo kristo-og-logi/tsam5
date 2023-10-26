@@ -1,4 +1,5 @@
 #include <arpa/inet.h> // for inet_ntoa
+#include <chrono>
 #include <cstring>
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
@@ -189,7 +190,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
 
     if (command == "KEEPALIVE")
-        return handleKEEPALIVE(serverSocket, data);
+        return handleKEEPALIVE(serverSocket, data, servers, groupSixServer);
 
     else if (command == "QUERYSERVERS")
         return handleQUERYSERVERS(serverSocket, data, servers, serverPort);
@@ -290,6 +291,7 @@ int main(int argc, char *argv[]) {
         exceptSockets; // open, listed, and exception sockets.
     int basemaxfds, maxfds, socketsReady, serverSocket, clientSocket;
     char buffer[1025]; // buffer for reading from clients
+    auto start = std::chrono::steady_clock::now();
     groupSixServer.serverName = "P3_GROUP_6";
 
     if (argc != 3) {
@@ -319,6 +321,7 @@ int main(int argc, char *argv[]) {
         // Get modifiable copy of readSockets
         readSockets = exceptSockets = openSockets;
         memset(buffer, 0, sizeof(buffer)); // Initialize the buffer
+        auto now = std::chrono::steady_clock::now();
 
         // Look at sockets and see which ones have something to be read()
         if ((socketsReady = select(maxfds + 1, &readSockets, NULL,
@@ -384,6 +387,13 @@ int main(int argc, char *argv[]) {
             servers.insert(newS);
         }
         newServers.clear();
+
+        auto elapsed = now - start;
+        if (std::chrono::duration_cast<std::chrono::seconds>(elapsed).count() >
+            120) {
+            sendKEEPALIVE(servers);
+            start = std::chrono::steady_clock::now();
+        }
     }
 
     // Close sockets
