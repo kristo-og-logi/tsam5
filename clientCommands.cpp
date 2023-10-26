@@ -24,9 +24,6 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
 }
 
 Client *handleCONNECT(int socket, std::string data, int serverPort) {
-    // std::cout << "CONNECTING to " << data << std::endl;
-    //
-    std::cout << "data is: " << data << std::endl;
     Client *newClient = connectToServer(data, serverPort);
     return newClient;
 }

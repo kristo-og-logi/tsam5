@@ -3,15 +3,15 @@
 #include <sys/socket.h>
 
 #include "Client.h"
+#include "createSocket.h"
 #include "ip.h"
 #include "serverConnect.h"
 
 void sendQUERYSERVERS(int serverPort, int sock) {
-
     std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
                           std::to_string(serverPort) + "\n";
 
-    std::cout << "sent (" << sock << "): " << message << std::endl;
+    std::cout << "sending (" << sock << "): " << message << std::endl;
 
     message.insert(0, 1, char(0x02));
     message += char(0x03);
@@ -33,28 +33,10 @@ Client *connectToServer(std::string &data, int serverPort) {
     // TODO check whether this server is already connected
 
     // Create a socket
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock == -1) {
-        std::cerr << "Failed to create socket: " << std::strerror(errno)
-                  << std::endl;
+    struct sockaddr_in addr;
+    int sock = createConnection(ip, port, addr);
+    if (sock < 0)
         return nullptr;
-    }
-
-    // Define the server address
-    sockaddr_in server_addr;
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(port);
-    server_addr.sin_addr.s_addr = inet_addr(ip.c_str());
-
-    // Connect to the server
-    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) ==
-        -1) {
-        std::cerr << "Failed to connect: " << std::strerror(errno) << std::endl;
-        close(sock);
-        return nullptr;
-    }
-
-    std::cout << "Connected to server " << ip << ":" << port << std::endl;
 
     sendQUERYSERVERS(serverPort, sock);
 
