@@ -204,7 +204,7 @@ void handleSEND_MSG(int socket, const std::string data,
 
             // send(socket, success.data(), success.size(), 0);
             std::string successResult(success.begin(), success.end());
-            sendMessage(server->sock, successResult);
+            sendMessage(socket, successResult);
             messageSent = 1;
         }
     }
