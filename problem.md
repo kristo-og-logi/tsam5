@@ -20,4 +20,3 @@ Server should listen on one TCP port for servers, and another for clients.
 
 ### Bugs
 
-- send() missing first (0x02) and last (0x03) byte, fix make custom function.

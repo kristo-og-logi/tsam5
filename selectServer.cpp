@@ -18,6 +18,7 @@
 #include "clientCommands.h"
 #include "createSocket.h"
 #include "ip.h"
+#include "sendMessage.h"
 #include "serverCommands.h"
 #include "serverConnect.h"
 
@@ -79,7 +80,8 @@ std::vector<std::string> splitMessages(const std::string &buffer) {
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    const char *invalidMessage = "invalid message\n";
+    std::string invalidMessage = "ERROR";
+    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
 
     if (message == "LISTSERVERS")
         return handleLISTSERVERS(clientSocket, servers);
@@ -88,8 +90,10 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << invalidMessage;
-        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+        std::cout << "Invalid message received from (" << clientSocket
+                  << "): " << message << std::endl;
+        // send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        sendMessage(clientSocket, invalidMessage);
         return;
     }
 
@@ -98,7 +102,10 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     if (command == "CONNECT") {
         Client *newClient = handleCONNECT(clientSocket, data, serverPort);
-        newServers.insert(newClient);
+        if (newClient != nullptr) {
+            std::cout << "new client is not null" << std::endl;
+            newServers.insert(newClient);
+        }
         return;
     }
 
@@ -114,13 +121,19 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    const char *invalidMessage = "invalid message\n";
+    std::string invalidMessage = "ERROR";
+    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
+
+    if (message == "ERROR")
+        return handleERROR(serverSocket, message);
 
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << invalidMessage;
-        send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
+        std::cout << "Invalid message received from (" << serverSocket
+                  << "): " << message << std::endl;
+        // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        sendMessage(serverSocket, invalidMessage);
         return;
     }
 
@@ -184,7 +197,8 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
               << " connected from " << clientIP << std::endl;
 
     // Send a message to the client
-    sendQUERYSERVERS(serverPort, newSocketConnection);
+    if (clientType == ClientType::SERVER)
+        sendQUERYSERVERS(serverPort, newSocketConnection);
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,

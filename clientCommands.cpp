@@ -16,13 +16,10 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
     std::string response;
 
     for (const Client *s : servers) {
-        response += s->name + "," + s->ip + "," + std::to_string(s->port) + ";";
+        response += s->name + "," + s->ip + "," + std::to_string(s->port) + ";\n";
     }
 
-    response += "\n";
-
     send(socket, response.c_str(), response.size(), 0);
-
     return;
 }
 

@@ -9,6 +9,8 @@
 #include <set>
 #include <string>
 
+void handleERROR(int socket, const std::string message);
+
 void handleSERVERS(int socket, const std::string data);
 
 void sendKEEPALIVE(std::set<Client *> servers);

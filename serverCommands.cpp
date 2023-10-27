@@ -9,6 +9,7 @@
 #include "Client.h"
 #include "ServerSettings.h"
 #include "ip.h"
+#include "sendMessage.h"
 #include "serverCommands.h"
 
 const std::string GROUP_NAME = "P3_GROUP_6";
@@ -35,6 +36,11 @@ constructMessage(std::vector<std::string> command_msg) {
     return buffer;
 }
 
+void handleERROR(int socket, const std::string message) {
+    std::cout << "ERROR received from (" << socket << ")" << std::endl;
+    return;
+}
+
 void handleSERVERS(int socket, const std::string data) {
     std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
     return;
@@ -46,7 +52,9 @@ void sendKEEPALIVE(std::set<Client *> servers) {
             "KEEPALIVE," + std::to_string(server->messages.size())};
         std::vector<unsigned char> keepalive = constructMessage(message);
 
-        send(server->sock, message.data(), message.size(), 0);
+        // send(server->sock, message.data(), message.size(), 0);
+        std::string result(keepalive.begin(), keepalive.end());
+        sendMessage(server->sock, result);
     }
 }
 
@@ -65,13 +73,9 @@ void handleQUERYSERVERS(int socket, const std::string data,
     }
 
     response += "\n";
-    std::vector<std::string> serverBuilder = {response};
-    std::vector<unsigned char> serverResponse = constructMessage(serverBuilder);
 
-    std::cout << "responds (" << socket << "): " << response << std::endl;
-
-    send(socket, serverResponse.data(), serverResponse.size(), 0);
-    return;
+    // send(socket, serverResponse.data(), serverResponse.size(), 0);
+    sendMessage(socket, response);
 }
 
 void handleFETCH_MSGS(int socket, const std::string data,
@@ -99,14 +103,19 @@ void handleFETCH_MSGS(int socket, const std::string data,
             std::vector<std::string> tmp_msg = {msg};
             std::vector<unsigned char> buffer = constructMessage(tmp_msg);
 
-            send(socket, buffer.data(), buffer.size(), 0);
+            std::string result(buffer.begin(), buffer.end());
+            sendMessage(socket, result);
+            // send(socket, buffer.data(), buffer.size(), 0);
         }
     }
 
-    if (knownServer == 0) {
+    else if (knownServer == 0) {
         std::vector<std::string> msg = {"No messages for" + data};
         std::vector<unsigned char> buffer = constructMessage(msg);
-        send(socket, buffer.data(), buffer.size(), 0);
+
+        // send(socket, buffer.data(), buffer.size(), 0);
+        std::string result(buffer.begin(), buffer.end());
+        sendMessage(socket, result);
     }
 
     return;
@@ -143,8 +152,13 @@ void handleSEND_MSG(int socket, const std::string data,
             std::vector<unsigned char> success =
                 constructMessage({"Successfully sent message"});
 
-            send(server->sock, buffer.data(), buffer.size(), 0);
-            send(socket, success.data(), success.size(), 0);
+            // send(server->sock, buffer.data(), buffer.size(), 0);
+            std::string result(buffer.begin(), buffer.end());
+            sendMessage(server->sock, result);
+
+            // send(socket, success.data(), success.size(), 0);
+            std::string successResult(success.begin(), success.end());
+            sendMessage(server->sock, successResult);
             messageSent = 1;
         }
     }
@@ -152,7 +166,10 @@ void handleSEND_MSG(int socket, const std::string data,
     if (messageSent == 0) {
         std::vector<unsigned char> response =
             constructMessage({"Could not send message"});
-        send(socket, response.data(), response.size(), 0);
+
+        // send(socket, response.data(), response.size(), 0);
+        std::string result(response.begin(), response.end());
+        sendMessage(socket, result);
 
         for (Client *unkownServer : unknownServers) {
             if (unkownServer->name == toGroup) {
@@ -204,20 +221,24 @@ void handleSTATUSRESP(int socket, const std::string data,
     std::vector<unsigned char> res = constructMessage(resBuilder);
 
     if (foundServer == 1) {
-        send(socket, res.data(), res.size(), 0);
+        // send(socket, res.data(), res.size(), 0);
+        std::string result(res.begin(), res.end());
+        sendMessage(socket, result);
     }
 
     return;
 }
 
 
-void sendFETCH_MSGS(int socket, ServerSettings &myServer) {
-    char buffer[5000];
+
+void sendFETCH_MSGS(int socket, ServerSettings myServer) {
     std::vector<std::string> messageBuilder = {"FETCH_MSGS," +
                                                myServer.serverName};
     std::vector<unsigned char> message = constructMessage(messageBuilder);
 
-    ssize_t bytesSent = send(socket, message.data(), message.size(), 0);
+
+    std::string result(message.begin(), message.end());
+    sendMessage(socket, result);
 
     return;
 }
@@ -248,7 +269,10 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
     std::vector<unsigned char> response = constructMessage(responseBuilder);
 
-    send(socket, response.data(), response.size(), 0);
+    std::string result(response.begin(), response.end());
+
+    sendMessage(socket, result);
+    // send(socket, response.data(), response.size(), 0);
 
     return;
 }
