@@ -102,10 +102,8 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     if (command == "CONNECT") {
         Client *newClient = handleCONNECT(clientSocket, data, serverPort);
-        if (newClient != nullptr) {
-            std::cout << "new client is not null" << std::endl;
+        if (newClient != nullptr)
             newServers.insert(newClient);
-        }
         return;
     }
 
