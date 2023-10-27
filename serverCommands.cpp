@@ -65,10 +65,12 @@ void handleQUERYSERVERS(int socket, const std::string data,
     }
 
     response += "\n";
+    std::vector<std::string> serverBuilder = {response};
+    std::vector<unsigned char> serverResponse = constructMessage(serverBuilder);
 
     std::cout << "responds (" << socket << "): " << response << std::endl;
 
-    send(socket, response.c_str(), response.size(), 0);
+    send(socket, serverResponse.data(), serverResponse.size(), 0);
     return;
 }
 
