@@ -9,9 +9,12 @@
 #include <set>
 #include <string>
 
-void handleSERVERS(int socket, const std::string data);
 
-void handleKEEPALIVE(int socket, const std::string data);
+void sendKEEPALIVE(std::set<Client *> servers);
+
+void handleKEEPALIVE(int socket, const std::string data,
+                     const std::set<Client *> &servers,
+                     ServerSettings myServer);
 
 void handleQUERYSERVERS(int socket, const std::string data,
                         const std::set<Client *> &servers, int serverPort);
@@ -24,8 +27,9 @@ void handleSEND_MSG(int socket, const std::string data,
                     std::set<Client *> &unknownServers,
                     ServerSettings myServer);
 
-void handleSTATUSREQ(int socket, const std::string data,const std::set<Client *> &servers,
-                      ServerSettings myServer);
+void handleSTATUSREQ(int socket, const std::string data,
+                     const std::set<Client *> &servers,
+                     ServerSettings myServer);
 
 void handleSTATUSRESP(int socket, const std::string data,
                       const std::set<Client *> &servers,
