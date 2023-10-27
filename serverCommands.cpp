@@ -250,6 +250,10 @@ void handleKEEPALIVE(int socket, const std::string data,
                      ServerSettings myServer) {
     std::cout << "Received (" << socket << "): KEEPALIVE," << data << std::endl;
 
+    if (data == "0") {
+        return;
+    }
+
     for (Client *server : servers) {
         if (server->sock == socket) {
             return sendFETCH_MSGS(socket, myServer);
