@@ -102,7 +102,10 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
     if (command == "CONNECT") {
         Client *newClient = handleCONNECT(clientSocket, data, serverPort);
-        newServers.insert(newClient);
+        if (newClient != nullptr) {
+            std::cout << "new client is not null" << std::endl;
+            newServers.insert(newClient);
+        }
         return;
     }
 
@@ -194,7 +197,8 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
               << " connected from " << clientIP << std::endl;
 
     // Send a message to the client
-    sendQUERYSERVERS(serverPort, newSocketConnection);
+    if (clientType == ClientType::SERVER)
+        sendQUERYSERVERS(serverPort, newSocketConnection);
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
