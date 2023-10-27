@@ -1,6 +1,7 @@
 #include <iostream> // for std::cout + endl
 #include <ostream>
-#include <set>          // for std::set
+#include <set> // for std::set
+#include <sstream>
 #include <string>       // for std::string
 #include <sys/socket.h> // for socket, listen, send
 
@@ -16,7 +17,8 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
     std::string response;
 
     for (const Client *s : servers) {
-        response += s->name + "," + s->ip + "," + std::to_string(s->port) + ";\n";
+        response +=
+            s->name + "," + s->ip + "," + std::to_string(s->port) + ";\n";
     }
 
     send(socket, response.c_str(), response.size(), 0);
@@ -49,7 +51,20 @@ void handleGETMSG(int socket, std::string group, ServerSettings &myServer) {
     return;
 }
 
-void handleSENDMSG(int socket) { std::cout << "sendmsg received" << std::endl; }
+void handleSENDMSG(int socket, std::string data, ServerSettings &myServer) {
+
+    std::string command = "SEND_MSG,";
+    std::string group, message;
+
+    std::stringstream ss(data);
+    std::getline(ss, group, ',');
+    std::getline(ss, message);
+
+    std::string completeCommand =
+        command + group + "," + myServer.serverName + "," + message;
+
+    send(socket, completeCommand.c_str(), completeCommand.size(), 0);
+}
 
 void handleUNSUPPORTEDCLIENT(int socket, std::string command) {
     std::cout << "unsupported client command: " << command << " received"
