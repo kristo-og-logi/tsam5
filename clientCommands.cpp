@@ -1,10 +1,13 @@
-#include <iostream>     // for std::cout + endl
+#include <iostream> // for std::cout + endl
+#include <ostream>
 #include <set>          // for std::set
 #include <string>       // for std::string
 #include <sys/socket.h> // for socket, listen, send
 
 #include "Client.h"
+#include "ServerSettings.h"
 #include "clientCommands.h"
+#include "serverCommands.h"
 #include "serverConnect.h"
 
 void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
@@ -25,7 +28,26 @@ Client *handleCONNECT(int socket, std::string data, int serverPort) {
     return newClient;
 }
 
-void handleGETMSG(int socket) { std::cout << "getmsg received" << std::endl; }
+void handleGETMSG(int socket, std::string group, ServerSettings &myServer) {
+
+    if (group == myServer.serverName) {
+        std::string message = "Cannot send message to self";
+        send(socket, message.c_str(), message.size(), 0);
+        return;
+    }
+
+    std::string message = myServer.getMessage(group);
+
+    if (message == "") {
+        std::string failMsg = "No messages from " + group + "\n";
+        send(socket, failMsg.c_str(), failMsg.size(), 0);
+        return;
+    }
+
+    message = message + "\n";
+    send(socket, message.c_str(), message.size(), 0);
+    return;
+}
 
 void handleSENDMSG(int socket) { std::cout << "sendmsg received" << std::endl; }
 

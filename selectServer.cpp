@@ -110,7 +110,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     }
 
     else if (command == "GETMSG")
-        return handleGETMSG(clientSocket);
+        return handleGETMSG(clientSocket, data, groupSixServer);
 
     else if (command == "SENDMSG")
         return handleSENDMSG(clientSocket);
