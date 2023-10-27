@@ -1,5 +1,5 @@
+#include <algorithm>   // for find_if on linux
 #include <arpa/inet.h> // for inet_ntoa
-#include <algorithm>  // for find_if on linux
 #include <cstring>
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
@@ -15,10 +15,10 @@
 #include "Client.h"
 #include "ServerSettings.h"
 #include "clientCommands.h"
+#include "createSocket.h"
 #include "ip.h"
 #include "serverCommands.h"
 #include "serverConnect.h"
-#include "createSocket.h"
 
 ServerSettings groupSixServer;
 
@@ -26,7 +26,6 @@ std::set<Client *> unknownServers; // Set for for unknownServers
 std::set<Client *> servers;        // Lookup table for servers
 std::set<Client *> clients;        // Lookup table for clients
 std::set<Client *> newServers;     // servers which have been newly connected
-
 
 void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
                  int *basemaxfds) {
@@ -52,6 +51,31 @@ void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
     FD_CLR(client->sock, openSockets);
 }
 
+std::vector<std::string> splitMessages(const std::string &buffer) {
+    std::vector<std::string> messages;
+    size_t start = 0, end = 0;
+
+    while (start < buffer.size()) {
+        // Find the beginning and the end of the message
+        start = buffer.find((char)0x02, start);
+        end = buffer.find((char)0x03, start);
+
+        if (start == std::string::npos || end == std::string::npos) {
+            // Error: Incomplete message in buffer
+            std::cerr << "Error: Incomplete message found." << std::endl;
+            break; // Break out of loop if we don't find a valid STX or ETX
+        }
+
+        // Extract the message excluding STX and ETX and push to the vector
+        messages.push_back(buffer.substr(start + 1, end - start - 1));
+
+        // Move the start position past the current ETX for the next iteration
+        start = end + 1;
+    }
+
+    return messages;
+}
+
 bool bufferIsValid(char *buffer) {
     const char FIRST_BYTE = 0x02;
     const char LAST_BYTE = 0x03;
@@ -66,23 +90,28 @@ bool bufferIsValid(char *buffer) {
 }
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
-                   char *buffer, int serverPort) {
+                   std::string message, int serverPort) {
     const char *invalidMessage = "invalid message\n";
-    int msgLength = strlen(buffer);
-
-    if (!bufferIsValid(buffer)) {
-        std::cout << invalidMessage;
-        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
-        return;
-    }
-
-    std::string content(buffer + 1, msgLength - 2);
-
-    if (content == "LISTSERVERS")
+    // int msgLength = strlen(buffer);
+    // std::string message(buffer, msgLength);
+    //
+    // std::vector<std::string> messages = splitMessages(message);
+    // std::cout << "Received " << messages.size() << " packets from "
+    //           << clientSocket << ": ";
+    //
+    // if (!bufferIsValid(buffer)) {
+    //     std::cout << invalidMessage;
+    //     send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+    //     return;
+    // }
+    //
+    // std::string content(buffer + 1, msgLength - 2);
+    //
+    if (message == "LISTSERVERS")
         return handleLISTSERVERS(clientSocket, servers);
 
     // under here, we should only have commands which must include comma's.
-    size_t firstCommaIndex = content.find(',');
+    size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
         std::cout << invalidMessage;
@@ -90,8 +119,8 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
         return;
     }
 
-    std::string command = content.substr(0, firstCommaIndex);
-    std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
+    std::string command = message.substr(0, firstCommaIndex);
+    std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
     if (command == "CONNECT") {
         Client *newClient = handleCONNECT(clientSocket, data, serverPort);
@@ -110,18 +139,19 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 }
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
-                   char *buffer, int serverPort) {
+                   std::string message, int serverPort) {
     const char *invalidMessage = "invalid message\n";
-    int msgLength = strlen(buffer);
+    // int msgLength = strlen(buffer);
 
-    if (!bufferIsValid(buffer)) {
-        std::cout << invalidMessage;
-        send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
-        return;
-    }
+    // if (!messageIsValid(message)) {
+    //     std::cout << invalidMessage;
+    //     send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
+    //     return;
+    // }
 
-    std::string content(buffer + 1, msgLength - 2);
-    size_t firstCommaIndex = content.find(',');
+    // std::string content(buffer + 1, msgLength - 2);
+
+    size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
         std::cout << invalidMessage;
@@ -129,8 +159,8 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return;
     }
 
-    std::string command = content.substr(0, firstCommaIndex);
-    std::string data = content.substr(firstCommaIndex + 1, content.size() - 1);
+    std::string command = message.substr(0, firstCommaIndex);
+    std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
     if (command == "SERVERS")
         return handleSERVERS(serverSocket, data);
@@ -202,13 +232,14 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
         return;
     }
 
-    if (strncmp(buffer, "bye", 3) == 0) {
-        disconnectedClients.push_back(client);
-        closeClient(client, openSockets, maxfds, basemaxfds);
-    }
+    std::string newBuffer(buffer);
+    std::vector<std::string> messages = splitMessages(newBuffer);
 
-    else
-        clientCommand(client->sock, openSockets, maxfds, buffer, serverPort);
+	if (messages.size() > 1) 
+		std::cout << "received " << messages.size() << " messages from client " << client->sock << std::endl;
+
+    for (const auto &message : messages)
+        clientCommand(client->sock, openSockets, maxfds, message, serverPort);
 };
 
 void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
@@ -221,14 +252,14 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
         closeClient(server, openSockets, maxfds, basemaxfds);
         return;
     }
+    std::string newBuffer(buffer);
+    std::vector<std::string> messages = splitMessages(newBuffer);
 
-    if (strncmp(buffer, "bye", 3) == 0) {
-        disconnectedServers.push_back(server);
-        closeClient(server, openSockets, maxfds, basemaxfds);
-    }
+	if (messages.size() > 1) 
+		std::cout << "received " << messages.size() << " messages from server " << server->sock << std::endl;
 
-    else
-        serverCommand(server->sock, openSockets, maxfds, buffer, serverPort);
+    for (const auto &message : messages)
+        serverCommand(server->sock, openSockets, maxfds, message, serverPort);
 };
 
 int main(int argc, char *argv[]) {

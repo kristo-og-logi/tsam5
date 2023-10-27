@@ -9,7 +9,7 @@
 
 void sendQUERYSERVERS(int serverPort, int sock) {
     std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
-                          std::to_string(serverPort) + "\n";
+                          std::to_string(serverPort);
 
     std::cout << "sending (" << sock << "): " << message << std::endl;
 
