@@ -13,41 +13,6 @@
 
 const std::string GROUP_NAME = "P3_GROUP_6";
 
-void handleSERVERS(int socket, const std::string data) {
-    std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
-    return;
-}
-
-void sendKEEPALIVE(std::set<Client *> servers) {
-    for (Client *server : servers) {
-        std::string message =
-            "KEEPALIVE," + std::to_string(server->messages.size());
-        send(server->sock, message.c_str(), message.size(), 0);
-    }
-}
-
-void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers, int serverPort) {
-    std::cout << "Received (" << socket << "): QUERYSERVERS," << data
-              << std::endl;
-
-    std::string response = "SERVERS," + GROUP_NAME + "," + getMyIp() + "," +
-                           std::to_string(serverPort) + ";";
-
-    for (Client *server : servers) {
-        if (server->sock == socket)
-            server->name = data;
-        response += server->toString();
-    }
-
-    response += "\n";
-
-    std::cout << "responds (" << socket << "): " << response << std::endl;
-
-    send(socket, response.c_str(), response.size(), 0);
-    return;
-}
-
 std::vector<unsigned char>
 constructMessage(std::vector<std::string> command_msg) {
     unsigned char prefix = 0x02;
@@ -68,6 +33,45 @@ constructMessage(std::vector<std::string> command_msg) {
     buffer.push_back(postfix);
 
     return buffer;
+}
+
+void handleSERVERS(int socket, const std::string data) {
+    std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
+    return;
+}
+
+void sendKEEPALIVE(std::set<Client *> servers) {
+    for (Client *server : servers) {
+        std::vector<std::string> message = {
+            "KEEPALIVE," + std::to_string(server->messages.size())};
+        std::vector<unsigned char> keepalive = constructMessage(message);
+
+        send(server->sock, message.data(), message.size(), 0);
+    }
+}
+
+void handleQUERYSERVERS(int socket, const std::string data,
+                        const std::set<Client *> &servers, int serverPort) {
+    std::cout << "Received (" << socket << "): QUERYSERVERS," << data
+              << std::endl;
+
+    std::string response = "SERVERS," + GROUP_NAME + "," + getMyIp() + "," +
+                           std::to_string(serverPort) + ";";
+
+    for (Client *server : servers) {
+        if (server->sock == socket)
+            server->name = data;
+        response += server->toString();
+    }
+
+    response += "\n";
+    std::vector<std::string> serverBuilder = {response};
+    std::vector<unsigned char> serverResponse = constructMessage(serverBuilder);
+
+    std::cout << "responds (" << socket << "): " << response << std::endl;
+
+    send(socket, serverResponse.data(), serverResponse.size(), 0);
+    return;
 }
 
 void handleFETCH_MSGS(int socket, const std::string data,
@@ -206,32 +210,14 @@ void handleSTATUSRESP(int socket, const std::string data,
     return;
 }
 
-// void parseMessages(const char *buffer, ssize_t length,
-//                    ServerSettings &myServer) {
-//     const char STX = 0x02;
-//     const char ETX = 0x03;
-//
-//     static std::string currentMessage;
-//     static bool inMessage = false;
-//
-//     for (ssize_t i = 0; i < length; ++i) {
-//         if (buffer[i] == STX) {
-//             inMessage = true;
-//             currentMessage.clear();
-//         } else if (buffer[i] == ETX && inMessage) {
-//             inMessage = false;
-//             myServer.addMessage(currentMessage);
-//         } else if (inMessage) {
-//             currentMessage.push_back(buffer[i]);
-//         }
-//     }
-// }
 
 void sendFETCH_MSGS(int socket, ServerSettings &myServer) {
     char buffer[5000];
-    std::string message = "FETCH_MSGS," + myServer.serverName;
+    std::vector<std::string> messageBuilder = {"FETCH_MSGS," +
+                                               myServer.serverName};
+    std::vector<unsigned char> message = constructMessage(messageBuilder);
 
-    ssize_t bytesSent = send(socket, message.c_str(), message.size(), 0);
+    ssize_t bytesSent = send(socket, message.data(), message.size(), 0);
 
     return;
 }
@@ -259,8 +245,10 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::cout << "unsupported server command: " << command << " received"
               << std::endl;
 
-    std::string response = "UNSUPPORTED, P3_GROUP_6\n";
-    send(socket, response.c_str(), response.size(), 0);
+    std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
+    std::vector<unsigned char> response = constructMessage(responseBuilder);
+
+    send(socket, response.data(), response.size(), 0);
 
     return;
 }
