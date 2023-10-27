@@ -140,7 +140,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
     if (command == "SERVERS")
-        return handleSERVERS(serverSocket, data);
+        return handleSERVERS(serverSocket, data, servers);
 
     if (command == "KEEPALIVE")
         return handleKEEPALIVE(serverSocket, data, servers, groupSixServer);

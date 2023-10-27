@@ -13,7 +13,7 @@ bool isConvertibleToInt(std::string& str, int& result);
 
 void handleERROR(int socket, const std::string message);
 
-void handleSERVERS(int socket, const std::string data);
+void handleSERVERS(int socket, const std::string data, std::set<Client*> &servers);
 
 void sendKEEPALIVE(std::set<Client *> servers);
 
