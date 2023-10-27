@@ -66,9 +66,16 @@ void handleQUERYSERVERS(int socket, const std::string data,
     std::string response = "SERVERS," + GROUP_NAME + "," + getMyIp() + "," +
                            std::to_string(serverPort) + ";";
 
+    int commaIndex = data.find(",");
+
+    std::string name = data;
+
+    if (commaIndex != std::string::npos)
+        name = data.substr(0, commaIndex);
+
     for (Client *server : servers) {
         if (server->sock == socket)
-            server->name = data;
+            server->name = name;
         response += server->toString();
     }
 
@@ -229,13 +236,10 @@ void handleSTATUSRESP(int socket, const std::string data,
     return;
 }
 
-
-
 void sendFETCH_MSGS(int socket, ServerSettings myServer) {
     std::vector<std::string> messageBuilder = {"FETCH_MSGS," +
                                                myServer.serverName};
     std::vector<unsigned char> message = constructMessage(messageBuilder);
-
 
     std::string result(message.begin(), message.end());
     sendMessage(socket, result);
