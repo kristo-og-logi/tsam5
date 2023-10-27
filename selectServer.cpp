@@ -18,6 +18,7 @@
 #include "clientCommands.h"
 #include "createSocket.h"
 #include "ip.h"
+#include "sendMessage.h"
 #include "serverCommands.h"
 #include "serverConnect.h"
 
@@ -82,7 +83,6 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string invalidMessage = "ERROR";
     invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
 
-
     if (message == "LISTSERVERS")
         return handleLISTSERVERS(clientSocket, servers);
 
@@ -90,9 +90,10 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << "Invalid message sent from (" << clientSocket
+        std::cout << "Invalid message received from (" << clientSocket
                   << "): " << message << std::endl;
-        send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        // send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        sendMessage(clientSocket, invalidMessage);
         return;
     }
 
@@ -126,9 +127,10 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << "Invalid message sent from (" << serverSocket
+        std::cout << "Invalid message received from (" << serverSocket
                   << "): " << message << std::endl;
-        send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        sendMessage(serverSocket, invalidMessage);
         return;
     }
 
