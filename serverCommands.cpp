@@ -13,6 +13,11 @@
 
 const std::string GROUP_NAME = "P3_GROUP_6";
 
+void handleSERVERS(int socket, const std::string data) {
+	std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
+	return;
+}
+
 void sendKEEPALIVE(std::set<Client *> servers) {
     for (Client *server : servers) {
         std::string message =
