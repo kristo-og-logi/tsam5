@@ -41,12 +41,11 @@ void handleGETMSG(int socket, std::string group, ServerSettings &myServer) {
     std::string message = myServer.getMessage(group);
 
     if (message == "") {
-        std::string failMsg = "No messages from " + group + "\n";
+        std::string failMsg = "No messages from " + group;
         send(socket, failMsg.c_str(), failMsg.size(), 0);
         return;
     }
 
-    message = message + "\n";
     send(socket, message.c_str(), message.size(), 0);
     return;
 }

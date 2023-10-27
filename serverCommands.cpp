@@ -47,7 +47,6 @@ constructMessage(std::vector<std::string> command_msg) {
                       command_msg[i].end());
     }
 
-    buffer.push_back('\n');
     buffer.push_back(postfix);
 
     return buffer;
@@ -117,8 +116,6 @@ void handleQUERYSERVERS(int socket, const std::string data,
             server->name = name;
         response += server->toString();
     }
-
-    response += "\n";
 
     // send(socket, serverResponse.data(), serverResponse.size(), 0);
     sendMessage(socket, response);
@@ -297,9 +294,7 @@ void handleKEEPALIVE(int socket, const std::string data,
 
     // for (Client *server : servers) {
     //     if (server->sock == socket) {
-            return sendFETCH_MSGS(socket, myServer);
-    
-
+    return sendFETCH_MSGS(socket, myServer);
 }
 
 void handleUNSUPPORTED(int socket, const std::string command,
