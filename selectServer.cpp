@@ -76,37 +76,10 @@ std::vector<std::string> splitMessages(const std::string &buffer) {
     return messages;
 }
 
-bool bufferIsValid(char *buffer) {
-    const char FIRST_BYTE = 0x02;
-    const char LAST_BYTE = 0x03;
-    int msgLength = strlen(buffer);
-
-    // std::cout << "1st check: " << buffer[0] << " = " << FIRST_BYTE <<
-    // std::endl; std::cout << "2nd check: " << buffer[msgLength - 1] << " = "
-    // << LAST_BYTE << std::endl;
-
-    return !(msgLength < 2 || buffer[0] != FIRST_BYTE ||
-             buffer[msgLength - 1] != LAST_BYTE);
-}
-
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
     const char *invalidMessage = "invalid message\n";
-    // int msgLength = strlen(buffer);
-    // std::string message(buffer, msgLength);
-    //
-    // std::vector<std::string> messages = splitMessages(message);
-    // std::cout << "Received " << messages.size() << " packets from "
-    //           << clientSocket << ": ";
-    //
-    // if (!bufferIsValid(buffer)) {
-    //     std::cout << invalidMessage;
-    //     send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
-    //     return;
-    // }
-    //
-    // std::string content(buffer + 1, msgLength - 2);
-    //
+
     if (message == "LISTSERVERS")
         return handleLISTSERVERS(clientSocket, servers);
 
@@ -141,15 +114,6 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
     const char *invalidMessage = "invalid message\n";
-    // int msgLength = strlen(buffer);
-
-    // if (!messageIsValid(message)) {
-    //     std::cout << invalidMessage;
-    //     send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
-    //     return;
-    // }
-
-    // std::string content(buffer + 1, msgLength - 2);
 
     size_t firstCommaIndex = message.find(',');
 
