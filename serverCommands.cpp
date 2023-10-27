@@ -233,9 +233,11 @@ void parseMessages(const char *buffer, ssize_t length,
 
 void sendFETCH_MSGS(int socket, ServerSettings myServer) {
     char buffer[5000];
-    std::string message = "FETCH_MSGS," + myServer.serverName;
+    std::vector<std::string> messageBuilder = {"FETCH_MSGS," +
+                                               myServer.serverName};
+    std::vector<unsigned char> message = constructMessage(messageBuilder);
 
-    ssize_t bytesSent = send(socket, message.c_str(), message.size(), 0);
+    ssize_t bytesSent = send(socket, message.data(), message.size(), 0);
 
     if (bytesSent < 0) {
         return;
@@ -272,8 +274,10 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::cout << "unsupported server command: " << command << " received"
               << std::endl;
 
-    std::string response = "UNSUPPORTED, P3_GROUP_6";
-    send(socket, response.c_str(), response.size(), 0);
+    std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
+    std::vector<unsigned char> response = constructMessage(responseBuilder);
+
+    send(socket, response.data(), response.size(), 0);
 
     return;
 }
