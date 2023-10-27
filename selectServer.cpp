@@ -79,7 +79,9 @@ std::vector<std::string> splitMessages(const std::string &buffer) {
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    const char *invalidMessage = "invalid message\n";
+    std::string invalidMessage = "ERROR";
+    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
+
 
     if (message == "LISTSERVERS")
         return handleLISTSERVERS(clientSocket, servers);
@@ -88,8 +90,9 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << invalidMessage;
-        send(clientSocket, invalidMessage, strlen(invalidMessage), 0);
+        std::cout << "Invalid message sent from (" << clientSocket
+                  << "): " << message << std::endl;
+        send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
         return;
     }
 
@@ -114,13 +117,18 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    const char *invalidMessage = "invalid message\n";
+    std::string invalidMessage = "ERROR";
+    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
+
+    if (message == "ERROR")
+        return handleERROR(serverSocket, message);
 
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << invalidMessage;
-        send(serverSocket, invalidMessage, strlen(invalidMessage), 0);
+        std::cout << "Invalid message sent from (" << serverSocket
+                  << "): " << message << std::endl;
+        send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
         return;
     }
 
@@ -200,8 +208,9 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
     std::string newBuffer(buffer);
     std::vector<std::string> messages = splitMessages(newBuffer);
 
-	if (messages.size() > 1) 
-		std::cout << "received " << messages.size() << " messages from client " << client->sock << std::endl;
+    if (messages.size() > 1)
+        std::cout << "received " << messages.size() << " messages from client "
+                  << client->sock << std::endl;
 
     for (const auto &message : messages)
         clientCommand(client->sock, openSockets, maxfds, message, serverPort);
@@ -220,8 +229,9 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     std::string newBuffer(buffer);
     std::vector<std::string> messages = splitMessages(newBuffer);
 
-	if (messages.size() > 1) 
-		std::cout << "received " << messages.size() << " messages from server " << server->sock << std::endl;
+    if (messages.size() > 1)
+        std::cout << "received " << messages.size() << " messages from server "
+                  << server->sock << std::endl;
 
     for (const auto &message : messages)
         serverCommand(server->sock, openSockets, maxfds, message, serverPort);

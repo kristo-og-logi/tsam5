@@ -9,6 +9,7 @@
 #include "Client.h"
 #include "ServerSettings.h"
 #include "ip.h"
+#include "sendMessage.h"
 #include "serverCommands.h"
 
 const std::string GROUP_NAME = "P3_GROUP_6";
@@ -33,6 +34,11 @@ constructMessage(std::vector<std::string> command_msg) {
     buffer.push_back(postfix);
 
     return buffer;
+}
+
+void handleERROR(int socket, const std::string message) {
+    std::cout << "ERROR received from (" << socket << ")" << std::endl;
+    return;
 }
 
 void handleSERVERS(int socket, const std::string data) {
@@ -237,17 +243,10 @@ void sendFETCH_MSGS(int socket, ServerSettings myServer) {
                                                myServer.serverName};
     std::vector<unsigned char> message = constructMessage(messageBuilder);
 
-    ssize_t bytesSent = send(socket, message.data(), message.size(), 0);
+    // ssize_t bytesSent = send(socket, message.data(), message.size(), 0);
+    std::string result(message.begin(), message.end());
+    sendMessage(socket, result);
 
-    if (bytesSent < 0) {
-        return;
-    }
-
-    ssize_t bytesReceived = recv(socket, buffer, sizeof(buffer), 0);
-
-    if (bytesReceived > 0) {
-        parseMessages(buffer, bytesReceived, myServer);
-    }
     return;
 }
 

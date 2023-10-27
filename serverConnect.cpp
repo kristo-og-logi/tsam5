@@ -6,6 +6,7 @@
 #include "createSocket.h"
 #include "ip.h"
 #include "serverConnect.h"
+#include "sendMessage.h"
 
 void sendQUERYSERVERS(int serverPort, int sock) {
     std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
@@ -16,7 +17,8 @@ void sendQUERYSERVERS(int serverPort, int sock) {
     message.insert(0, 1, char(0x02));
     message += char(0x03);
 
-    send(sock, message.c_str(), message.size(), 0);
+    // send(sock, message.c_str(), message.size(), 0);
+	sendMessage(sock, message);
 }
 
 Client *connectToServer(std::string &data, int serverPort) {
