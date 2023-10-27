@@ -113,7 +113,8 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
         return handleGETMSG(clientSocket, data, groupSixServer);
 
     else if (command == "SENDMSG")
-        return handleSENDMSG(clientSocket, data, groupSixServer);
+        return handleSENDMSG(clientSocket, data, servers, unknownServers,
+                             groupSixServer);
 
     else
         return handleUNSUPPORTEDCLIENT(clientSocket, command);

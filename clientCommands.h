@@ -15,7 +15,7 @@ Client *handleCONNECT(int socket, std::string data, int serverPort);
 
 void handleGETMSG(int socket, const std::string data, ServerSettings &myServer);
 
-void handleSENDMSG(int socket, std::string data, ServerSettings &myServer);
+void handleSENDMSG(int socket, std::string data, std::set<Client *> &servers, std::set<Client *> &unknownServers, ServerSettings &myServer);
 
 void handleUNSUPPORTEDCLIENT(int socket, std::string command);
 

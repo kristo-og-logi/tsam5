@@ -51,9 +51,10 @@ void handleGETMSG(int socket, std::string group, ServerSettings &myServer) {
     return;
 }
 
-void handleSENDMSG(int socket, std::string data, ServerSettings &myServer) {
+void handleSENDMSG(int socket, std::string data, std::set<Client *> &servers,
+                   std::set<Client *> &unknownServers,
+                   ServerSettings &myServer) {
 
-    std::string command = "SEND_MSG,";
     std::string group, message;
 
     std::stringstream ss(data);
@@ -61,9 +62,10 @@ void handleSENDMSG(int socket, std::string data, ServerSettings &myServer) {
     std::getline(ss, message);
 
     std::string completeCommand =
-        command + group + "," + myServer.serverName + "," + message;
+        group + "," + myServer.serverName + "," + message;
 
-    send(socket, completeCommand.c_str(), completeCommand.size(), 0);
+    return handleSEND_MSG(socket, completeCommand, servers, unknownServers,
+                          myServer);
 }
 
 void handleUNSUPPORTEDCLIENT(int socket, std::string command) {
