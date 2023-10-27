@@ -24,9 +24,12 @@ void handleSEND_MSG(int socket, const std::string data,
                     std::set<Client *> &unknownServers,
                     ServerSettings myServer);
 
-void handleSTATUSREQ(int socket, const std::string data);
+void handleSTATUSREQ(int socket, const std::string data,const std::set<Client *> &servers,
+                      ServerSettings myServer);
 
-void handleSTATUSRESP(int socket, const std::string data);
+void handleSTATUSRESP(int socket, const std::string data,
+                      const std::set<Client *> &servers,
+                      ServerSettings myServer);
 
 void handleUNSUPPORTED(int socket, const std::string command,
                        const std::string data);

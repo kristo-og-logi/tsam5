@@ -149,10 +149,10 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                               groupSixServer);
 
     else if (command == "STATUSREQ")
-        return handleSTATUSREQ(serverSocket, data);
+        return handleSTATUSREQ(serverSocket, data, servers, groupSixServer);
 
     else if (command == "STATUSRESP")
-        return handleSTATUSRESP(serverSocket, data);
+        return handleSTATUSRESP(serverSocket, data, servers, groupSixServer);
 
     else
         return handleUNSUPPORTED(serverSocket, command, data);

@@ -115,8 +115,6 @@ void handleSEND_MSG(int socket, const std::string data,
                     std::set<Client *> &unknownServers,
                     ServerSettings myServer) {
 
-    unsigned char prefix = 0x02;
-    unsigned char postfix = 0x03;
     int messageSent = 0;
 
     std::string toGroup, fromGroup, content;
@@ -153,6 +151,13 @@ void handleSEND_MSG(int socket, const std::string data,
             constructMessage({"Could not send message"});
         send(socket, response.data(), response.size(), 0);
 
+        for (Client *unkownServer : unknownServers) {
+            if (unkownServer->name == toGroup) {
+                unkownServer->messages.push(command + "," + data);
+                return;
+            }
+        }
+
         Client *unknown = new Client(-1, ClientType::SERVER, "NA", -1);
         unknown->name = toGroup;
         unknown->messages.push(command + "," + data);
@@ -162,20 +167,42 @@ void handleSEND_MSG(int socket, const std::string data,
     return;
 }
 
-void handleSTATUSREQ(int socket, const std::string data) {
-    std::cout << "STATUSREQ: " << data << std::endl;
-
-    std::string response = "STATUSREQ, P3_GROUP_6\n";
-    send(socket, response.c_str(), response.size(), 0);
-
-    return;
+void handleSTATUSREQ(int socket, const std::string data,
+                     const std::set<Client *> &servers,
+                     ServerSettings myServer) {
+    return handleSTATUSRESP(socket, data, servers, myServer);
 }
 
-void handleSTATUSRESP(int socket, const std::string data) {
-    std::cout << "STATUSRESP: " << data << std::endl;
+void handleSTATUSRESP(int socket, const std::string data,
+                      const std::set<Client *> &servers,
+                      ServerSettings myServer) {
+    int foundServer;
+    std::vector<std::string> serversAndMessages = {};
+    std::vector<std::string> resBuilder{"STATUSRESP", myServer.serverName};
 
-    std::string response = "STATUSRESP, P3_GROUP_6\n";
-    send(socket, response.c_str(), response.size(), 0);
+    if (data != myServer.serverName) {
+        return;
+    }
+
+    for (Client *server : servers) {
+
+        serversAndMessages.push_back(server->name);
+        serversAndMessages.push_back(std::to_string(server->messages.size()));
+
+        if (server->sock == socket) {
+            resBuilder.push_back(server->name);
+            foundServer = 1;
+        }
+    }
+
+    resBuilder.insert(resBuilder.end(), serversAndMessages.begin(),
+                      serversAndMessages.end());
+
+    std::vector<unsigned char> res = constructMessage(resBuilder);
+
+    if (foundServer == 1) {
+        send(socket, res.data(), res.size(), 0);
+    }
 
     return;
 }
