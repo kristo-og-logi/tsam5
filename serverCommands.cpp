@@ -14,6 +14,23 @@
 
 const std::string GROUP_NAME = "P3_GROUP_6";
 
+bool isConvertibleToInt(std::string &str, int &result) {
+    try {
+        result = std::stoi(str);
+        return true;
+    } catch (const std::invalid_argument &) {
+        // if no conversion could be performed
+        return false;
+    } catch (const std::out_of_range &) {
+        // if the converted value would fall out of the range of the result type
+        return false;
+    }
+    // for any other unexpected exceptions, return false
+    catch (...) {
+        return false;
+    }
+}
+
 std::vector<unsigned char>
 constructMessage(std::vector<std::string> command_msg) {
     unsigned char prefix = 0x02;
@@ -41,8 +58,30 @@ void handleERROR(int socket, const std::string message) {
     return;
 }
 
-void handleSERVERS(int socket, const std::string data) {
+void handleSERVERS(int socket, const std::string data,
+                   std::set<Client *> &servers) {
     std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
+
+    int commaIndex = 0;
+
+    for (int i = 0; i < 2; i++)
+        commaIndex = data.find(",", commaIndex + 1);
+
+    int firstColon = data.find(";");
+    std::string incomingPort =
+        data.substr(commaIndex + 1, firstColon - commaIndex - 1);
+
+    int port = -1;
+    if (!isConvertibleToInt(incomingPort, port)) {
+        std::cerr << "INVALID servers response from " << socket << ": Port "
+                  << incomingPort << " invalid" << std::endl;
+        return;
+    }
+
+    for (Client *server : servers)
+        if (server->sock == socket)
+            server->port = port;
+
     return;
 }
 
