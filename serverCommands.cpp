@@ -252,13 +252,11 @@ void handleKEEPALIVE(int socket, const std::string data,
         return;
     }
 
-    for (Client *server : servers) {
-        if (server->sock == socket) {
+    // for (Client *server : servers) {
+    //     if (server->sock == socket) {
             return sendFETCH_MSGS(socket, myServer);
-        }
-    }
+    
 
-    return;
 }
 
 void handleUNSUPPORTED(int socket, const std::string command,
