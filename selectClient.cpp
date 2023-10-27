@@ -32,7 +32,7 @@ void listenServer(int serverSocket) {
             printf("Connection closed\n");
             exit(0);
         } else if (nread > 0)
-            printf("%s", buffer);
+            printf("%s\n", buffer);
     }
 }
 
