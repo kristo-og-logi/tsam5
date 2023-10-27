@@ -13,16 +13,40 @@
 
 const std::string GROUP_NAME = "P3_GROUP_6";
 
+std::vector<unsigned char>
+constructMessage(std::vector<std::string> command_msg) {
+    unsigned char prefix = 0x02;
+    unsigned char postfix = 0x03;
+    std::vector<unsigned char> buffer;
+
+    buffer.push_back(prefix);
+
+    for (size_t i = 0; i < command_msg.size(); i++) {
+        if (i > 0) {
+            buffer.push_back(',');
+        }
+        buffer.insert(buffer.end(), command_msg[i].begin(),
+                      command_msg[i].end());
+    }
+
+    buffer.push_back('\n');
+    buffer.push_back(postfix);
+
+    return buffer;
+}
+
 void handleSERVERS(int socket, const std::string data) {
-	std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
-	return;
+    std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
+    return;
 }
 
 void sendKEEPALIVE(std::set<Client *> servers) {
     for (Client *server : servers) {
-        std::string message =
-            "KEEPALIVE," + std::to_string(server->messages.size());
-        send(server->sock, message.c_str(), message.size(), 0);
+        std::vector<std::string> message = {
+            "KEEPALIVE," + std::to_string(server->messages.size())};
+        std::vector<unsigned char> keepalive = constructMessage(message);
+
+        send(server->sock, message.data(), message.size(), 0);
     }
 }
 
@@ -46,28 +70,6 @@ void handleQUERYSERVERS(int socket, const std::string data,
 
     send(socket, response.c_str(), response.size(), 0);
     return;
-}
-
-std::vector<unsigned char>
-constructMessage(std::vector<std::string> command_msg) {
-    unsigned char prefix = 0x02;
-    unsigned char postfix = 0x03;
-    std::vector<unsigned char> buffer;
-
-    buffer.push_back(prefix);
-
-    for (size_t i = 0; i < command_msg.size(); i++) {
-        if (i > 0) {
-            buffer.push_back(',');
-        }
-        buffer.insert(buffer.end(), command_msg[i].begin(),
-                      command_msg[i].end());
-    }
-
-    buffer.push_back('\n');
-    buffer.push_back(postfix);
-
-    return buffer;
 }
 
 void handleFETCH_MSGS(int socket, const std::string data,
