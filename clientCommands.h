@@ -7,12 +7,13 @@
 #include <string>
 
 #include "Client.h"
+#include "ServerSettings.h"
 
 void handleLISTSERVERS(int socket, std::set<Client *> &servers);
 
 Client *handleCONNECT(int socket, std::string data, int serverPort);
 
-void handleGETMSG(int socket);
+void handleGETMSG(int socket, const std::string data, ServerSettings &myServer);
 
 void handleSENDMSG(int socket);
 

@@ -103,7 +103,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     }
 
     else if (command == "GETMSG")
-        return handleGETMSG(clientSocket);
+        return handleGETMSG(clientSocket, data, groupSixServer);
 
     else if (command == "SENDMSG")
         return handleSENDMSG(clientSocket);
@@ -200,8 +200,9 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
     std::string newBuffer(buffer);
     std::vector<std::string> messages = splitMessages(newBuffer);
 
-	if (messages.size() > 1) 
-		std::cout << "received " << messages.size() << " messages from client " << client->sock << std::endl;
+    if (messages.size() > 1)
+        std::cout << "received " << messages.size() << " messages from client "
+                  << client->sock << std::endl;
 
     for (const auto &message : messages)
         clientCommand(client->sock, openSockets, maxfds, message, serverPort);
@@ -220,8 +221,9 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     std::string newBuffer(buffer);
     std::vector<std::string> messages = splitMessages(newBuffer);
 
-	if (messages.size() > 1) 
-		std::cout << "received " << messages.size() << " messages from server " << server->sock << std::endl;
+    if (messages.size() > 1)
+        std::cout << "received " << messages.size() << " messages from server "
+                  << server->sock << std::endl;
 
     for (const auto &message : messages)
         serverCommand(server->sock, openSockets, maxfds, message, serverPort);

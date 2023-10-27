@@ -15,7 +15,7 @@ void sendKEEPALIVE(std::set<Client *> servers);
 
 void handleKEEPALIVE(int socket, const std::string data,
                      const std::set<Client *> &servers,
-                     ServerSettings myServer);
+                     ServerSettings &myServer);
 
 void handleQUERYSERVERS(int socket, const std::string data,
                         const std::set<Client *> &servers, int serverPort);
@@ -26,15 +26,15 @@ void handleFETCH_MSGS(int socket, const std::string data,
 void handleSEND_MSG(int socket, const std::string data,
                     const std::set<Client *> &servers,
                     std::set<Client *> &unknownServers,
-                    ServerSettings myServer);
+                    ServerSettings &myServer);
 
 void handleSTATUSREQ(int socket, const std::string data,
                      const std::set<Client *> &servers,
-                     ServerSettings myServer);
+                     ServerSettings &myServer);
 
 void handleSTATUSRESP(int socket, const std::string data,
                       const std::set<Client *> &servers,
-                      ServerSettings myServer);
+                      ServerSettings &myServer);
 
 void handleUNSUPPORTED(int socket, const std::string command,
                        const std::string data);

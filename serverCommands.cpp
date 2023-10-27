@@ -14,8 +14,8 @@
 const std::string GROUP_NAME = "P3_GROUP_6";
 
 void handleSERVERS(int socket, const std::string data) {
-	std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
-	return;
+    std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
+    return;
 }
 
 void sendKEEPALIVE(std::set<Client *> servers) {
@@ -111,7 +111,7 @@ void handleFETCH_MSGS(int socket, const std::string data,
 void handleSEND_MSG(int socket, const std::string data,
                     const std::set<Client *> &servers,
                     std::set<Client *> &unknownServers,
-                    ServerSettings myServer) {
+                    ServerSettings &myServer) {
 
     int messageSent = 0;
 
@@ -124,7 +124,7 @@ void handleSEND_MSG(int socket, const std::string data,
     std::getline(ss, content);
 
     if (toGroup == myServer.serverName) {
-        myServer.addMessage(fromGroup + ":" + content);
+        myServer.addMessage(fromGroup, content);
         std::cout << fromGroup << ":" << content << std::endl;
         return;
     }
@@ -168,13 +168,13 @@ void handleSEND_MSG(int socket, const std::string data,
 
 void handleSTATUSREQ(int socket, const std::string data,
                      const std::set<Client *> &servers,
-                     ServerSettings myServer) {
+                     ServerSettings &myServer) {
     return handleSTATUSRESP(socket, data, servers, myServer);
 }
 
 void handleSTATUSRESP(int socket, const std::string data,
                       const std::set<Client *> &servers,
-                      ServerSettings myServer) {
+                      ServerSettings &myServer) {
     int foundServer;
     std::vector<std::string> serversAndMessages = {};
     std::vector<std::string> resBuilder{"STATUSRESP", myServer.serverName};
@@ -206,48 +206,39 @@ void handleSTATUSRESP(int socket, const std::string data,
     return;
 }
 
-void parseMessages(const char *buffer, ssize_t length,
-                   ServerSettings myServer) {
-    const char STX = 0x02;
-    const char ETX = 0x03;
+// void parseMessages(const char *buffer, ssize_t length,
+//                    ServerSettings &myServer) {
+//     const char STX = 0x02;
+//     const char ETX = 0x03;
+//
+//     static std::string currentMessage;
+//     static bool inMessage = false;
+//
+//     for (ssize_t i = 0; i < length; ++i) {
+//         if (buffer[i] == STX) {
+//             inMessage = true;
+//             currentMessage.clear();
+//         } else if (buffer[i] == ETX && inMessage) {
+//             inMessage = false;
+//             myServer.addMessage(currentMessage);
+//         } else if (inMessage) {
+//             currentMessage.push_back(buffer[i]);
+//         }
+//     }
+// }
 
-    static std::string currentMessage;
-    static bool inMessage = false;
-
-    for (ssize_t i = 0; i < length; ++i) {
-        if (buffer[i] == STX) {
-            inMessage = true;
-            currentMessage.clear();
-        } else if (buffer[i] == ETX && inMessage) {
-            inMessage = false;
-            myServer.addMessage(currentMessage);
-        } else if (inMessage) {
-            currentMessage.push_back(buffer[i]);
-        }
-    }
-}
-
-void sendFETCH_MSGS(int socket, ServerSettings myServer) {
+void sendFETCH_MSGS(int socket, ServerSettings &myServer) {
     char buffer[5000];
     std::string message = "FETCH_MSGS," + myServer.serverName;
 
     ssize_t bytesSent = send(socket, message.c_str(), message.size(), 0);
 
-    if (bytesSent < 0) {
-        return;
-    }
-
-    ssize_t bytesReceived = recv(socket, buffer, sizeof(buffer), 0);
-
-    if (bytesReceived > 0) {
-        parseMessages(buffer, bytesReceived, myServer);
-    }
     return;
 }
 
 void handleKEEPALIVE(int socket, const std::string data,
                      const std::set<Client *> &servers,
-                     ServerSettings myServer) {
+                     ServerSettings &myServer) {
     std::cout << "Received (" << socket << "): KEEPALIVE," << data << std::endl;
 
     if (data == "0") {
@@ -268,7 +259,7 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::cout << "unsupported server command: " << command << " received"
               << std::endl;
 
-    std::string response = "UNSUPPORTED, P3_GROUP_6";
+    std::string response = "UNSUPPORTED, P3_GROUP_6\n";
     send(socket, response.c_str(), response.size(), 0);
 
     return;

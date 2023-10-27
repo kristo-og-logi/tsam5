@@ -1,26 +1,29 @@
 #ifndef SERVER_SETTINGS_H
 #define SERVER_SETTINGS_H
 
+#include <map>
 #include <queue>
 #include <string>
 
 class ServerSettings {
   private:
-    std::queue<std::string> serverMessages;
+    std::map<std::string, std::queue<std::string>> serverMessages;
 
   public:
     std::string serverName;
     std::string ipAddr;
 
-    void addMessage(const std::string &message) {
-        serverMessages.push(message);
+    void addMessage(std::string otherServer, const std::string &message) {
+        serverMessages[otherServer].push(message);
     }
 
-    std::string getMessage() {
-        if (!serverMessages.empty()) {
-            std::string message = serverMessages.front();
-            serverMessages.pop();
-            return message;
+    std::string getMessage(std::string otherServer) {
+        if (serverMessages.count(otherServer) > 0) {
+            if (!serverMessages[otherServer].empty()) {
+                std::string message = serverMessages[otherServer].front();
+                serverMessages[otherServer].pop();
+                return message;
+            }
         }
         return "";
     }
