@@ -11,6 +11,8 @@
 
 #include "Client.h"
 
+void sendQUERYSERVERS(int serverPort, int sock);
+
 Client *connectToServer(std::string &data, int serverPort);
 
 #endif // SERVER_CONNECT_H

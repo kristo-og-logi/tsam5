@@ -259,7 +259,7 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::cout << "unsupported server command: " << command << " received"
               << std::endl;
 
-    std::string response = "UNSUPPORTED, P3_GROUP_6\n";
+    std::string response = "UNSUPPORTED, P3_GROUP_6";
     send(socket, response.c_str(), response.size(), 0);
 
     return;
