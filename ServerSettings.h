@@ -12,7 +12,7 @@ class ServerSettings {
   public:
     std::string serverName;
     std::string ipAddr;
-	const int maxConnections = 10;
+    const int maxConnections = 10;
 
     void addMessage(std::string otherServer, const std::string &message) {
         serverMessages[otherServer].push(message);
@@ -27,6 +27,14 @@ class ServerSettings {
             }
         }
         return "";
+    }
+
+    int getMessageCount(std::string otherServerName) {
+        auto it = serverMessages.find(otherServerName);
+        if (it != serverMessages.end()) {
+            return it->second.size();
+        }
+        return 0;
     }
 };
 

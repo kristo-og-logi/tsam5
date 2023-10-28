@@ -80,20 +80,18 @@ std::vector<std::string> splitMessages(const std::string &buffer) {
 
 void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    std::string invalidMessage = "ERROR";
-    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
 
     if (message == "LISTSERVERS")
-        return handleLISTSERVERS(clientSocket, servers);
+        return handleLISTSERVERS(clientSocket, servers, groupSixServer);
 
     // under here, we should only have commands which must include comma's.
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << "Invalid message received from (" << clientSocket
+        std::cout << "Invalid message received from client (" << clientSocket
                   << "): " << message << std::endl;
         // send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
-        sendMessage(clientSocket, invalidMessage);
+        sendMessage(clientSocket, "ERROR");
         return;
     }
 
@@ -101,7 +99,8 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
     if (command == "CONNECT") {
-        Client *newClient = handleCONNECT(clientSocket, data, serverPort, groupSixServer);
+        Client *newClient =
+            handleCONNECT(clientSocket, data, serverPort, groupSixServer);
         if (newClient != nullptr)
             newServers.insert(newClient);
         return;
@@ -120,7 +119,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-	std::cout << "Received (" << serverSocket << "): " << message << std::endl;
+    std::cout << "Received (" << serverSocket << "): " << message << std::endl;
 
     if (message.find("ERROR") != std::string::npos)
         return handleERROR(serverSocket, message);
@@ -128,7 +127,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << "Invalid message received from (" << serverSocket
+        std::cout << "Invalid message received from server (" << serverSocket
                   << "): " << message << std::endl;
         // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
         sendMessage(serverSocket, "ERROR");

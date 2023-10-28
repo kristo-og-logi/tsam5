@@ -9,13 +9,17 @@
 #include "Client.h"
 #include "ServerSettings.h"
 
-void handleLISTSERVERS(int socket, std::set<Client *> &servers);
+void handleLISTSERVERS(int socket, std::set<Client *> &servers,
+                       ServerSettings &groupSixServer);
 
-Client *handleCONNECT(int socket, std::string data, int serverPort, ServerSettings &myServer);
+Client *handleCONNECT(int socket, std::string data, int serverPort,
+                      ServerSettings &myServer);
 
 void handleGETMSG(int socket, const std::string data, ServerSettings &myServer);
 
-void handleSENDMSG(int socket, std::string data, std::set<Client *> &servers, std::set<Client *> &unknownServers, ServerSettings &myServer);
+void handleSENDMSG(int socket, std::string data, std::set<Client *> &servers,
+                   std::set<Client *> &unknownServers,
+                   ServerSettings &myServer);
 
 void handleUNSUPPORTEDCLIENT(int socket, std::string command);
 
