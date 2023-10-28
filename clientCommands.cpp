@@ -16,7 +16,7 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers,
     std::string response;
 
     for (const Client *s : servers) {
-        response += std::to_string(s->sock) + ": " + s->toString() + " " +
+        response += std::to_string(s->sock) + "| " + s->toString() + " " +
                     std::to_string(groupSixServer.getMessageCount(s->name)) +
                     " messages waiting" + "\n";
     }

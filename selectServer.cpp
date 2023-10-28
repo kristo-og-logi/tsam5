@@ -120,7 +120,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    std::cout << "Received (" << serverSocket << "): " << message << std::endl;
+    std::cout << serverSocket << "| Received: " << message << std::endl;
 
     if (message.find("ERROR") != std::string::npos)
         return handleERROR(serverSocket, message);
