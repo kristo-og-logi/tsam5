@@ -42,7 +42,7 @@ Client *connectToServer(std::string &data, int serverPort, ServerSettings &mySer
     sendQUERYSERVERS(serverPort, sock, myServer);
 
     Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
-	newClient->name = "unknown";
+	newClient->name = "unknown" + std::to_string(sock);
 
     return newClient;
 }
