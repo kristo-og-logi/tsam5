@@ -11,14 +11,14 @@
 #include "serverCommands.h"
 #include "serverConnect.h"
 
-void handleLISTSERVERS(int socket, std::set<Client *> &servers) {
-    std::cout << "listservers received" << std::endl;
-
+void handleLISTSERVERS(int socket, std::set<Client *> &servers,
+                       ServerSettings &groupSixServer) {
     std::string response;
 
     for (const Client *s : servers) {
-        response +=
-            s->name + "," + s->ip + "," + std::to_string(s->port) + ";\n";
+        response += std::to_string(s->sock) + ": " + s->toString() + " " +
+                    std::to_string(groupSixServer.getMessageCount(s->name)) +
+                    " messages waiting" + "\n";
     }
 
     send(socket, response.c_str(), response.size(), 0);
