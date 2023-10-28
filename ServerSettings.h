@@ -12,6 +12,7 @@ class ServerSettings {
   public:
     std::string serverName;
     std::string ipAddr;
+	const int maxConnections = 10;
 
     void addMessage(std::string otherServer, const std::string &message) {
         serverMessages[otherServer].push(message);

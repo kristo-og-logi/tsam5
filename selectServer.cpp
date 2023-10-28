@@ -180,24 +180,28 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
     // Retrieve the IP address and port
     std::string clientIP = inet_ntoa(socketAddress.sin_addr);
 
+    Client *newClient =
+        new Client(newSocketConnection, clientType, clientIP, -1);
+
+    if (clientType == ClientType::SERVER) {
+        if (servers.size() >= groupSixServer.maxConnections) {
+            // our server has reached max capacity, disconnect from server
+            std::cout << "declined incoming connection from " << clientIP
+                      << ". MAX connections hit" << std::endl;
+            close(newSocketConnection);
+            return;
+        }
+        servers.insert(newClient);
+        sendQUERYSERVERS(serverPort, newSocketConnection);
+    } else
+        clients.insert(newClient);
+
     // Add new client to the list of open sockets
     FD_SET(newSocketConnection, openSockets);
     *maxfds = std::max(*maxfds, newSocketConnection);
 
-    Client *newClient =
-        new Client(newSocketConnection, clientType, clientIP, -1);
-
-    if (clientType == ClientType::CLIENT)
-        clients.insert(newClient);
-    else
-        servers.insert(newClient);
-
     std::cout << newClient->clientTypeToString() << " " << newSocketConnection
               << " connected from " << clientIP << std::endl;
-
-    // Send a message to the client
-    if (clientType == ClientType::SERVER)
-        sendQUERYSERVERS(serverPort, newSocketConnection);
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
