@@ -36,6 +36,9 @@ class ServerSettings {
         }
         return 0;
     }
+    void eraseServer(std::string otherServer) {
+        serverMessages.erase(otherServer);
+    }
 };
 
 #endif // SERVER_SETTINGS_H

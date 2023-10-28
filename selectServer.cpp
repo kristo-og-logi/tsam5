@@ -30,11 +30,12 @@ std::set<Client *> clients;        // Lookup table for clients
 std::set<Client *> newServers;     // servers which have been newly connected
 
 void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
-                 int *basemaxfds) {
+                 int *basemaxfds, ServerSettings &myServer) {
     std::cout << client->clientTypeToString() << " " << client->sock
               << " disconnected" << std::endl;
 
     close(client->sock);
+    myServer.eraseServer(client->name);
 
     if (*maxfds == client->sock) {
         *maxfds = *basemaxfds; // reinitialize the max fd
@@ -205,10 +206,11 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedClients, int *maxfds,
-                         int *basemaxfds, int serverPort) {
+                         int *basemaxfds, int serverPort,
+                         ServerSettings &myServer) {
     if (recv(client->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedClients.push_back(client);
-        closeClient(client, openSockets, maxfds, basemaxfds);
+        closeClient(client, openSockets, maxfds, basemaxfds, myServer);
         return;
     }
 
@@ -226,11 +228,12 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
 void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
                          fd_set *openSockets,
                          std::list<Client *> &disconnectedServers, int *maxfds,
-                         int *basemaxfds, int serverPort) {
+                         int *basemaxfds, int serverPort,
+                         ServerSettings &myServer) {
     // receive the message from the server
     if (recv(server->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
         disconnectedServers.push_back(server);
-        closeClient(server, openSockets, maxfds, basemaxfds);
+        closeClient(server, openSockets, maxfds, basemaxfds, myServer);
         return;
     }
     std::string newBuffer(buffer);
@@ -307,7 +310,7 @@ int main(int argc, char *argv[]) {
             if (FD_ISSET(client->sock, &readSockets))
                 handleClientMessage(client, buffer, sizeof(buffer),
                                     &openSockets, disconnectedClients, &maxfds,
-                                    &basemaxfds, serverPort);
+                                    &basemaxfds, serverPort, groupSixServer);
 
         for (Client *server : servers) {
             auto it = std::find_if(
@@ -332,7 +335,7 @@ int main(int argc, char *argv[]) {
             if (FD_ISSET(server->sock, &readSockets))
                 handleServerMessage(server, buffer, sizeof(buffer),
                                     &openSockets, disconnectedServers, &maxfds,
-                                    &basemaxfds, serverPort);
+                                    &basemaxfds, serverPort, groupSixServer);
 
         // Remove client from the clients list
         for (auto const &s : disconnectedServers)
