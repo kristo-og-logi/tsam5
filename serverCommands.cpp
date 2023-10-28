@@ -316,12 +316,12 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::cout << "unsupported server command: " << command << " received"
               << std::endl;
 
-    std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
-    std::vector<unsigned char> response = constructMessage(responseBuilder);
-
-    std::string result(response.begin(), response.end());
-
-    sendMessage(socket, result);
+    // std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
+    // std::vector<unsigned char> response = constructMessage(responseBuilder);
+    //
+    // std::string result(response.begin(), response.end());
+    //
+    // sendMessage(socket, result);
     // send(socket, response.data(), response.size(), 0);
 
     return;
