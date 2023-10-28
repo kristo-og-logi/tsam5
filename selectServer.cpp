@@ -120,10 +120,9 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    std::string invalidMessage = "ERROR";
-    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
+	std::cout << "Received (" << serverSocket << "): " << message << std::endl;
 
-    if (message == "ERROR")
+    if (message.find("ERROR") != std::string::npos)
         return handleERROR(serverSocket, message);
 
     size_t firstCommaIndex = message.find(',');
@@ -132,7 +131,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         std::cout << "Invalid message received from (" << serverSocket
                   << "): " << message << std::endl;
         // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
-        sendMessage(serverSocket, invalidMessage);
+        sendMessage(serverSocket, "ERROR");
         return;
     }
 

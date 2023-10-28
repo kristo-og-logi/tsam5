@@ -53,7 +53,7 @@ constructMessage(std::vector<std::string> command_msg) {
 }
 
 void handleERROR(int socket, const std::string message) {
-    std::cout << "ERROR received from (" << socket << ")" << std::endl;
+    std::cerr << "ERROR received from (" << socket << ")" << std::endl;
     return;
 }
 
