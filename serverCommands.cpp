@@ -214,12 +214,16 @@ void handleSEND_MSG(int socket, const std::string data,
         if (instructorSockets.size() != 0) {
             std::vector<unsigned char> response = constructMessage(
                 {"Sent messages to Instructor, GROUP was unknown"});
+            std::string updateResult(response.begin(), response.end());
 
-            std::string result(response.begin(), response.end());
+            std::string result(buffer.begin(), buffer.end());
+
 
             for (int instrSock : instructorSockets) {
                 sendMessage(instrSock, result);
             }
+
+            sendMessage(socket, updateResult);
         } else {
             std::vector<unsigned char> response =
                 constructMessage({"Could not send message, GROUP was unknown"});
