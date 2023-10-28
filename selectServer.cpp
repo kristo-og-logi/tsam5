@@ -120,10 +120,9 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    std::string invalidMessage = "ERROR";
-    invalidMessage = (char)0x02 + invalidMessage + (char)0x03;
+	std::cout << "Received (" << serverSocket << "): " << message << std::endl;
 
-    if (message == "ERROR")
+    if (message.find("ERROR") != std::string::npos)
         return handleERROR(serverSocket, message);
 
     size_t firstCommaIndex = message.find(',');
@@ -132,7 +131,7 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         std::cout << "Invalid message received from (" << serverSocket
                   << "): " << message << std::endl;
         // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
-        sendMessage(serverSocket, invalidMessage);
+        sendMessage(serverSocket, "ERROR");
         return;
     }
 
@@ -180,24 +179,28 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
     // Retrieve the IP address and port
     std::string clientIP = inet_ntoa(socketAddress.sin_addr);
 
+    Client *newClient =
+        new Client(newSocketConnection, clientType, clientIP, -1);
+
+    if (clientType == ClientType::SERVER) {
+        if (servers.size() >= groupSixServer.maxConnections) {
+            // our server has reached max capacity, disconnect from server
+            std::cout << "declined incoming connection from " << clientIP
+                      << ". MAX connections hit" << std::endl;
+            close(newSocketConnection);
+            return;
+        }
+        servers.insert(newClient);
+        sendQUERYSERVERS(serverPort, newSocketConnection, groupSixServer);
+    } else
+        clients.insert(newClient);
+
     // Add new client to the list of open sockets
     FD_SET(newSocketConnection, openSockets);
     *maxfds = std::max(*maxfds, newSocketConnection);
 
-    Client *newClient =
-        new Client(newSocketConnection, clientType, clientIP, -1);
-
-    if (clientType == ClientType::CLIENT)
-        clients.insert(newClient);
-    else
-        servers.insert(newClient);
-
     std::cout << newClient->clientTypeToString() << " " << newSocketConnection
               << " connected from " << clientIP << std::endl;
-
-    // Send a message to the client
-    if (clientType == ClientType::SERVER)
-        sendQUERYSERVERS(serverPort, newSocketConnection, groupSixServer);
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
