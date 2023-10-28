@@ -249,7 +249,7 @@ int main(int argc, char *argv[]) {
     fd_set openSockets, readSockets,
         exceptSockets; // open, listed, and exception sockets.
     int basemaxfds, maxfds, socketsReady, serverSocket, clientSocket;
-    char buffer[1025]; // buffer for reading from clients
+    char buffer[5000]; // buffer for reading from clients
     auto start = std::chrono::steady_clock::now();
     groupSixServer.serverName = "P3_GROUP_6";
 
