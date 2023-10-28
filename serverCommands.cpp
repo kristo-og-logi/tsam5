@@ -171,13 +171,16 @@ void handleSEND_MSG(int socket, const std::string data,
 
     int messageSent = 0;
 
-    std::string toGroup, fromGroup, content;
+    std::string toGroup, fromGroup;
     std::string command = "SEND_MSG";
 
     std::stringstream ss(data);
     std::getline(ss, toGroup, ',');
     std::getline(ss, fromGroup, ',');
-    std::getline(ss, content);
+
+    std::string content((std::istreambuf_iterator<char>(ss)),
+                        std::istreambuf_iterator<char>());
+
 
     if (toGroup == myServer.serverName) {
         myServer.addMessage(fromGroup, content);
@@ -217,7 +220,6 @@ void handleSEND_MSG(int socket, const std::string data,
             std::string updateResult(response.begin(), response.end());
 
             std::string result(buffer.begin(), buffer.end());
-
 
             for (int instrSock : instructorSockets) {
                 sendMessage(instrSock, result);
