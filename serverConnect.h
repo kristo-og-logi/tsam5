@@ -10,9 +10,10 @@
 #include <unistd.h>     // For close()
 
 #include "Client.h"
+#include "ServerSettings.h"
 
-void sendQUERYSERVERS(int serverPort, int sock);
+void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer);
 
-Client *connectToServer(std::string &data, int serverPort);
+Client *connectToServer(std::string &data, int serverPort, ServerSettings &myServer);
 
 #endif // SERVER_CONNECT_H

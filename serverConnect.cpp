@@ -7,9 +7,10 @@
 #include "ip.h"
 #include "serverConnect.h"
 #include "sendMessage.h"
+#include "ServerSettings.h"
 
-void sendQUERYSERVERS(int serverPort, int sock) {
-    std::string message = "QUERYSERVERS,P3_GROUP_6," + getMyIp() + "," +
+void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer) {
+    std::string message = "QUERYSERVERS," + myServer.serverName + "," + getMyIp() + "," +
                           std::to_string(serverPort);
 
     message.insert(0, 1, char(0x02));
@@ -19,7 +20,7 @@ void sendQUERYSERVERS(int serverPort, int sock) {
 	sendMessage(sock, message);
 }
 
-Client *connectToServer(std::string &data, int serverPort) {
+Client *connectToServer(std::string &data, int serverPort, ServerSettings &myServer) {
     size_t firstCommaIndex = data.find(",");
 
     if (firstCommaIndex == std::string::npos) {
@@ -38,7 +39,7 @@ Client *connectToServer(std::string &data, int serverPort) {
     if (sock < 0)
         return nullptr;
 
-    sendQUERYSERVERS(serverPort, sock);
+    sendQUERYSERVERS(serverPort, sock, myServer);
 
     Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
     return newClient;

@@ -171,13 +171,16 @@ void handleSEND_MSG(int socket, const std::string data,
 
     int messageSent = 0;
 
-    std::string toGroup, fromGroup, content;
+    std::string toGroup, fromGroup;
     std::string command = "SEND_MSG";
 
     std::stringstream ss(data);
     std::getline(ss, toGroup, ',');
     std::getline(ss, fromGroup, ',');
-    std::getline(ss, content);
+
+    std::string content((std::istreambuf_iterator<char>(ss)),
+                        std::istreambuf_iterator<char>());
+
 
     if (toGroup == myServer.serverName) {
         myServer.addMessage(fromGroup, content);
@@ -185,6 +188,7 @@ void handleSEND_MSG(int socket, const std::string data,
         return;
     }
 
+    std::vector<int> instructorSockets = {};
     std::vector<std::string> command_msg = {command, toGroup, fromGroup,
                                             content};
     std::vector<unsigned char> buffer = constructMessage(command_msg);
@@ -204,15 +208,31 @@ void handleSEND_MSG(int socket, const std::string data,
             sendMessage(socket, successResult);
             messageSent = 1;
         }
+        if (server->name.find("Instr_") != std::string::npos) {
+            instructorSockets.push_back(server->sock);
+        }
     }
 
     if (messageSent == 0) {
-        std::vector<unsigned char> response =
-            constructMessage({"Could not send message"});
+        if (instructorSockets.size() != 0) {
+            std::vector<unsigned char> response = constructMessage(
+                {"Sent messages to Instructor, GROUP was unknown"});
+            std::string updateResult(response.begin(), response.end());
 
-        // send(socket, response.data(), response.size(), 0);
-        std::string result(response.begin(), response.end());
-        sendMessage(socket, result);
+            std::string result(buffer.begin(), buffer.end());
+
+            for (int instrSock : instructorSockets) {
+                sendMessage(instrSock, result);
+            }
+
+            sendMessage(socket, updateResult);
+        } else {
+            std::vector<unsigned char> response =
+                constructMessage({"Could not send message, GROUP was unknown"});
+
+            std::string result(response.begin(), response.end());
+            sendMessage(socket, result);
+        }
 
         for (Client *unkownServer : unknownServers) {
             if (unkownServer->name == toGroup) {
@@ -302,12 +322,12 @@ void handleUNSUPPORTED(int socket, const std::string command,
     std::cout << "unsupported server command: " << command << " received"
               << std::endl;
 
-    std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
-    std::vector<unsigned char> response = constructMessage(responseBuilder);
-
-    std::string result(response.begin(), response.end());
-
-    sendMessage(socket, result);
+    // std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
+    // std::vector<unsigned char> response = constructMessage(responseBuilder);
+    //
+    // std::string result(response.begin(), response.end());
+    //
+    // sendMessage(socket, result);
     // send(socket, response.data(), response.size(), 0);
 
     return;
