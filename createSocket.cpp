@@ -71,7 +71,9 @@ int createListenSocket(int listenPort, struct sockaddr_in addr) {
 }
 
 int createConnection(std::string outIp, int outPort, struct sockaddr_in addr) {
+	std::cerr << "# creating socket" << std::endl;
     int sock = createSocket(outPort, addr);
+	std::cout << "# socket created" << std::endl;
 
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -81,14 +83,14 @@ int createConnection(std::string outIp, int outPort, struct sockaddr_in addr) {
     // Connect to the server
     if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
         if (errno != EINPROGRESS) {
-            std::cerr << "Failed to connect: " << std::strerror(errno)
+            std::cerr << sock << "| Failed to connect: " << std::strerror(errno)
                       << std::endl;
             close(sock);
             return -1;
         }
     }
 
-    std::cout << "Connected to server " << outIp << ":" << outPort << std::endl;
+    std::cout << sock << "| Connected to server " << outIp << ":" << outPort << std::endl;
 
     return sock;
 }
