@@ -185,6 +185,7 @@ void handleSEND_MSG(int socket, const std::string data,
         return;
     }
 
+    std::vector<int> instructorSockets = {};
     std::vector<std::string> command_msg = {command, toGroup, fromGroup,
                                             content};
     std::vector<unsigned char> buffer = constructMessage(command_msg);
@@ -204,15 +205,28 @@ void handleSEND_MSG(int socket, const std::string data,
             sendMessage(socket, successResult);
             messageSent = 1;
         }
+        if (server->name.find("Instr_") != std::string::npos) {
+            instructorSockets.push_back(server->sock);
+        }
     }
 
     if (messageSent == 0) {
-        std::vector<unsigned char> response =
-            constructMessage({"Could not send message"});
+        if (instructorSockets.size() != 0) {
+            std::vector<unsigned char> response = constructMessage(
+                {"Sent messages to Instructor, GROUP was unknown"});
 
-        // send(socket, response.data(), response.size(), 0);
-        std::string result(response.begin(), response.end());
-        sendMessage(socket, result);
+            std::string result(response.begin(), response.end());
+
+            for (int instrSock : instructorSockets) {
+                sendMessage(instrSock, result);
+            }
+        } else {
+            std::vector<unsigned char> response =
+                constructMessage({"Could not send message, GROUP was unknown"});
+
+            std::string result(response.begin(), response.end());
+            sendMessage(socket, result);
+        }
 
         for (Client *unkownServer : unknownServers) {
             if (unkownServer->name == toGroup) {
