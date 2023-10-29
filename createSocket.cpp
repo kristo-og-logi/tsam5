@@ -1,5 +1,7 @@
 #include <arpa/inet.h>
+#include <chrono>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -90,8 +92,13 @@ int createConnection(std::string outIp, int outPort, struct sockaddr_in addr) {
         }
     }
 
-    std::cout << sock << "| Connected to server " << outIp << ":" << outPort
-              << std::endl;
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << std::put_time(std::localtime(&currentTime),
+                               "%Y-%m-%d %H:%M:%S")
+              << " | " << sock << " | Connected to server " << outIp << ":"
+              << outPort << std::endl;
 
     return sock;
 }

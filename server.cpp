@@ -2,6 +2,7 @@
 #include <arpa/inet.h> // for inet_ntoa
 #include <chrono>
 #include <cstring>
+#include <iomanip>
 #include <iostream>     // for std::cout + endl + cerr
 #include <list>         // for std::list
 #include <netinet/in.h> // for sockaddr_in
@@ -31,7 +32,13 @@ std::set<Client *> newServers;     // servers which have been newly connected
 
 void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
                  int *basemaxfds, ServerSettings &myServer) {
-    std::cout << client->sock << "| " << client->clientTypeToString()
+
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << std::put_time(std::localtime(&currentTime),
+                               "%Y-%m-%d %H:%M:%S")
+              << " | " << client->sock << " | " << client->clientTypeToString()
               << " disconnected" << std::endl;
 
     close(client->sock);
@@ -85,11 +92,17 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     if (message == "LISTSERVERS")
         return handleLISTSERVERS(clientSocket, servers, groupSixServer);
 
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
     // under here, we should only have commands which must include comma's.
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << "Invalid message received from client (" << clientSocket
+        std::cout << std::put_time(std::localtime(&currentTime),
+                                   "%Y-%m-%d %H:%M:%S")
+                  << " | "
+                  << "Invalid message received from client (" << clientSocket
                   << "): " << message << std::endl;
         // send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
         sendMessage(clientSocket, "ERROR");
@@ -120,7 +133,14 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    std::cout << serverSocket << "| Received: " << message << std::endl;
+
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << std::put_time(std::localtime(&currentTime),
+                               "%Y-%m-%d %H:%M:%S")
+              << " | " << serverSocket << " | Received: " << message
+              << std::endl;
 
     if (message.find("ERROR") != std::string::npos)
         return handleERROR(serverSocket, message);
@@ -128,7 +148,10 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     size_t firstCommaIndex = message.find(',');
 
     if (firstCommaIndex == std::string::npos) {
-        std::cout << "Invalid message received from server (" << serverSocket
+        std::cout << std::put_time(std::localtime(&currentTime),
+                                   "%Y-%m-%d %H:%M:%S")
+                  << " | "
+                  << "Invalid message received from server (" << serverSocket
                   << "): " << message << std::endl;
         // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
         sendMessage(serverSocket, "ERROR");
@@ -170,10 +193,16 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
                       int serverPort) {
     socklen_t clientLen = sizeof(socketAddress);
 
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
     int newSocketConnection =
         accept(socket, (struct sockaddr *)&socketAddress, &clientLen);
     if (newSocketConnection == -1) {
-        std::cerr << "Failed to accept client." << std::endl;
+        std::cerr << std::put_time(std::localtime(&currentTime),
+                                   "%Y-%m-%d %H:%M:%S")
+                  << " | "
+                  << "Failed to accept client." << std::endl;
         return;
     }
 
@@ -186,7 +215,10 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
     if (clientType == ClientType::SERVER) {
         if (servers.size() >= groupSixServer.maxConnections) {
             // our server has reached max capacity, disconnect from server
-            std::cout << "declined incoming connection from " << clientIP
+            std::cout << std::put_time(std::localtime(&currentTime),
+                                       "%Y-%m-%d %H:%M:%S")
+                      << " | "
+                      << "declined incoming connection from " << clientIP
                       << ". MAX connections hit" << std::endl;
             close(newSocketConnection);
             return;
@@ -200,8 +232,11 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
     FD_SET(newSocketConnection, openSockets);
     *maxfds = std::max(*maxfds, newSocketConnection);
 
-    std::cout << newSocketConnection << "| " << newClient->clientTypeToString()
-              << " connected from " << clientIP << std::endl;
+    std::cout << std::put_time(std::localtime(&currentTime),
+                               "%Y-%m-%d %H:%M:%S")
+              << " | " << newSocketConnection << " | "
+              << newClient->clientTypeToString() << " connected from "
+              << clientIP << std::endl;
 };
 
 void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
@@ -215,11 +250,17 @@ void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
         return;
     }
 
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
     std::string newBuffer(buffer);
     std::vector<std::string> messages = splitMessages(newBuffer);
 
     if (messages.size() > 1)
-        std::cout << "received " << messages.size() << " messages from client "
+        std::cout << std::put_time(std::localtime(&currentTime),
+                                   "%Y-%m-%d %H:%M:%S")
+                  << " | "
+                  << "received " << messages.size() << " messages from client "
                   << client->sock << std::endl;
 
     for (const auto &message : messages)
@@ -240,8 +281,14 @@ void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
     std::string newBuffer(buffer);
     std::vector<std::string> messages = splitMessages(newBuffer);
 
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
     if (messages.size() > 1)
-        std::cout << "received " << messages.size() << " messages from server "
+        std::cout << std::put_time(std::localtime(&currentTime),
+                                   "%Y-%m-%d %H:%M:%S")
+                  << " | "
+                  << "received " << messages.size() << " messages from server "
                   << server->sock << std::endl;
 
     for (const auto &message : messages)
@@ -345,8 +392,13 @@ int main(int argc, char *argv[]) {
         // add servers created during this execution cycle to the set of
         // servers.
         for (auto const &newS : newServers) {
-            std::cout << newS->sock << "| adding server " << newS->toString()
-                      << " to servers set" << std::endl;
+            auto now = std::chrono::system_clock::now();
+            std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+            std::cout << std::put_time(std::localtime(&currentTime),
+                                       "%Y-%m-%d %H:%M:%S")
+                      << " | " << newS->sock << " | adding server "
+                      << newS->toString() << " to servers set" << std::endl;
             FD_SET(newS->sock, &openSockets);
             servers.insert(newS);
             maxfds = std::max(maxfds, newS->sock);
