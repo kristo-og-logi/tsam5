@@ -1,24 +1,18 @@
-.PHONY: server client selectServer selectClient findMyIp
+.PHONY: server client findMyIp
 
 server:
-	g++ -std=c++11 server.cpp -o server && ./server
+	g++ -std=c++11 Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp selectServer.cpp -o tsamgroup6 && ./tsamgroup6 4000 4001
 
 client:
-	g++ -std=c++11 example_client.cpp -o client && ./client 127.0.0.1 4044 
+	g++ -std=c++11 client.cpp -o client && ./client 127.0.0.1 4001
 
+# server compile 
+scompile:
+	g++ -std=c++11 Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp server.cpp -o tsamgroup6
 
-selectServer:
-	g++ -std=c++11 Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp selectServer.cpp -o selectServer && ./selectServer 4000 4001
-
-selectClient:
-	g++ -std=c++11 selectClient.cpp -o selectClient && ./selectClient 127.0.0.1 4001
-
-compileServer:
-	g++ -std=c++11 Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp selectServer.cpp -o selectServer
-
-compileClient:
-	g++  -lpthread -std=c++11 selectClient.cpp -o selectClient
-
+# client compile 
+ccompile:
+	g++  -lpthread -std=c++11 client.cpp -o client
 
 findMyIp:
 	g++ -std=c++11 findMyIp.cpp -o findMyIp && ./findMyIp

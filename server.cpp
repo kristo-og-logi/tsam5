@@ -1,239 +1,368 @@
-#include <algorithm>
-#include <arpa/inet.h>
-#include <errno.h>
-#include <list>
-#include <map>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/ip.h>
-#include <netinet/tcp.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <vector>
+#include <algorithm>   // for find_if on linux
+#include <arpa/inet.h> // for inet_ntoa
+#include <chrono>
+#include <cstring>
+#include <iostream>     // for std::cout + endl + cerr
+#include <list>         // for std::list
+#include <netinet/in.h> // for sockaddr_in
+#include <queue>
+#include <set>          // for storing sockets
+#include <sstream>      // for stream()
+#include <sys/socket.h> // for socket, listen, send
+#include <unistd.h>     // for close
 
-#include <iostream>
-#include <sstream>
-#include <thread>
+// importing helper files
 
-// fix SOCK_NONBLOCK for OSX
-#ifndef SOCK_NONBLOCK
-#include <fcntl.h>
-#define SOCK_NONBLOCK O_NONBLOCK
-#endif
+#include "Client.h"
+#include "ServerSettings.h"
+#include "clientCommands.h"
+#include "createSocket.h"
+#include "ip.h"
+#include "sendMessage.h"
+#include "serverCommands.h"
+#include "serverConnect.h"
 
-#define BACKLOG 5 // Allowed length of queue of waiting connections
+ServerSettings groupSixServer;
 
-std::mutex serverThreadsMutex;
-std::condition_variable serverThreadsCondition;
-int activeServerThreads = 0;
-const int maxServerThreads = 10;
+std::set<Client *> unknownServers; // Set for for unknownServers
+std::set<Client *> servers;        // Lookup table for servers
+std::set<Client *> clients;        // Lookup table for clients
+std::set<Client *> newServers;     // servers which have been newly connected
 
-typedef struct {
-  int sock;
-  std::string name;
-} Client;
+void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
+                 int *basemaxfds, ServerSettings &myServer) {
+    std::cout << client->clientTypeToString() << " " << client->sock
+              << " disconnected" << std::endl;
 
-std::map<int, Client> clients;
-std::map<int, Client> servers;
+    close(client->sock);
+    myServer.eraseServer(client->name);
 
-int open_socket(int portno) {
-  struct sockaddr_in sk_addr; // address settings for bind()
-  int sock;                   // socket opened for this port
-  int set = 1;                // for setsockopt
+    if (*maxfds == client->sock) {
+        *maxfds = *basemaxfds; // reinitialize the max fd
+        // check the clients for maxfd
+        for (Client *c : clients)
+            if (client->sock != c->sock)
+                *maxfds = std::max(*maxfds, c->sock);
 
-  // Create socket for connection. Set to be non-blocking, so recv will
-  // return immediately if there isn't anything waiting to be read.
-#ifdef __APPLE__
-  if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-    perror("Failed to open socket");
-    return (-1);
-  }
-#else
-  if ((sock = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)) < 0) {
-    perror("Failed to open socket");
-    return (-1);
-  }
-#endif
+        // check the servers for maxfd
+        for (Client *s : servers)
+            if (client->sock != s->sock)
+                *maxfds = std::max(*maxfds, s->sock);
+    }
 
-  // Turn on SO_REUSEADDR to allow socket to be quickly reused after
-  // program exit.
-
-  if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &set, sizeof(set)) < 0) {
-    perror("Failed to set SO_REUSEADDR:");
-  }
-
-  // Turn on SO_REUSEPORT so kristofer's mac can run code,
-  // as first seen in https://piazza.com/class/llmkmqion5w282/post/208
-  set = 1;
-  if (setsockopt(sock, SOL_SOCKET, SO_REUSEPORT, &set, sizeof(set)) < 0) {
-    perror("Failed to set SO_REUSEADDR:");
-  }
-  set = 1;
-#ifdef __APPLE__
-  if (setsockopt(sock, SOL_SOCKET, SOCK_NONBLOCK, &set, sizeof(set)) < 0) {
-    perror("Failed to set SOCK_NOBBLOCK");
-  }
-#endif
-  memset(&sk_addr, 0, sizeof(sk_addr));
-
-  sk_addr.sin_family = AF_INET;
-  sk_addr.sin_addr.s_addr = INADDR_ANY;
-  sk_addr.sin_port = htons(portno);
-
-  // Bind to socket to listen for connections from clients
-
-  if (bind(sock, (struct sockaddr *)&sk_addr, sizeof(sk_addr)) < 0) {
-    perror("Failed to bind to socket:");
-    return (-1);
-  }
-
-  if (listen(sock, SOMAXCONN) <
-      0) { // SOMAXCONN is the maximum number of queued connections
-    std::cerr << "Listen failed!" << std::endl;
-    close(sock);
-    return -1;
-  }
-
-  return (sock);
+    // remove the socket from the list of open sockets.
+    FD_CLR(client->sock, openSockets);
 }
 
-/*
- * @description Close client that is connected to the server
- * @param int clientsocketfd
- */
-void closeClient(int clientSocket) {}
+std::vector<std::string> splitMessages(const std::string &buffer) {
+    std::vector<std::string> messages;
+    size_t start = 0, end = 0;
 
-/*
- * @description Server handling of client commands
- * @param int socketfd
- * @param char * buffer
- */
-void clientCommand(int clientsocket, char *buffer) {}
+    while (start < buffer.size()) {
+        // Find the beginning and the end of the message
+        start = buffer.find((char)0x02, start);
+        end = buffer.find((char)0x03, start);
 
-/*
- * @description Server handling other server commands
- * @param int sockfd
- * @param char * buffer
- */
-void serverCommand(int clientsocket, char *buffer) {}
+        if (start == std::string::npos || end == std::string::npos) {
+            // Error: Incomplete message in buffer
+            std::cerr << "Error: Incomplete message found." << std::endl;
+            break; // Break out of loop if we don't find a valid STX or ETX
+        }
 
-/*
- * @description Handle server communications, encapsulates server to server
- * logic
- * @param int socketfd
- */
-int handleServer(int sock) {
-  std::cout << "This is server:" << sock << std::endl;
-  return 0;
+        // Extract the message excluding STX and ETX and push to the vector
+        messages.push_back(buffer.substr(start + 1, end - start - 1));
+
+        // Move the start position past the current ETX for the next iteration
+        start = end + 1;
+    }
+
+    return messages;
 }
 
-/*
- * @description Handle client communications with the server, encapsulates
- * client to server logic
- * @param int socketfd
- */
-int handleClient(int sock) {
-  std::cout << "This is client:" << sock << std::endl;
-  return 0;
+void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
+                   std::string message, int serverPort) {
+
+    if (message == "LISTSERVERS")
+        return handleLISTSERVERS(clientSocket, servers, groupSixServer);
+
+    // under here, we should only have commands which must include comma's.
+    size_t firstCommaIndex = message.find(',');
+
+    if (firstCommaIndex == std::string::npos) {
+        std::cout << "Invalid message received from client (" << clientSocket
+                  << "): " << message << std::endl;
+        // send(clientSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        sendMessage(clientSocket, "ERROR");
+        return;
+    }
+
+    std::string command = message.substr(0, firstCommaIndex);
+    std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
+
+    if (command == "CONNECT") {
+        Client *newClient =
+            handleCONNECT(clientSocket, data, serverPort, groupSixServer);
+        if (newClient != nullptr)
+            newServers.insert(newClient);
+        return;
+    }
+
+    else if (command == "GETMSG")
+        return handleGETMSG(clientSocket, data, groupSixServer);
+
+    else if (command == "SENDMSG")
+        return handleSENDMSG(clientSocket, data, servers, unknownServers,
+                             groupSixServer);
+
+    else
+        return handleUNSUPPORTEDCLIENT(clientSocket, command);
 }
 
-/*
- * @description Accept incoming server connection requests
- * @param int listensocket
- */
-int acceptServerConnection(int listenSocket) {
-  struct sockaddr_in serverAddress;
-  socklen_t serverLen = sizeof(serverAddress);
+void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
+                   std::string message, int serverPort) {
+    std::cout << "Received (" << serverSocket << "): " << message << std::endl;
 
-  int serverSocket =
-      accept(listenSocket, (struct sockaddr *)&serverAddress, &serverLen);
+    if (message.find("ERROR") != std::string::npos)
+        return handleERROR(serverSocket, message);
 
-  if (serverSocket < 0) {
-    // std::cerr << "Failed to accept connection" << std::endl;
-    return -1;
-  }
-  std::cout << "Connection accepted" << std::endl;
+    size_t firstCommaIndex = message.find(',');
 
-  Client newServer;
-  newServer.sock = serverSocket;
-  newServer.name = "Server" + std::to_string(serverSocket);
+    if (firstCommaIndex == std::string::npos) {
+        std::cout << "Invalid message received from server (" << serverSocket
+                  << "): " << message << std::endl;
+        // send(serverSocket, invalidMessage.c_str(), invalidMessage.size(), 0);
+        sendMessage(serverSocket, "ERROR");
+        return;
+    }
 
-  servers[serverSocket] = newServer;
+    std::string command = message.substr(0, firstCommaIndex);
+    std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
-  return serverSocket;
+    if (command == "SERVERS")
+        return handleSERVERS(serverSocket, data, servers);
+
+    if (command == "KEEPALIVE")
+        return handleKEEPALIVE(serverSocket, data, servers, groupSixServer);
+
+    else if (command == "QUERYSERVERS")
+        return handleQUERYSERVERS(serverSocket, data, servers, serverPort);
+
+    else if (command == "FETCH_MSGS")
+        return handleFETCH_MSGS(serverSocket, data, servers);
+
+    else if (command == "SEND_MSG")
+        return handleSEND_MSG(serverSocket, data, servers, unknownServers,
+                              groupSixServer);
+
+    else if (command == "STATUSREQ")
+        return handleSTATUSREQ(serverSocket, data, servers, groupSixServer);
+
+    else if (command == "STATUSRESP")
+        return handleSTATUSRESP(serverSocket, data, servers, groupSixServer);
+
+    else
+        return handleUNSUPPORTED(serverSocket, command, data);
 }
 
-/*
- * @description Accept incoming client connection requests
- * @param int listensocket
- */
-int acceptClientConnection(int listenSocket) {
-  struct sockaddr_in clientAddress;
-  socklen_t clientLen = sizeof(clientAddress);
+void acceptConnection(int socket, sockaddr_in socketAddress,
+                      fd_set *openSockets, int *maxfds, ClientType clientType,
+                      int serverPort) {
+    socklen_t clientLen = sizeof(socketAddress);
 
-  int clientSocket =
-      accept(listenSocket, (struct sockaddr *)&clientAddress, &clientLen);
+    int newSocketConnection =
+        accept(socket, (struct sockaddr *)&socketAddress, &clientLen);
+    if (newSocketConnection == -1) {
+        std::cerr << "Failed to accept client." << std::endl;
+        return;
+    }
 
-  if (clientSocket < 0) {
-    // std::cerr << "Failed to accept connection" << std::endl;
-    return -1;
-  }
-  std::cout << "Connection accepted" << std::endl;
+    // Retrieve the IP address and port
+    std::string clientIP = inet_ntoa(socketAddress.sin_addr);
 
-  Client newClient;
-  newClient.sock = clientSocket;
-  newClient.name = "Server" + std::to_string(clientSocket);
+    Client *newClient =
+        new Client(newSocketConnection, clientType, clientIP, -1);
 
-  servers[clientSocket] = newClient;
+    if (clientType == ClientType::SERVER) {
+        if (servers.size() >= groupSixServer.maxConnections) {
+            // our server has reached max capacity, disconnect from server
+            std::cout << "declined incoming connection from " << clientIP
+                      << ". MAX connections hit" << std::endl;
+            close(newSocketConnection);
+            return;
+        }
+        servers.insert(newClient);
+        sendQUERYSERVERS(serverPort, newSocketConnection, groupSixServer);
+    } else
+        clients.insert(newClient);
 
-  return clientSocket;
-}
+    // Add new client to the list of open sockets
+    FD_SET(newSocketConnection, openSockets);
+    *maxfds = std::max(*maxfds, newSocketConnection);
+
+    std::cout << newClient->clientTypeToString() << " " << newSocketConnection
+              << " connected from " << clientIP << std::endl;
+};
+
+void handleClientMessage(Client *const &client, char *buffer, int bufferSize,
+                         fd_set *openSockets,
+                         std::list<Client *> &disconnectedClients, int *maxfds,
+                         int *basemaxfds, int serverPort,
+                         ServerSettings &myServer) {
+    if (recv(client->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
+        disconnectedClients.push_back(client);
+        closeClient(client, openSockets, maxfds, basemaxfds, myServer);
+        return;
+    }
+
+    std::string newBuffer(buffer);
+    std::vector<std::string> messages = splitMessages(newBuffer);
+
+    if (messages.size() > 1)
+        std::cout << "received " << messages.size() << " messages from client "
+                  << client->sock << std::endl;
+
+    for (const auto &message : messages)
+        clientCommand(client->sock, openSockets, maxfds, message, serverPort);
+};
+
+void handleServerMessage(Client *const &server, char *buffer, int bufferSize,
+                         fd_set *openSockets,
+                         std::list<Client *> &disconnectedServers, int *maxfds,
+                         int *basemaxfds, int serverPort,
+                         ServerSettings &myServer) {
+    // receive the message from the server
+    if (recv(server->sock, buffer, bufferSize, MSG_DONTWAIT) == 0) {
+        disconnectedServers.push_back(server);
+        closeClient(server, openSockets, maxfds, basemaxfds, myServer);
+        return;
+    }
+    std::string newBuffer(buffer);
+    std::vector<std::string> messages = splitMessages(newBuffer);
+
+    if (messages.size() > 1)
+        std::cout << "received " << messages.size() << " messages from server "
+                  << server->sock << std::endl;
+
+    for (const auto &message : messages)
+        serverCommand(server->sock, openSockets, maxfds, message, serverPort);
+};
 
 int main(int argc, char *argv[]) {
+    fd_set openSockets, readSockets,
+        exceptSockets; // open, listed, and exception sockets.
+    int basemaxfds, maxfds, socketsReady, serverSocket, clientSocket;
+    char buffer[5000]; // buffer for reading from clients
+    auto start = std::chrono::steady_clock::now();
+    groupSixServer.serverName = "P3_GROUP_6";
 
-  // these should come from argv
-  int serverPort = 4044;
-  int clientPort = 4022;
-  int serverSocket = open_socket(serverPort);
-  int clientSocket = open_socket(clientPort);
-
-  // Server thread
-  std::thread serverThread([&]() {
-    while (true) {
-      int acceptedServerSocket = acceptServerConnection(serverSocket);
-      if (acceptedServerSocket > 0) {
-        std::unique_lock<std::mutex> lock(serverThreadsMutex);
-
-        // Wait if we've reached the maximum number of threads.
-        serverThreadsCondition.wait(
-            lock, []() { return activeServerThreads < maxServerThreads; });
-
-        ++activeServerThreads;
-        lock.unlock();
-
-        std::thread handleServerThread(handleServer, acceptedServerSocket);
-        handleServerThread.detach();
-      }
+    if (argc != 3) {
+        printf("Usage: ./server <server port> <client port>\n");
+        exit(0);
     }
-  });
 
-  // Client thread
-  std::thread clientThread([&]() {
-    while (true) {
-      int acceptedClientSocket = acceptClientConnection(clientSocket);
-      if (acceptedClientSocket > 0) {
-        std::thread handleClientThread(handleClient, acceptedClientSocket);
-        handleClientThread.detach();
-      }
+    int serverPort = atoi(argv[1]);
+    int clientPort = atoi(argv[2]);
+    struct sockaddr_in server_addr, client_addr;
+
+    // Create socket
+    serverSocket = createListenSocket(serverPort, server_addr);
+    clientSocket = createListenSocket(clientPort, client_addr);
+
+    std::cout << "Server listening at ip " << getMyIp() << " on port "
+              << serverPort << " for servers and port " << clientPort
+              << " for clients..." << std::endl;
+
+    FD_ZERO(&openSockets);
+    FD_SET(serverSocket, &openSockets);
+    FD_SET(clientSocket, &openSockets);
+    basemaxfds = maxfds = std::max(serverSocket, clientSocket);
+
+    bool finished = false;
+    while (!finished) {
+        // Get modifiable copy of readSockets
+        readSockets = exceptSockets = openSockets;
+        memset(buffer, 0, sizeof(buffer)); // Initialize the buffer
+        auto now = std::chrono::steady_clock::now();
+
+        // Look at sockets and see which ones have something to be read()
+        if ((socketsReady = select(maxfds + 1, &readSockets, NULL,
+                                   &exceptSockets, NULL)) < 0) {
+            perror("select failed - closing down\n");
+            finished = true;
+            break;
+        }
+
+        if (FD_ISSET(clientSocket,
+                     &readSockets)) // we have a new client connection
+            acceptConnection(clientSocket, client_addr, &openSockets, &maxfds,
+                             ClientType::CLIENT, serverPort);
+
+        if (FD_ISSET(serverSocket,
+                     &readSockets)) // we have a new server connection
+            acceptConnection(serverSocket, server_addr, &openSockets, &maxfds,
+                             ClientType::SERVER, serverPort);
+
+        // Now check for commands from clients
+        std::list<Client *> disconnectedClients;
+        std::list<Client *> disconnectedServers;
+
+        for (auto const &client : clients)
+            if (FD_ISSET(client->sock, &readSockets))
+                handleClientMessage(client, buffer, sizeof(buffer),
+                                    &openSockets, disconnectedClients, &maxfds,
+                                    &basemaxfds, serverPort, groupSixServer);
+
+        for (Client *server : servers) {
+            auto it = std::find_if(
+                unknownServers.begin(), unknownServers.end(),
+                [server](const Client *unknownServer) {
+                    return *server == *unknownServer; // Assumes operator== is
+                                                      // defined for Client
+                });
+
+            if (it != unknownServers.end()) {
+                Client *unknownServer = *it;
+                server->messages = unknownServer->messages;
+                unknownServers.erase(it);
+            }
+        }
+
+        // Remove client from the clients list
+        for (auto const &c : disconnectedClients)
+            clients.erase(c);
+
+        for (auto const &server : servers)
+            if (FD_ISSET(server->sock, &readSockets))
+                handleServerMessage(server, buffer, sizeof(buffer),
+                                    &openSockets, disconnectedServers, &maxfds,
+                                    &basemaxfds, serverPort, groupSixServer);
+
+        // Remove client from the clients list
+        for (auto const &s : disconnectedServers)
+            servers.erase(s);
+
+        // add servers created during this execution cycle to the set of
+        // servers.
+        for (auto const &newS : newServers) {
+            std::cout << "adding server " << newS->toString()
+                      << " to servers set" << std::endl;
+            FD_SET(newS->sock, &openSockets);
+            servers.insert(newS);
+            maxfds = std::max(maxfds, newS->sock);
+        }
+        newServers.clear();
+
+        auto elapsed = now - start;
+        if (std::chrono::duration_cast<std::chrono::seconds>(elapsed).count() >
+            120) {
+            sendKEEPALIVE(servers);
+            start = std::chrono::steady_clock::now();
+        }
     }
-  });
 
-  // Join threads
-  serverThread.join();
-  clientThread.join();
-  return 0;
+    // Close sockets
+    close(serverSocket);
+    close(clientSocket);
+
+    return 0;
 }
