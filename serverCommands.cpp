@@ -11,24 +11,7 @@
 #include "ip.h"
 #include "sendMessage.h"
 #include "serverCommands.h"
-
-
-bool isConvertibleToInt(std::string &str, int &result) {
-    try {
-        result = std::stoi(str);
-        return true;
-    } catch (const std::invalid_argument &) {
-        // if no conversion could be performed
-        return false;
-    } catch (const std::out_of_range &) {
-        // if the converted value would fall out of the range of the result type
-        return false;
-    }
-    // for any other unexpected exceptions, return false
-    catch (...) {
-        return false;
-    }
-}
+#include "utils.h"
 
 std::vector<unsigned char>
 constructMessage(std::vector<std::string> command_msg) {
@@ -94,9 +77,10 @@ void sendKEEPALIVE(std::set<Client *> servers) {
 }
 
 void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers, int serverPort, ServerSettings &groupSixServer) {
-    std::string response = "SERVERS," + groupSixServer.serverName + "," + getMyIp() + "," +
-                           std::to_string(serverPort) + ";";
+                        const std::set<Client *> &servers, int serverPort,
+                        ServerSettings &groupSixServer) {
+    std::string response = "SERVERS," + groupSixServer.serverName + "," +
+                           getMyIp() + "," + std::to_string(serverPort) + ";";
 
     int commaIndex = data.find(",");
 
@@ -174,7 +158,6 @@ void handleSEND_MSG(int socket, const std::string data,
 
     std::string content((std::istreambuf_iterator<char>(ss)),
                         std::istreambuf_iterator<char>());
-
 
     if (toGroup == myServer.serverName) {
         myServer.addMessage(fromGroup, content);
@@ -311,8 +294,8 @@ void handleKEEPALIVE(int socket, const std::string data,
 
 void handleUNSUPPORTED(int socket, const std::string command,
                        const std::string data) {
-    std::cout << socket << "| unsupported server command: " << command << " received"
-              << std::endl;
+    std::cout << socket << "| unsupported server command: " << command
+              << " received" << std::endl;
 
     return;
 }
