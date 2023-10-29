@@ -31,7 +31,7 @@ std::set<Client *> newServers;     // servers which have been newly connected
 
 void closeClient(Client *const &client, fd_set *openSockets, int *maxfds,
                  int *basemaxfds, ServerSettings &myServer) {
-    std::cout << client->clientTypeToString() << " " << client->sock
+    std::cout << client->sock << "| " << client->clientTypeToString()
               << " disconnected" << std::endl;
 
     close(client->sock);
@@ -120,7 +120,7 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
 
 void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
                    std::string message, int serverPort) {
-    std::cout << "Received (" << serverSocket << "): " << message << std::endl;
+    std::cout << serverSocket << "| Received: " << message << std::endl;
 
     if (message.find("ERROR") != std::string::npos)
         return handleERROR(serverSocket, message);
@@ -145,7 +145,8 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
         return handleKEEPALIVE(serverSocket, data, servers, groupSixServer);
 
     else if (command == "QUERYSERVERS")
-        return handleQUERYSERVERS(serverSocket, data, servers, serverPort, groupSixServer);
+        return handleQUERYSERVERS(serverSocket, data, servers, serverPort,
+                                  groupSixServer);
 
     else if (command == "FETCH_MSGS")
         return handleFETCH_MSGS(serverSocket, data, servers);
@@ -199,7 +200,7 @@ void acceptConnection(int socket, sockaddr_in socketAddress,
     FD_SET(newSocketConnection, openSockets);
     *maxfds = std::max(*maxfds, newSocketConnection);
 
-    std::cout << newClient->clientTypeToString() << " " << newSocketConnection
+    std::cout << newSocketConnection << "| " << newClient->clientTypeToString()
               << " connected from " << clientIP << std::endl;
 };
 
@@ -344,7 +345,7 @@ int main(int argc, char *argv[]) {
         // add servers created during this execution cycle to the set of
         // servers.
         for (auto const &newS : newServers) {
-            std::cout << "adding server " << newS->toString()
+            std::cout << newS->sock << "| adding server " << newS->toString()
                       << " to servers set" << std::endl;
             FD_SET(newS->sock, &openSockets);
             servers.insert(newS);
