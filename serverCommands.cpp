@@ -102,13 +102,23 @@ void handleSERVERS(int socket, const std::string data,
 
         // are we already connected to this server
         bool isValid = true;
-        for (Client *connectedServer : servers) {
-
+        for (Client *connectedServer : servers)
             if (connectedServer->name == serverData[0]) {
                 isValid = false;
                 break;
             }
-        }
+
+        if (!isValid)
+            continue;
+
+        // We can't trust that within a single SERVERS response, two of the same
+        // servers can't appear
+        for (Client *unconnectedServer : newServers)
+            if (unconnectedServer->ip == serverData[1] &&
+                unconnectedServer->port == serverDataPort) {
+                isValid = false;
+                break;
+            }
 
         if (!isValid)
             continue;
