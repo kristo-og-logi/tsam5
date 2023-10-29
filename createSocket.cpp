@@ -1,9 +1,9 @@
 #include <arpa/inet.h>
+#include <cstring>
 #include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <cstring>
 
 // fix SOCK_NONBLOCK for OSX
 #ifndef SOCK_NONBLOCK
@@ -79,16 +79,19 @@ int createConnection(std::string outIp, int outPort, struct sockaddr_in addr) {
     addr.sin_addr.s_addr = inet_addr(outIp.c_str());
 
     // Connect to the server
-    if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+    int connectStatus = connect(sock, (struct sockaddr *)&addr, sizeof(addr));
+
+    if (connectStatus == -1) {
         if (errno != EINPROGRESS) {
-            std::cerr << "Failed to connect: " << std::strerror(errno)
+            std::cerr << sock << "| Failed to connect: " << std::strerror(errno)
                       << std::endl;
             close(sock);
             return -1;
         }
     }
 
-    std::cout << "Connected to server " << outIp << ":" << outPort << std::endl;
+    std::cout << sock << "| Connected to server " << outIp << ":" << outPort
+              << std::endl;
 
     return sock;
 }

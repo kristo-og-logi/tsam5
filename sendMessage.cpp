@@ -28,5 +28,5 @@ void sendMessage(int socket, std::string message) {
         std::cout << "CHECK THIS: tried sending data to a closed connection ("
                   << socket << ")" << std::endl;
     else
-        std::cout << "Sent (" << socket << "): " << message << std::endl;
+        std::cout << socket << "| Sent: " << message << std::endl;
 }

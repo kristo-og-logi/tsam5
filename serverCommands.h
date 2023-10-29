@@ -22,7 +22,7 @@ void handleKEEPALIVE(int socket, const std::string data,
                      ServerSettings &myServer);
 
 void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers, int serverPort);
+                        const std::set<Client *> &servers, int serverPort, ServerSettings &groupSixServer);
 
 void handleFETCH_MSGS(int socket, const std::string data,
                       const std::set<Client *> &servers);

@@ -12,7 +12,6 @@
 #include "sendMessage.h"
 #include "serverCommands.h"
 
-const std::string GROUP_NAME = "P3_GROUP_6";
 
 bool isConvertibleToInt(std::string &str, int &result) {
     try {
@@ -53,14 +52,12 @@ constructMessage(std::vector<std::string> command_msg) {
 }
 
 void handleERROR(int socket, const std::string message) {
-    std::cerr << "ERROR received from (" << socket << ")" << std::endl;
+    std::cerr << socket << "| ERROR received: " << message << std::endl;
     return;
 }
 
 void handleSERVERS(int socket, const std::string data,
                    std::set<Client *> &servers) {
-    std::cout << "Received (" << socket << "): SERVERS," << data << std::endl;
-
     int commaIndex = 0;
 
     for (int i = 0; i < 2; i++)
@@ -72,7 +69,7 @@ void handleSERVERS(int socket, const std::string data,
 
     int port = -1;
     if (!isConvertibleToInt(incomingPort, port)) {
-        std::cerr << "INVALID servers response from " << socket << ": Port "
+        std::cerr << socket << "| INVALID servers response - Port "
                   << incomingPort << " invalid" << std::endl;
         return;
     }
@@ -97,11 +94,8 @@ void sendKEEPALIVE(std::set<Client *> servers) {
 }
 
 void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers, int serverPort) {
-    std::cout << "Received (" << socket << "): QUERYSERVERS," << data
-              << std::endl;
-
-    std::string response = "SERVERS," + GROUP_NAME + "," + getMyIp() + "," +
+                        const std::set<Client *> &servers, int serverPort, ServerSettings &groupSixServer) {
+    std::string response = "SERVERS," + groupSixServer.serverName + "," + getMyIp() + "," +
                            std::to_string(serverPort) + ";";
 
     int commaIndex = data.find(",");
@@ -153,7 +147,7 @@ void handleFETCH_MSGS(int socket, const std::string data,
     }
 
     else if (knownServer == 0) {
-        std::vector<std::string> msg = {"No messages for" + data};
+        std::vector<std::string> msg = {"No messages for " + data};
         std::vector<unsigned char> buffer = constructMessage(msg);
 
         // send(socket, buffer.data(), buffer.size(), 0);
@@ -306,8 +300,6 @@ void sendFETCH_MSGS(int socket, ServerSettings myServer) {
 void handleKEEPALIVE(int socket, const std::string data,
                      const std::set<Client *> &servers,
                      ServerSettings &myServer) {
-    std::cout << "Received (" << socket << "): KEEPALIVE," << data << std::endl;
-
     if (data == "0") {
         return;
     }
@@ -319,16 +311,8 @@ void handleKEEPALIVE(int socket, const std::string data,
 
 void handleUNSUPPORTED(int socket, const std::string command,
                        const std::string data) {
-    std::cout << "unsupported server command: " << command << " received"
+    std::cout << socket << "| unsupported server command: " << command << " received"
               << std::endl;
-
-    // std::vector<std::string> responseBuilder = {"UNSUPPORTED, P3_GROUP_6"};
-    // std::vector<unsigned char> response = constructMessage(responseBuilder);
-    //
-    // std::string result(response.begin(), response.end());
-    //
-    // sendMessage(socket, result);
-    // send(socket, response.data(), response.size(), 0);
 
     return;
 }
