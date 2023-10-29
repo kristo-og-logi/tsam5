@@ -1,14 +1,14 @@
 .PHONY: server client findMyIp
 
 server:
-	g++ -std=c++11 Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp server.cpp -o tsamgroup6 && ./tsamgroup6 4000 4001
+	g++ -std=c++11 utils.cpp Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp server.cpp -o tsamgroup6 && ./tsamgroup6 4000 4001
 
 client:
 	g++ -std=c++11 runClient.cpp -o client && ./client 127.0.0.1 4001
 
 # server compile 
 scompile:
-	g++ -std=c++11 Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp server.cpp -o tsamgroup6
+	g++ -std=c++11 utils.cpp Client.cpp ip.cpp sendMessage.cpp createSocket.cpp serverConnect.cpp serverCommands.cpp clientCommands.cpp server.cpp -o tsamgroup6
 
 # client compile 
 ccompile:

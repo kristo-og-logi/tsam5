@@ -5,6 +5,7 @@
 #include <cstring>     // For std::strerror()
 #include <iostream>
 #include <netinet/in.h> // For sockaddr_in
+#include <set>
 #include <string>
 #include <sys/socket.h> // For socket(), connect()
 #include <unistd.h>     // For close()
@@ -12,8 +13,10 @@
 #include "Client.h"
 #include "ServerSettings.h"
 
-void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer);
+void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer,
+                      std::set<Client *> &servers);
 
-Client *connectToServer(std::string &data, int serverPort, ServerSettings &myServer);
+Client *connectToServer(std::string &data, int serverPort,
+                        ServerSettings &myServer);
 
 #endif // SERVER_CONNECT_H
