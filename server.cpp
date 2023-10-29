@@ -100,8 +100,8 @@ void clientCommand(int clientSocket, fd_set *openSockets, int *maxfds,
     std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
     if (command == "CONNECT") {
-        Client *newClient =
-            handleCONNECT(clientSocket, data, serverPort, groupSixServer);
+        Client *newClient = handleCONNECT(clientSocket, data, serverPort,
+                                          groupSixServer, servers);
         if (newClient != nullptr)
             newServers.insert(newClient);
         return;
@@ -254,7 +254,7 @@ int main(int argc, char *argv[]) {
     int basemaxfds, maxfds, socketsReady, serverSocket, clientSocket;
     char buffer[5000]; // buffer for reading from clients
     auto start = std::chrono::steady_clock::now();
-    groupSixServer.serverName = "P3_GROUP_6";
+    groupSixServer.serverName = "P3_GROUP_666";
 
     if (argc != 3) {
         printf("Usage: ./server <server port> <client port>\n");

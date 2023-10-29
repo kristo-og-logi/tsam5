@@ -13,7 +13,7 @@ void handleLISTSERVERS(int socket, std::set<Client *> &servers,
                        ServerSettings &groupSixServer);
 
 Client *handleCONNECT(int socket, std::string data, int serverPort,
-                      ServerSettings &myServer);
+                      ServerSettings &myServer, std::set<Client *> &servers);
 
 void handleGETMSG(int socket, const std::string data, ServerSettings &myServer);
 

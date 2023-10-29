@@ -9,6 +9,7 @@
 #include "ip.h"
 #include "sendMessage.h"
 #include "serverConnect.h"
+#include "utils.h"
 
 void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer) {
     std::string message = "QUERYSERVERS," + myServer.serverName + "," +
@@ -32,16 +33,28 @@ Client *connectToServer(std::string &data, int serverPort,
         return nullptr;
     }
     std::string ip = data.substr(0, firstCommaIndex);
-    int port = std::stoi(
-        data.substr(firstCommaIndex + 1, data.size())); // TODO this could crash
 
-    for (auto const *s : servers) {
+    std::string userPort = data.substr(firstCommaIndex + 1, data.size());
+    int port;
+
+    if (!isConvertibleToInt(userPort, port))
+        std::cerr << "ERROR: invalid port, unable to connect to " << ip << ":"
+                  << userPort;
+
+    // what's the mininum valid port?
+    // I thought 1024, but I was allowed to boot up the server with port 1000
+    if (port < 0) {
+        std::cerr << "ERROR: invalid port, should be >= 0 but is " << port
+                  << std::endl;
+        return nullptr;
+    }
+
+    for (auto const *s : servers)
         if (s->ip == ip && s->port == port) {
             std::cerr << "ERROR: Attempted duplicate connection with " << ip
                       << ":" << port << std::endl;
             return nullptr;
         }
-    }
 
     // Create a socket
     struct sockaddr_in addr;

@@ -13,10 +13,9 @@
 #include "Client.h"
 #include "ServerSettings.h"
 
-void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer,
-                      std::set<Client *> &servers);
+void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer);
 
 Client *connectToServer(std::string &data, int serverPort,
-                        ServerSettings &myServer);
+                        ServerSettings &myServer, std::set<Client *> &servers);
 
 #endif // SERVER_CONNECT_H
