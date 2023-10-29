@@ -1,8 +1,13 @@
+#include <chrono>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <sys/socket.h>
 
 void sendMessage(int socket, std::string message) {
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
     if (message.front() != 0x02)
         message = '\x02' + message;
 
@@ -28,5 +33,7 @@ void sendMessage(int socket, std::string message) {
         std::cout << "CHECK THIS: tried sending data to a closed connection ("
                   << socket << ")" << std::endl;
     else
-        std::cout << socket << "| Sent: " << message << std::endl;
+        std::cout << std::put_time(std::localtime(&currentTime),
+                                   "%Y-%m-%d %H:%M:%S") << " | "
+                  << socket << " | Sent: " << message << std::endl;
 }
