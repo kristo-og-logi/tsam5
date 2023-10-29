@@ -11,7 +11,9 @@
 
 void handleERROR(int socket, const std::string message);
 
-void handleSERVERS(int socket, const std::string data, std::set<Client*> &servers);
+void handleSERVERS(int socket, const std::string data,
+                   std::set<Client *> &servers, std::set<Client *> &newServers,
+                   ServerSettings &groupSixServer, int serverPort);
 
 void sendKEEPALIVE(std::set<Client *> servers);
 
@@ -20,7 +22,8 @@ void handleKEEPALIVE(int socket, const std::string data,
                      ServerSettings &myServer);
 
 void handleQUERYSERVERS(int socket, const std::string data,
-                        const std::set<Client *> &servers, int serverPort, ServerSettings &groupSixServer);
+                        const std::set<Client *> &servers, int serverPort,
+                        ServerSettings &groupSixServer);
 
 void handleFETCH_MSGS(int socket, const std::string data,
                       const std::set<Client *> &servers);

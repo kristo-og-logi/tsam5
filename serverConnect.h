@@ -15,6 +15,9 @@
 
 void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer);
 
+Client *establishConnection(std::string ip, int port, int serverPort,
+                            ServerSettings &myServer);
+
 Client *connectToServer(std::string &data, int serverPort,
                         ServerSettings &myServer, std::set<Client *> &servers);
 
