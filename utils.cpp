@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 bool isConvertibleToInt(std::string &str, int &result) {
     try {
