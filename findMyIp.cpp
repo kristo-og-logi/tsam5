@@ -90,17 +90,19 @@ std::string getMyIp() {
             output += ifa->ifa_name;
             output += ": ";
             output += std::string(buf) + "\n";
-            // printf("%s: %s\n", ifa->ifa_name, buf);
+            printf("%s: %s\n", ifa->ifa_name, buf);
         }
     }
 
     freeifaddrs(myaddrs);
     std::string en0Ip = getEn0IPAddress(output);
-    if (en0Ip== "Not Found") {
+    if (en0Ip == "Not Found") {
         return getEns192IPAddress(output);
+    } else if (en0Ip == "10.0.0.3") {
+        return "157.157.63.135"; // this maps Kristofer's mac internal NAT
+                                 // address to his router's ip address
     }
     return en0Ip;
-
 }
 
 int main() {
