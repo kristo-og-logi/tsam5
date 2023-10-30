@@ -1154,3 +1154,1324 @@ ORACLE:
 2023-10-29 17:46:09 | 10 | Received: KEEPALIVE,0
 2023-10-29 17:46:09 | 8 | Received: KEEPALIVE,0
 2023-10-29 17:46:19 | 12 | Received: KEEPALIVE,0
+Server listening at ip 130.208.243.61 on port 4006 for servers and port 4007 for clients...
+2023-10-30 16:02:45 | 5 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 5 | server connected from 130.208.243.61
+2023-10-30 16:02:45 | 5 | Received: QUERYSERVERS,P3_GROUP_100,130.208.243.61,4069
+2023-10-30 16:02:45 | 5 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,-1;
+2023-10-30 16:02:45 | 5 | Received: SERVERS,P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_8,130.208.243.61,44236;P3_GROUP_8,130.208.243.61,44248;
+2023-10-30 16:02:45 | 6 | Connected to server 130.208.243.61:4001
+2023-10-30 16:02:45 | 6 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 7 | Connected to server 130.208.243.61:4002
+2023-10-30 16:02:45 | 7 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 8 | Connected to server 130.208.243.61:4011
+2023-10-30 16:02:45 | 8 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 9 | Connected to server 130.208.243.61:4021
+2023-10-30 16:02:45 | 9 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 10 | Connected to server 130.208.243.61:44236
+2023-10-30 16:02:45 | 11 | Connected to server 130.208.243.61:44248
+2023-10-30 16:02:45 | 6 | adding server unknown6,130.208.243.61,4001; to servers set
+2023-10-30 16:02:45 | 7 | adding server unknown7,130.208.243.61,4002; to servers set
+2023-10-30 16:02:45 | 8 | adding server unknown8,130.208.243.61,4011; to servers set
+2023-10-30 16:02:45 | 9 | adding server unknown9,130.208.243.61,4021; to servers set
+2023-10-30 16:02:45 | 10 | adding server unknown10,130.208.243.61,44236; to servers set
+2023-10-30 16:02:45 | 11 | adding server unknown11,130.208.243.61,44248; to servers set
+2023-10-30 16:02:45 | 10 | server disconnected
+2023-10-30 16:02:45 | 11 | server disconnected
+2023-10-30 16:02:45 | received 2 messages from server 6
+2023-10-30 16:02:45 | 6 | Received: QUERYSERVERS,Instr_1
+2023-10-30 16:02:45 | 6 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;unknown7,130.208.243.61,4002;unknown8,130.208.243.61,4011;unknown9,130.208.243.61,4021;
+2023-10-30 16:02:45 | 6 | Received: SERVERS,Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_Group_38,194.144.191.50,8120;P3_GROUP_29,130.208.244.96,4064;P3_GROUP_30,130.208.243.61,4021;P3_Group_44,130.208.243.61,4078;P3_GROUP_8,130.208.243.61,4048;P3_Group_86,89.160.210.17,-1;P3_GROUP_56,153.92.138.87,-1;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:02:45 | 10 | Connected to server 130.208.243.61:4002
+2023-10-30 16:02:45 | 10 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 11 | Connected to server 130.208.243.61:4005
+2023-10-30 16:02:45 | 11 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 12 | Connected to server 194.144.191.50:8120
+2023-10-30 16:02:45 | 13 | Connected to server 130.208.244.96:4064
+2023-10-30 16:02:45 | 14 | Connected to server 130.208.243.61:4021
+2023-10-30 16:02:45 | 14 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | received 2 messages from server 7
+2023-10-30 16:02:45 | 7 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:02:45 | 7 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;unknown8,130.208.243.61,4011;unknown9,130.208.243.61,4021;
+2023-10-30 16:02:45 | 7 | Received: SERVERS,Instr_2,130.208.243.61,4002;Instr_1,130.208.243.61,4001;Instr_3,130.208.243.61,4003;P3_GROUP_29,130.208.244.96,4064;P3_Group_19,130.208.243.61,4011;P3_Group_44,130.208.243.61,-1;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_8,130.208.243.61,-1;P3_Group_86,89.160.210.17,-1;P3_GROUP_56,153.92.138.87,-1;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:02:45 | 10 | adding server unknown10,130.208.243.61,4002; to servers set
+2023-10-30 16:02:45 | 11 | adding server unknown11,130.208.243.61,4005; to servers set
+2023-10-30 16:02:45 | 12 | adding server unknown12,194.144.191.50,8120; to servers set
+2023-10-30 16:02:45 | 13 | adding server unknown13,130.208.244.96,4064; to servers set
+2023-10-30 16:02:45 | 14 | adding server unknown14,130.208.243.61,4021; to servers set
+2023-10-30 16:02:45 | received 2 messages from server 8
+2023-10-30 16:02:45 | 8 | Received: QUERYSERVERS,P3_Group_19
+2023-10-30 16:02:45 | 8 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;unknown9,130.208.243.61,4021;unknown10,130.208.243.61,4002;unknown11,130.208.243.61,4005;unknown12,194.144.191.50,8120;unknown13,130.208.244.96,4064;unknown14,130.208.243.61,4021;
+2023-10-30 16:02:45 | 8 | Received: SERVERS,P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;Instr_2,130.208.243.61,4002;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_666,130.208.243.61,-1;
+2023-10-30 16:02:45 | received 2 messages from server 11
+2023-10-30 16:02:45 | 11 | Received: QUERYSERVERS,NUMBER
+2023-10-30 16:02:45 | 11 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;unknown9,130.208.243.61,4021;unknown10,130.208.243.61,4002;NUMBER,130.208.243.61,4005;unknown12,194.144.191.50,8120;unknown13,130.208.244.96,4064;unknown14,130.208.243.61,4021;
+2023-10-30 16:02:45 | 11 | Received: SERVERS,NUMBER,130.208.243.61,4005;Instr_1,130.208.243.61,4001;ORACLE,130.208.243.61,4004;P3_GROUP_666,130.208.243.61,4006;P3_Group_44,130.208.243.61,-1;P3_Group_38,194.144.191.50,8120;P3_GROUP_8,130.208.243.61,-1;
+2023-10-30 16:02:45 | 12 | server disconnected
+2023-10-30 16:02:45 | 10 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:02:45 | 10 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;unknown9,130.208.243.61,4021;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;unknown13,130.208.244.96,4064;unknown14,130.208.243.61,4021;
+2023-10-30 16:02:45 | 10 | server disconnected
+2023-10-30 16:02:45 | 9 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:02:45 | 9 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;NUMBER,130.208.243.61,4005;unknown13,130.208.244.96,4064;unknown14,130.208.243.61,4021;
+2023-10-30 16:02:45 | 14 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:02:45 | 14 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;NUMBER,130.208.243.61,4005;unknown13,130.208.244.96,4064;P3_GROUP_30,130.208.243.61,4021;
+2023-10-30 16:02:45 | 10 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:02:45 | 10 | server connected from 130.208.243.61
+2023-10-30 16:02:45 | 10 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:02:45 | 10 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;NUMBER,130.208.243.61,4005;unknown13,130.208.244.96,4064;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:03:13 | 12 | client connected from 10.3.16.52
+2023-10-30 16:03:22 | 7 | server disconnected
+2023-10-30 16:03:22 | 11 | server disconnected
+2023-10-30 16:03:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:03:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:03:52 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:03:52 | 9 | server disconnected
+2023-10-30 16:03:52 | 14 | server disconnected
+2023-10-30 16:03:52 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:04:06 | 5 | Received: SEND_MSG,P3_GROUP_666,P3_GROUP_100,HELLO 666
+P3_GROUP_100:HELLO 666
+2023-10-30 16:04:29 | 5 | Sent: SEND_MSG,P3_GROUP_100,P3_GROUP_666,Hello halli
+2023-10-30 16:04:29 | 12 | Sent: Successfully sent message
+2023-10-30 16:04:37 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:04:37 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:04:37 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:04:37 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:04:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:04:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:04:53 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:04:53 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:04:54 | 13 | server disconnected
+2023-10-30 16:05:21 | 8 | Sent: SEND_MSG,P3_Group_19,P3_GROUP_666,Hello ak city?
+2023-10-30 16:05:21 | 12 | Sent: Successfully sent message
+2023-10-30 16:05:22 | 7 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:05:22 | 7 | server connected from 10.2.27.78
+2023-10-30 16:05:22 | 7 | Received: QUERYSERVERS,P3_GROUP_3,193.213.191.38,1
+2023-10-30 16:05:22 | 7 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_3,10.2.27.78,-1;
+2023-10-30 16:05:22 | 7 | Received: SERVERS,Instr_1,130.208.243.61,4001;P3_Group_38,194.144.191.50,8120;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_30,130.208.243.61,4021;
+2023-10-30 16:05:22 | 9 | Connected to server 194.144.191.50:8120
+2023-10-30 16:05:22 | 9 | adding server unknown9,194.144.191.50,8120; to servers set
+2023-10-30 16:05:22 | 9 | server disconnected
+2023-10-30 16:05:27 | 7 | server disconnected
+2023-10-30 16:05:41 | 10 | Sent: SEND_MSG,P3_GROUP_30,P3_GROUP_666,Hello do you copy?
+2023-10-30 16:05:41 | 12 | Sent: Successfully sent message
+2023-10-30 16:05:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:05:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:05:55 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:05:55 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:06:03 | 7 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:06:03 | 7 | server connected from 130.208.243.61
+2023-10-30 16:06:03 | 7 | Received: QUERYSERVERS,P3_Group_19
+2023-10-30 16:06:03 | 7 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,-1;
+2023-10-30 16:06:03 | 7 | Received: SERVERS,P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_666,130.208.243.61,-1;
+2023-10-30 16:06:03 | 9 | Connected to server 130.208.243.61:4003
+2023-10-30 16:06:03 | 9 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:06:03 | 9 | adding server unknown9,130.208.243.61,4003; to servers set
+2023-10-30 16:06:03 | received 2 messages from server 9
+2023-10-30 16:06:03 | 9 | Received: QUERYSERVERS,Instr_3
+2023-10-30 16:06:03 | 9 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;
+2023-10-30 16:06:03 | 9 | Received: SERVERS,Instr_3,130.208.243.61,4003;P3_GROUP_29,130.208.244.96,4064;P3_Group_38,194.144.191.50,8120;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_56,153.92.138.87,-1;P3_GROUP_77,192.168.150.4,4100;
+2023-10-30 16:06:03 | 11 | Connected to server 130.208.244.96:4064
+2023-10-30 16:06:03 | 13 | Connected to server 194.144.191.50:8120
+2023-10-30 16:06:03 | 14 | Connected to server 130.208.243.61:4004
+2023-10-30 16:06:03 | 14 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:06:03 | 15 | Connected to server 130.208.243.61:4002
+2023-10-30 16:06:03 | 15 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:06:03 | 11 | adding server unknown11,130.208.244.96,4064; to servers set
+2023-10-30 16:06:03 | 13 | adding server unknown13,194.144.191.50,8120; to servers set
+2023-10-30 16:06:03 | 14 | adding server unknown14,130.208.243.61,4004; to servers set
+2023-10-30 16:06:03 | 15 | adding server unknown15,130.208.243.61,4002; to servers set
+2023-10-30 16:06:03 | 14 | Received: QUERYSERVERS,ORACLE
+2023-10-30 16:06:03 | 14 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;unknown11,130.208.244.96,4064;unknown13,194.144.191.50,8120;ORACLE,130.208.243.61,4004;unknown15,130.208.243.61,4002;
+2023-10-30 16:06:03 | received 2 messages from server 15
+2023-10-30 16:06:03 | 15 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:06:03 | 15 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;unknown11,130.208.244.96,4064;unknown13,194.144.191.50,8120;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;
+2023-10-30 16:06:03 | 15 | Received: SERVERS,Instr_2,130.208.243.61,4002;Instr_3,130.208.243.61,4003;Instr_1,130.208.243.61,4001;P3_GROUP_666,130.208.243.61,4006;P3_GROUP_56,153.92.138.87,-1;P3_GROUP_77,192.168.150.4,4100;
+2023-10-30 16:06:03 | 13 | server disconnected
+2023-10-30 16:06:03 | 14 | Received: SERVERS,ORACLE,130.208.243.61,4004;NUMBER,130.208.243.61,4005;P3_GROUP_29,130.208.244.96,4064;Instr_3,130.208.243.61,4003;P3_GROUP_666,130.208.243.61,4006;
+2023-10-30 16:06:03 | 13 | Connected to server 130.208.243.61:4005
+2023-10-30 16:06:03 | 13 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:06:03 | 13 | adding server unknown13,130.208.243.61,4005; to servers set
+2023-10-30 16:06:03 | received 2 messages from server 13
+2023-10-30 16:06:03 | 13 | Received: QUERYSERVERS,NUMBER
+2023-10-30 16:06:03 | 13 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;unknown11,130.208.244.96,4064;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;
+2023-10-30 16:06:03 | 13 | Received: SERVERS,NUMBER,130.208.243.61,4005;Instr_1,130.208.243.61,4001;ORACLE,130.208.243.61,4004;P3_GROUP_666,130.208.243.61,4006;
+2023-10-30 16:06:21 | declined incoming connection from 130.208.243.61. MAX connections hit
+2023-10-30 16:06:27 | declined incoming connection from 153.92.138.87. MAX connections hit
+2023-10-30 16:06:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:06:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:06:45 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:06:45 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:06:55 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:07:00 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:07:00 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:07:00 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:07:00 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:07:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:07:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:07:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:07:55 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:07:57 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:08:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:08:04 | 13 | Sent: SEND_MSG,NUMBER,P3_GROUP_666,WHATS THE MESSAGE???
+2023-10-30 16:08:04 | 12 | Sent: Successfully sent message
+2023-10-30 16:08:04 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:08:04 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:08:04 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:08:04 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:08:15 | 11 | server disconnected
+2023-10-30 16:08:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:08:45 | received 2 messages from server 8
+2023-10-30 16:08:45 | 8 | Received: QUERYSERVERS,P3_Group_19
+2023-10-30 16:08:45 | 8 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;
+2023-10-30 16:08:45 | 8 | Received: KEEPALIVE,1
+2023-10-30 16:08:45 | 8 | Sent: FETCH_MSGS,P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | received 18 messages from server 8
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | received 3 messages from server 8
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | Invalid message received from server (8): We are sorry but group 19 has no messages for P3_GROUP_666
+2023-10-30 16:08:45 | 8 | Sent: ERROR
+2023-10-30 16:08:45 | 8 | Received: SEND_MSG,P3_GROUP_666,P3_Group_19,IS THIS THE NUMBER OF THE BEAST?
+P3_Group_19:IS THIS THE NUMBER OF THE BEAST?
+2023-10-30 16:08:55 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:08:57 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:08:57 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:08:59 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:09:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:09:12 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:09:12 | received 3 messages from server 14
+2023-10-30 16:09:12 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:09:12 | 14 | Received: SEND_MSG,P3_GROUP_30,ORACLE,
+
+The Internet Oracle has pondered your question deeply. Your question was:
+  Did you say, "Watch the sheeps," or "Wash the sheets"? How can I know
+  which is which? 
+And in response, thus spake the Oracle:
+  The sheep are the ones that object when you try to make them fit into
+  the washing machine. 
+2023-10-30 16:09:12 | 10 | Sent: SEND_MSG,P3_GROUP_30,ORACLE,
+
+The Internet Oracle has pondered your question deeply. Your question was:
+  Did you say, "Watch the sheeps," or "Wash the sheets"? How can I know
+  which is which? 
+And in response, thus spake the Oracle:
+  The sheep are the ones that object when you try to make them fit into
+  the washing machine. 
+2023-10-30 16:09:12 | 14 | Sent: Successfully sent message
+2023-10-30 16:09:12 | 14 | Received: SEND_MSG,P3_GROUP_666,ORACLE,
+
+“There are two major products that come out of Berkeley: LSD and Unix. We don’t believe this to be a coincidence.”
+– Jeremy S. Anderson 
+ORACLE:
+
+“There are two major products that come out of Berkeley: LSD and Unix. We don’t believe this to be a coincidence.”
+– Jeremy S. Anderson 
+2023-10-30 16:09:12 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:09:12 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:09:12 | 14 | Received: ERROR,ORACLE,P3_GROUP_666,Unknown/unrecognised command
+2023-10-30 16:09:30 | 11 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:09:30 | 11 | server connected from 10.2.17.63
+2023-10-30 16:09:30 | 11 | Received: QUERYSERVERS,P3_GROUP_12
+2023-10-30 16:09:30 | 11 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,-1;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;P3_GROUP_12,10.2.17.63,-1;NUMBER,130.208.243.61,4005;
+2023-10-30 16:09:30 | 11 | Received: SERVERS,P3_GROUP_12,10.2.17.63,4001;P3_GROUP_20,130.208.243.61,4077;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;NUMBER,130.208.243.61,4005;P3_Group_38,194.144.191.50,8120;P3_GROUP_666,130.208.243.61,4006;Instr_1,130.208.243.61,4001;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:09:32 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:09:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:09:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:09:49 | 8 | Sent: SEND_MSG,P3_Group_19,P3_GROUP_666,Call 852-0039 for information about the number beast
+2023-10-30 16:09:49 | 12 | Sent: Successfully sent message
+2023-10-30 16:09:49 | 7 | Sent: SEND_MSG,P3_Group_19,P3_GROUP_666,Call 852-0039 for information about the number beast
+2023-10-30 16:09:49 | 12 | Sent: Successfully sent message
+2023-10-30 16:09:55 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:09:56 | Invalid message received from client (12): LISTSEVERS
+2023-10-30 16:09:56 | 12 | Sent: ERROR
+2023-10-30 16:10:02 | 11 | Received: STATUSREQ,P3_GROUP_12
+2023-10-30 16:10:02 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:10:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:10:17 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:10:17 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:10:17 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:10:17 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:10:24 | 10 | server disconnected
+2023-10-30 16:10:32 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:10:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:10:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:10:46 | 10 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:10:46 | 10 | server connected from 130.208.243.61
+2023-10-30 16:10:46 | 10 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:10:46 | 10 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;P3_GROUP_12,10.2.17.63,4001;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:11:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:11:19 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:11:19 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:11:19 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:11:19 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:11:19 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:11:19 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:11:27 | declined incoming connection from 130.208.243.61. MAX connections hit
+2023-10-30 16:11:32 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:11:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:11:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:11:46 | 10 | Received: KEEPALIVE,0
+unsupported client command: STATUS_REQ received
+2023-10-30 16:11:59 | declined incoming connection from 127.0.0.1. MAX connections hit
+2023-10-30 16:12:03 | received 2 messages from server 7
+2023-10-30 16:12:03 | 7 | Received: QUERYSERVERS,P3_Group_19
+2023-10-30 16:12:03 | 7 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;P3_GROUP_12,10.2.17.63,4001;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:12:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:12:23 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:12:23 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:12:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:12:23 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:12:23 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:12:32 | 11 | Received: STATUSREQ,P3_GROUP_12
+2023-10-30 16:12:32 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:12:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:12:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:12:46 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:13:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:13:12 | 11 | server disconnected
+2023-10-30 16:13:24 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:13:24 | received 2 messages from server 6
+2023-10-30 16:13:24 | 6 | Received: QUERYSERVERS,Instr_1
+2023-10-30 16:13:24 | 6 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:13:24 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:13:24 | received 2 messages from server 14
+2023-10-30 16:13:24 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:13:24 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:13:24 | received 2 messages from server 15
+2023-10-30 16:13:24 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:13:24 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:13:24 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:13:24 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:13:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:13:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:13:46 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:14:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:14:23 | 10 | server disconnected
+2023-10-30 16:14:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:14:41 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:14:41 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:14:41 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:14:41 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:14:41 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:14:41 | 14 | Received: SEND_MSG,P3_GROUP_666,ORACLE,
+
+“If the automobile had followed the same development cycle as the computer, a Rolls-Royce 
+ would today cost $100, get a million miles per gallon, and explode once a year, killing 
+ everyone inside.”
+- Robert X. Cringely  
+ORACLE:
+
+“If the automobile had followed the same development cycle as the computer, a Rolls-Royce 
+ would today cost $100, get a million miles per gallon, and explode once a year, killing 
+ everyone inside.”
+- Robert X. Cringely  
+2023-10-30 16:14:43 | 10 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:14:43 | 10 | server connected from 130.208.243.61
+2023-10-30 16:14:43 | 10 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:14:43 | 10 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:14:43 | 10 | server disconnected
+2023-10-30 16:14:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:15:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:15:13 | 10 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:15:13 | 10 | server connected from 130.208.243.61
+2023-10-30 16:15:13 | 10 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:15:13 | 10 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:15:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:15:41 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:15:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:15:43 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:15:43 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:15:43 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:15:43 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:15:43 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:15:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:16:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:16:25 | 11 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:16:25 | 11 | server connected from 130.208.243.61
+2023-10-30 16:16:25 | 11 | Received: QUERYSERVERS,P3_GROUP_17,130.208.243.61,4066,
+2023-10-30 16:16:25 | 11 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_17,130.208.243.61,-1;
+2023-10-30 16:16:25 | 11 | Received: SERVERS,P3_GROUP_17,130.208.243.61,4066;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;,0.0.0.0,0;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_30,130.208.243.61,39758;P3_GROUP_666,130.208.243.61,4006;
+2023-10-30 16:16:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:16:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:16:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:16:45 | 11 | Received: SEND_MSG,P3_GROUP_666,P3_GROUP_17,Hello group 666 can you see this message
+
+P3_GROUP_17:Hello group 666 can you see this message
+
+2023-10-30 16:16:50 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:16:50 | received 2 messages from server 9
+2023-10-30 16:16:50 | 9 | Received: QUERYSERVERS,Instr_3
+2023-10-30 16:16:50 | 9 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_17,130.208.243.61,4066;
+2023-10-30 16:16:50 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:16:50 | received 2 messages from server 15
+2023-10-30 16:16:50 | 15 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:16:50 | 15 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_17,130.208.243.61,4066;
+2023-10-30 16:16:50 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:16:50 | 14 | Received: QUERYSERVERS,ORACLE
+2023-10-30 16:16:50 | 14 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_17,130.208.243.61,4066;
+2023-10-30 16:16:50 | received 2 messages from server 13
+2023-10-30 16:16:50 | 13 | Received: QUERYSERVERS,NUMBER
+2023-10-30 16:16:50 | 13 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_17,130.208.243.61,4066;
+2023-10-30 16:16:50 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:16:50 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:16:50 | received 2 messages from server 14
+2023-10-30 16:16:50 | 14 | Received: SEND_MSG,P3_GROUP_28,ORACLE,
+
+“There are two major products that come out of Berkeley: LSD and Unix. We don’t believe this to be a coincidence.”
+– Jeremy S. Anderson 
+2023-10-30 16:16:50 | 6 | Sent: SEND_MSG,P3_GROUP_28,ORACLE,
+
+“There are two major products that come out of Berkeley: LSD and Unix. We don’t believe this to be a coincidence.”
+– Jeremy S. Anderson 
+2023-10-30 16:16:50 | 9 | Sent: SEND_MSG,P3_GROUP_28,ORACLE,
+
+“There are two major products that come out of Berkeley: LSD and Unix. We don’t believe this to be a coincidence.”
+– Jeremy S. Anderson 
+2023-10-30 16:16:50 | 15 | Sent: SEND_MSG,P3_GROUP_28,ORACLE,
+
+“There are two major products that come out of Berkeley: LSD and Unix. We don’t believe this to be a coincidence.”
+– Jeremy S. Anderson 
+2023-10-30 16:16:50 | 14 | Sent: Sent messages to Instructor, GROUP was unknown
+2023-10-30 16:16:50 | 14 | Received: SEND_MSG,P3_GROUP_666,ORACLE,
+
+“In the future, computers may weigh no more than 1.5 tonnes.”
+— Popular mechanics, 1949 
+ORACLE:
+
+“In the future, computers may weigh no more than 1.5 tonnes.”
+— Popular mechanics, 1949 
+2023-10-30 16:16:50 | 14 | Received: ERROR,ORACLE,P3_GROUP_666,Unknown/unrecognised command
+2023-10-30 16:16:50 | declined incoming connection from 46.182.187.235. MAX connections hit
+2023-10-30 16:17:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:17:26 | 11 | server disconnected
+2023-10-30 16:17:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:17:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:17:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:17:50 | 11 | Sent: QUERYSERVERS,P3_GROUP_666,130.208.243.61,4006
+2023-10-30 16:17:50 | 11 | server connected from 130.208.243.61
+2023-10-30 16:17:50 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:17:50 | 11 | Received: QUERYSERVERS,P3_GROUP_17,130.208.243.61,4066,
+2023-10-30 16:17:50 | 11 | Sent: SERVERS,P3_GROUP_666,130.208.243.61,4006;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_17,130.208.243.61,-1;
+2023-10-30 16:17:50 | 11 | Received: SERVERS,P3_GROUP_17,130.208.243.61,4066;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;,0.0.0.0,0;P3_GROUP_666,130.208.243.61,4006;
+2023-10-30 16:17:54 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:17:54 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:17:54 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:17:54 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:17:54 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:17:55 | declined incoming connection from 194.144.191.50. MAX connections hit
+2023-10-30 16:18:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:18:09 | 11 | Received: SEND_MSG,P3_GROUP_666,P3_GROUP_17,Hello group 666 can you see this message?
+
+P3_GROUP_17:Hello group 666 can you see this message?
+
+2023-10-30 16:18:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:18:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:18:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:18:55 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:18:55 | received 2 messages from server 14
+2023-10-30 16:18:55 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:18:55 | 14 | Received: SEND_MSG,P3_GROUP_666,ORACLE,
+
+"The goal of science and engineering is to build better mousetraps. The goal of nature is to 
+ build better mice."
+ Anonymous 
+ORACLE:
+
+"The goal of science and engineering is to build better mousetraps. The goal of nature is to 
+ build better mice."
+ Anonymous 
+2023-10-30 16:18:55 | received 2 messages from server 15
+2023-10-30 16:18:55 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:18:55 | 15 | Received: SEND_MSG,P3_GROUP_666,ORACLE,
+
+"The goal of science and engineering is to build better mousetraps. The goal of nature is to 
+ build better mice."
+ Anonymous 
+ORACLE:
+
+"The goal of science and engineering is to build better mousetraps. The goal of nature is to 
+ build better mice."
+ Anonymous 
+2023-10-30 16:18:55 | received 2 messages from server 13
+2023-10-30 16:18:55 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:18:55 | 13 | Received: SEND_MSG,P3_GROUP_666,ORACLE,
+
+"The goal of science and engineering is to build better mousetraps. The goal of nature is to 
+ build better mice."
+ Anonymous 
+ORACLE:
+
+"The goal of science and engineering is to build better mousetraps. The goal of nature is to 
+ build better mice."
+ Anonymous 
+2023-10-30 16:18:55 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:19:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:19:41 | 5 | Received: KEEPALIVE,0
+2023-10-30 16:19:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:19:43 | 11 | Sent: SEND_MSG,P3_GROUP_17,P3_GROUP_666,Yes I copy, over!
+2023-10-30 16:19:43 | 12 | Sent: Successfully sent message
+2023-10-30 16:19:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:20:02 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:20:02 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:20:02 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:20:02 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:20:02 | 5 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:20:02 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:20:03 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:20:09 | 11 | server disconnected
+2023-10-30 16:20:18 | 12 | client disconnected
+Server listening at ip 130.208.243.61 on port 4006 for servers and port 4007 for clients...
+2023-10-30 16:21:16 | 5 | client connected from 10.3.16.52
+2023-10-30 16:21:40 | 6 | Connected to server 130.208.243.61:4001
+2023-10-30 16:21:40 | 6 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 6 | adding server unknown6,130.208.243.61,4001; to servers set
+2023-10-30 16:21:40 | received 2 messages from server 6
+2023-10-30 16:21:40 | 6 | Received: QUERYSERVERS,Instr_1
+2023-10-30 16:21:40 | 6 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;
+2023-10-30 16:21:40 | 6 | Received: SERVERS,Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_Group_38,194.144.191.50,8120;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_18,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_6,130.208.243.61,4006;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:21:40 | 7 | Connected to server 130.208.243.61:4005
+2023-10-30 16:21:40 | 7 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 8 | Connected to server 130.208.243.61:4002
+2023-10-30 16:21:40 | 8 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 9 | Connected to server 194.144.191.50:8120
+2023-10-30 16:21:40 | 10 | Connected to server 130.208.243.61:4021
+2023-10-30 16:21:40 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 11 | Connected to server 130.208.243.61:4064
+2023-10-30 16:21:40 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 12 | Connected to server 130.208.243.61:4066
+2023-10-30 16:21:40 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 13 | Connected to server 130.208.243.61:4080
+2023-10-30 16:21:40 | 13 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 14 | Connected to server 130.208.243.61:4069
+2023-10-30 16:21:40 | 14 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 7 | adding server unknown7,130.208.243.61,4005; to servers set
+2023-10-30 16:21:40 | 8 | adding server unknown8,130.208.243.61,4002; to servers set
+2023-10-30 16:21:40 | 9 | adding server unknown9,194.144.191.50,8120; to servers set
+2023-10-30 16:21:40 | 10 | adding server unknown10,130.208.243.61,4021; to servers set
+2023-10-30 16:21:40 | 11 | adding server unknown11,130.208.243.61,4064; to servers set
+2023-10-30 16:21:40 | 12 | adding server unknown12,130.208.243.61,4066; to servers set
+2023-10-30 16:21:40 | 13 | adding server unknown13,130.208.243.61,4080; to servers set
+2023-10-30 16:21:40 | 14 | adding server unknown14,130.208.243.61,4069; to servers set
+2023-10-30 16:21:40 | received 2 messages from server 7
+2023-10-30 16:21:40 | 7 | Received: QUERYSERVERS,NUMBER
+2023-10-30 16:21:40 | 7 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;unknown8,130.208.243.61,4002;unknown9,194.144.191.50,8120;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;unknown12,130.208.243.61,4066;unknown13,130.208.243.61,4080;unknown14,130.208.243.61,4069;
+2023-10-30 16:21:40 | 7 | Received: SERVERS,NUMBER,130.208.243.61,4005;Instr_1,130.208.243.61,4001;ORACLE,130.208.243.61,4004;P3_GROUP_6,130.208.243.61,4006;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_20,130.208.243.61,4077;P3_GROUP_68,130.208.243.61,4051;P3_Group_38,194.144.191.50,8120;
+2023-10-30 16:21:40 | 15 | Connected to server 130.208.243.61:4004
+2023-10-30 16:21:40 | 15 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | received 2 messages from server 8
+2023-10-30 16:21:40 | 8 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:21:40 | 8 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown9,194.144.191.50,8120;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;unknown12,130.208.243.61,4066;unknown13,130.208.243.61,4080;unknown14,130.208.243.61,4069;
+2023-10-30 16:21:40 | 8 | Received: SERVERS,Instr_2,130.208.243.61,4002;Instr_3,130.208.243.61,4003;Instr_1,130.208.243.61,4001;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,4006;P3_GROUP_18,130.208.243.61,4064;P3_GROUP_90,127.0.0.1,4091;P3_GROUP_69,130.208.243.61,4080;P3_Group_38,194.144.191.50,8120;
+2023-10-30 16:21:40 | 9 | server disconnected
+2023-10-30 16:21:40 | received 2 messages from server 12
+2023-10-30 16:21:40 | 12 | Received: QUERYSERVERS,P3_GROUP_17,130.208.243.61,4066,
+2023-10-30 16:21:40 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown9,194.144.191.50,8120;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;unknown13,130.208.243.61,4080;unknown14,130.208.243.61,4069;
+2023-10-30 16:21:40 | 12 | Received: SERVERS,P3_GROUP_17,130.208.243.61,4066;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;,0.0.0.0,0;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_30,130.208.243.61,58530;P3_GROUP_6,130.208.243.61,34986;
+2023-10-30 16:21:40 | received 2 messages from server 13
+2023-10-30 16:21:40 | 13 | Received: QUERYSERVERS,P3_GROUP_69,130.208.243.61,4080
+2023-10-30 16:21:40 | 13 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown9,194.144.191.50,8120;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_69,130.208.243.61,4080;unknown14,130.208.243.61,4069;
+2023-10-30 16:21:40 | 13 | Received: SERVERS,P3_GROUP_69,130.208.243.61,4080;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_Group_38,194.144.191.50,8120;P3_Group_19,130.208.243.61,4011;P3_GROUP_100,130.208.243.61,4069;ORACLE,130.208.243.61,4004;P3_GROUP_20,130.208.243.61,4077;Instr_3,130.208.243.61,4003;
+2023-10-30 16:21:40 | received 2 messages from server 14
+2023-10-30 16:21:40 | 14 | Received: QUERYSERVERS,P3_GROUP_100,130.208.243.61,4069
+2023-10-30 16:21:40 | 14 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown9,194.144.191.50,8120;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:21:40 | 14 | Received: SERVERS,P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,56556;P3_Group_38,194.144.191.50,8120;P3_GROUP_69,130.208.243.61,4080;
+2023-10-30 16:21:40 | 15 | adding server unknown15,130.208.243.61,4004; to servers set
+2023-10-30 16:21:40 | received 2 messages from server 15
+2023-10-30 16:21:40 | 15 | Received: QUERYSERVERS,ORACLE
+2023-10-30 16:21:40 | 15 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;ORACLE,130.208.243.61,4004;
+2023-10-30 16:21:40 | 15 | Received: SERVERS,ORACLE,130.208.243.61,4004;NUMBER,130.208.243.61,4005;P3_GROUP_6,130.208.243.61,4006;Instr_3,130.208.243.61,4003;P3_GROUP_20,130.208.243.61,4077;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_68,130.208.243.61,4051;
+2023-10-30 16:21:40 | 9 | Connected to server 130.208.243.61:4003
+2023-10-30 16:21:40 | 9 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:40 | 9 | adding server unknown9,130.208.243.61,4003; to servers set
+2023-10-30 16:21:40 | received 2 messages from server 9
+2023-10-30 16:21:40 | 9 | Received: QUERYSERVERS,Instr_3
+2023-10-30 16:21:40 | 9 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown10,130.208.243.61,4021;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;
+2023-10-30 16:21:40 | 9 | Received: SERVERS,Instr_3,130.208.243.61,4003;P3_GROUP_6,130.208.243.61,4006;P3_Group_38,194.144.191.50,8120;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_20,130.208.243.61,4077;P3_GROUP_69,130.208.243.61,4080;
+2023-10-30 16:21:40 | 10 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:21:40 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_30,130.208.243.61,4021;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;
+2023-10-30 16:21:40 | declined incoming connection from 130.208.243.61. MAX connections hit
+2023-10-30 16:21:40 | declined incoming connection from 130.208.243.61. MAX connections hit
+2023-10-30 16:21:41 | 14 | Received: KEEPALIVE,1
+2023-10-30 16:21:41 | 14 | Sent: FETCH_MSGS,P3_GROUP_6
+2023-10-30 16:21:41 | 14 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_100,hello can you send me a message?
+P3_GROUP_100:hello can you send me a message?
+2023-10-30 16:21:43 | 10 | server disconnected
+2023-10-30 16:21:59 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:21:59 | 10 | server connected from 46.239.223.189
+2023-10-30 16:21:59 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:21:59 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown11,130.208.243.61,4064;P3_GROUP_17,130.208.243.61,4066;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:21:59 | received 2 messages from server 10
+2023-10-30 16:21:59 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:21:59 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,My name is Jeff
+P3_GROUP_99:My name is Jeff
+2023-10-30 16:22:00 | 10 | Received: SERVERS,P3_GROUP_99,10.3.27.52,4000;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,4006;P3_Group_38,194.144.191.50,8120;P3_GROUP_69,130.208.243.61,4080;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_18,130.208.243.61,4064;
+2023-10-30 16:22:00 | declined incoming connection from 130.208.243.61. MAX connections hit
+2023-10-30 16:22:00 | received 3 messages from server 10
+2023-10-30 16:22:00 | 10 | Received: SERVERS,P3_GROUP_99,10.3.27.52,4000;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,4006;P3_Group_38,194.144.191.50,8120;P3_GROUP_69,130.208.243.61,4080;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_18,130.208.243.61,4064;
+2023-10-30 16:22:00 | 10 | Received: SERVERS,P3_GROUP_99,10.3.27.52,4000;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,4006;P3_Group_38,194.144.191.50,8120;P3_GROUP_69,130.208.243.61,4080;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_18,130.208.243.61,4064;
+2023-10-30 16:22:00 | 10 | Received: SERVERS,P3_GROUP_99,10.3.27.52,4000;P3_GROUP_100,130.208.243.61,4069;Instr_1,130.208.243.61,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,4006;P3_Group_38,194.144.191.50,8120;P3_GROUP_69,130.208.243.61,4080;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_18,130.208.243.61,4064;
+2023-10-30 16:22:19 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:22:19 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:22:19 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:22:19 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:22:19 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:22:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:22:26 | 14 | Sent: SEND_MSG,P3_GROUP_100,P3_GROUP_6,Yes, what is your phone number...(852...)
+2023-10-30 16:22:26 | 5 | Sent: Successfully sent message
+2023-10-30 16:22:38 | declined incoming connection from 10.2.17.63. MAX connections hit
+2023-10-30 16:22:41 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:23:13 | 10 | Sent: SEND_MSG,P3_GROUP_99,P3_GROUP_6,Everton sucks
+2023-10-30 16:23:13 | 5 | Sent: Successfully sent message
+2023-10-30 16:23:18 | 12 | server disconnected
+2023-10-30 16:23:18 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:23:18 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:23:21 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:23:21 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:23:21 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:23:21 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:23:21 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:23:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:23:40 | 11 | Sent: SEND_MSG,unknown11,P3_GROUP_6,What is your group name?
+2023-10-30 16:23:40 | 5 | Sent: Successfully sent message
+2023-10-30 16:23:41 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:24:07 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:24:07 | 12 | server connected from 10.2.17.88
+2023-10-30 16:24:07 | 12 | Received: QUERYSERVERS,P3_GROUP_699,10.2.17.88,4040
+2023-10-30 16:24:07 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;unknown11,130.208.243.61,4064;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_100,130.208.243.61,4069;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_99,46.239.223.189,4000;P3_GROUP_699,10.2.17.88,-1;
+2023-10-30 16:24:07 | 12 | Received: SERVERS,P3_GROUP_699,10.2.17.88,4040;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_Group_38,194.144.191.50,8120;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_18,130.208.243.61,4064;P3_GROUP_6,130.208.243.61,4006;
+2023-10-30 16:24:20 | declined incoming connection from 10.2.17.63. MAX connections hit
+2023-10-30 16:24:22 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:24:22 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:24:22 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:24:22 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:24:22 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:24:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:24:27 | 11 | server disconnected
+2023-10-30 16:24:29 | 14 | server disconnected
+2023-10-30 16:24:54 | 10 | server disconnected
+2023-10-30 16:24:59 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:24:59 | 10 | server connected from 46.239.223.189
+2023-10-30 16:24:59 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:24:59 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_699,10.2.17.88,4040;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:24:59 | received 2 messages from server 10
+2023-10-30 16:24:59 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:24:59 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,My name is Jeff
+P3_GROUP_99:My name is Jeff
+2023-10-30 16:24:59 | 10 | Received: SERVERS,P3_GROUP_99,10.3.27.52,4000;Instr_3,130.208.243.61,4003;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_Group_38,194.144.191.50,8120;P3_GROUP_6,130.208.243.61,4006;P3_GROUP_30,130.208.243.61,4021;P3_Group_19,130.208.243.61,4011;ORACLE,130.208.243.61,4004;P3_GROUP_20,130.208.243.61,4077;
+2023-10-30 16:24:59 | 11 | Connected to server 194.144.191.50:8120
+2023-10-30 16:24:59 | 14 | Connected to server 130.208.243.61:4021
+2023-10-30 16:24:59 | 14 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:24:59 | 11 | adding server unknown11,194.144.191.50,8120; to servers set
+2023-10-30 16:24:59 | 14 | adding server unknown14,130.208.243.61,4021; to servers set
+2023-10-30 16:24:59 | 11 | server disconnected
+2023-10-30 16:24:59 | 14 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:24:59 | 14 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_699,10.2.17.88,4040;P3_GROUP_99,46.239.223.189,4000;P3_GROUP_30,130.208.243.61,4021;
+2023-10-30 16:24:59 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:24:59 | 11 | server connected from 130.208.243.61
+2023-10-30 16:24:59 | 11 | Received: QUERYSERVERS,P3_GROUP_30,130.208.243.61,4021
+2023-10-30 16:24:59 | 11 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_699,10.2.17.88,4040;P3_GROUP_99,46.239.223.189,4000;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_30,130.208.243.61,-1;
+2023-10-30 16:24:59 | 14 | server disconnected
+2023-10-30 16:24:59 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:25:07 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:25:08 | 12 | Sent: SEND_MSG,P3_GROUP_699,P3_GROUP_6,Do you copy?
+2023-10-30 16:25:08 | 5 | Sent: Successfully sent message
+2023-10-30 16:25:08 | 12 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_699,Thank you for reaching out to us. Your message has been received by GROUP_69. We will review it and get back to you as soon as possible. We appreciate your patience.
+
+Warm regards,
+GROUP_69
+P3_GROUP_699:Thank you for reaching out to us. Your message has been received by GROUP_69. We will review it and get back to you as soon as possible. We appreciate your patience.
+
+Warm regards,
+GROUP_69
+2023-10-30 16:25:23 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:25:23 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:25:23 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:25:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:25:23 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:25:23 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:25:23 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 12 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:25:23 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:26:06 | 14 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:26:06 | 14 | server connected from 130.208.243.61
+2023-10-30 16:26:06 | 14 | Received: QUERYSERVERS,P3_GROUP_12
+2023-10-30 16:26:06 | 14 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_699,10.2.17.88,4040;P3_GROUP_99,46.239.223.189,4000;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,130.208.243.61,-1;
+2023-10-30 16:26:07 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:26:11 | 14 | Received: SERVERS,P3_GROUP_12,130.208.243.61,4068;Instr_2,130.208.243.61,4002;Instr_3,130.208.243.61,4003;Instr_1,130.208.243.61,4001;P3_GROUP_30,130.208.243.61,4021;P3_GROUP_6,130.208.243.61,4006;P3_GROUP_18,130.208.243.61,4064;P3_GROUP_69,130.208.243.61,4080;P3_Group_38,194.144.191.50,8120;
+2023-10-30 16:26:11 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:26:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:26:26 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:26:26 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:26:26 | 12 | server disconnected
+2023-10-30 16:26:26 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:26:26 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:26:26 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:26:44 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:26:51 | 10 | server disconnected
+2023-10-30 16:26:54 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:26:54 | 10 | server connected from 46.239.223.189
+2023-10-30 16:26:54 | received 3 messages from server 10
+2023-10-30 16:26:54 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:26:54 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,130.208.243.61,4068;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:26:54 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:26:54 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,My name is Jeff
+P3_GROUP_99:My name is Jeff
+2023-10-30 16:26:54 | 10 | server disconnected
+2023-10-30 16:26:58 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:26:58 | 10 | server connected from 46.239.223.189
+2023-10-30 16:26:58 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:26:58 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,130.208.243.61,4068;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:26:58 | received 2 messages from server 10
+2023-10-30 16:26:58 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:26:58 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,My name is Jeff
+P3_GROUP_99:My name is Jeff
+2023-10-30 16:26:58 | 10 | server disconnected
+2023-10-30 16:27:00 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:27:00 | 10 | server connected from 46.239.223.189
+2023-10-30 16:27:00 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:27:00 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,130.208.243.61,4068;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:27:00 | received 2 messages from server 10
+2023-10-30 16:27:00 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:27:00 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,My name is Jeff
+P3_GROUP_99:My name is Jeff
+2023-10-30 16:27:00 | 10 | server disconnected
+2023-10-30 16:27:05 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:27:05 | 10 | server connected from 46.182.187.235
+2023-10-30 16:27:05 | 10 | Received: QUERYSERVERS,P3_GROUP_54
+2023-10-30 16:27:05 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,130.208.243.61,4068;P3_GROUP_54,46.182.187.235,-1;
+2023-10-30 16:27:13 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:27:19 | 10 | Sent: SEND_MSG,P3_GROUP_54,P3_GROUP_6,Do you copy?
+2023-10-30 16:27:19 | 5 | Sent: Successfully sent message
+2023-10-30 16:27:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:27:31 | 14 | Sent: SEND_MSG,P3_GROUP_12,P3_GROUP_6,R u there?
+2023-10-30 16:27:31 | 5 | Sent: Successfully sent message
+2023-10-30 16:27:36 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:27:36 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:27:36 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:27:36 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:27:36 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:27:36 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:27:36 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:27:44 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:27:50 | 14 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_12,Hi
+ 
+P3_GROUP_12:Hi
+ 
+2023-10-30 16:27:57 | 10 | server disconnected
+2023-10-30 16:28:12 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:28:12 | 10 | server connected from 130.208.243.61
+2023-10-30 16:28:12 | 10 | Received: QUERYSERVERS,P3_Group_44
+2023-10-30 16:28:12 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,130.208.243.61,4068;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:28:14 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:28:14 | 14 | Received: STATUSREQ,P3_GROUP_12
+2023-10-30 16:28:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:28:44 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:28:44 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:28:44 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:28:44 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:28:44 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:28:44 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:29:05 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:29:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:29:23 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:29:25 | 14 | server disconnected
+2023-10-30 16:29:40 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:29:40 | 12 | server connected from 46.239.223.189
+2023-10-30 16:29:40 | 12 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:29:40 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_Group_44,130.208.243.61,-1;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:29:40 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | 12 | Sent: KEEPALIVE,0
+2023-10-30 16:29:40 | received 2 messages from server 12
+2023-10-30 16:29:40 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:29:40 | 12 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:29:41 | 12 | server disconnected
+2023-10-30 16:29:45 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:29:45 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:29:45 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:29:45 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:29:45 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:29:45 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:29:45 | 12 | server connected from 46.239.223.189
+2023-10-30 16:29:45 | 12 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:29:45 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_Group_44,130.208.243.61,-1;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:29:45 | received 2 messages from server 12
+2023-10-30 16:29:45 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:29:45 | 12 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:30:05 | 10 | server disconnected
+2023-10-30 16:30:21 | 12 | server disconnected
+2023-10-30 16:30:22 | 6 | Sent: SEND_MSG,P3_GROUP_99,P3_GROUP_6,Here u go!
+2023-10-30 16:30:22 | 8 | Sent: SEND_MSG,P3_GROUP_99,P3_GROUP_6,Here u go!
+2023-10-30 16:30:22 | 9 | Sent: SEND_MSG,P3_GROUP_99,P3_GROUP_6,Here u go!
+2023-10-30 16:30:22 | 5 | Sent: Sent messages to Instructor, GROUP was unknown
+2023-10-30 16:30:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:30:23 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:30:35 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:30:35 | 10 | server connected from 46.239.223.189
+2023-10-30 16:30:35 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:30:35 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:30:35 | received 2 messages from server 10
+2023-10-30 16:30:35 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:30:35 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:30:36 | 10 | server disconnected
+2023-10-30 16:30:55 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:30:55 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:30:55 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:30:55 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:30:55 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:30:56 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:30:56 | 10 | server connected from 46.239.223.189
+2023-10-30 16:30:56 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:30:56 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:30:56 | received 2 messages from server 10
+2023-10-30 16:30:56 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:30:56 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:30:56 | 10 | server disconnected
+2023-10-30 16:30:59 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:30:59 | 10 | server connected from 153.92.138.87
+2023-10-30 16:30:59 | 10 | Received: QUERYSERVERS,P3_GROUP_56
+2023-10-30 16:30:59 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_56,153.92.138.87,-1;
+2023-10-30 16:30:59 | 10 | Received: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_2,130.208.243.61,4002;Instr_3,130.208.243.61,4003;Instr_1,130.208.243.61,4001;P3_GROUP_4,130.208.243.61,4019;P3_GROUP_30,130.208.243.61,4021;
+2023-10-30 16:30:59 | 12 | Connected to server 130.208.243.61:4019
+2023-10-30 16:30:59 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:30:59 | 12 | adding server unknown12,130.208.243.61,4019; to servers set
+2023-10-30 16:30:59 | received 2 messages from server 12
+2023-10-30 16:30:59 | 12 | Received: QUERYSERVERS,P3_GROUP_4
+2023-10-30 16:30:59 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_56,153.92.138.87,4006;P3_GROUP_4,130.208.243.61,4019;
+2023-10-30 16:30:59 | 12 | Received: SERVERS,P3_GROUP_4,130.208.243.61,4019;Instr_3,130.208.243.61,4003;Instr_2,130.208.243.61,4002;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_4,130.208.243.61,4019;
+2023-10-30 16:30:59 | 14 | Connected to server 130.208.243.61:4069
+2023-10-30 16:30:59 | 14 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:30:59 | 14 | adding server unknown14,130.208.243.61,4069; to servers set
+2023-10-30 16:30:59 | received 2 messages from server 14
+2023-10-30 16:30:59 | 14 | Received: QUERYSERVERS,P3_GROUP_100,130.208.243.61,4069
+2023-10-30 16:30:59 | 14 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_56,153.92.138.87,4006;P3_GROUP_4,130.208.243.61,4019;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:30:59 | 14 | Received: SERVERS,P3_GROUP_100,130.208.243.61,4069;Instr_2,130.208.243.61,4002;P3_Group_44,130.208.243.61,4019;P3_Group_38,194.144.191.50,8120;P3_GROUP_6,130.208.243.61,33392;
+2023-10-30 16:31:00 | 10 | server disconnected
+2023-10-30 16:31:00 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:31:00 | 10 | server connected from 46.239.223.189
+2023-10-30 16:31:00 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:31:00 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_4,130.208.243.61,4019;P3_GROUP_99,46.239.223.189,-1;P3_GROUP_100,130.208.243.61,4069;
+2023-10-30 16:31:00 | received 2 messages from server 10
+2023-10-30 16:31:00 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:31:00 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:31:01 | 10 | server disconnected
+2023-10-30 16:31:02 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:31:02 | 10 | server connected from 46.239.223.189
+2023-10-30 16:31:02 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:31:02 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_4,130.208.243.61,4019;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:31:02 | received 2 messages from server 10
+2023-10-30 16:31:02 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:31:02 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:31:02 | 10 | server disconnected
+2023-10-30 16:31:03 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:31:03 | 10 | server connected from 46.239.223.189
+2023-10-30 16:31:03 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:31:03 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_4,130.208.243.61,4019;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:31:03 | received 2 messages from server 10
+2023-10-30 16:31:03 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:31:03 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:31:18 | declined incoming connection from 153.92.138.87. MAX connections hit
+2023-10-30 16:31:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:31:23 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:31:26 | 12 | Sent: SEND_MSG,P3_GROUP_4,P3_GROUP_6,Do u copy?
+2023-10-30 16:31:26 | 5 | Sent: Successfully sent message
+2023-10-30 16:31:39 | 12 | server disconnected
+2023-10-30 16:32:10 | received 2 messages from server 6
+2023-10-30 16:32:10 | 6 | Received: QUERYSERVERS,Instr_1
+2023-10-30 16:32:10 | 6 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:32:10 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:32:10 | received 2 messages from server 7
+2023-10-30 16:32:10 | 7 | Received: QUERYSERVERS,NUMBER
+2023-10-30 16:32:10 | 7 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:32:10 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:32:10 | received 2 messages from server 15
+2023-10-30 16:32:10 | 15 | Received: QUERYSERVERS,ORACLE
+2023-10-30 16:32:10 | 15 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:32:10 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:32:10 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:32:10 | received 2 messages from server 8
+2023-10-30 16:32:10 | 8 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:32:10 | 8 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:32:10 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:32:10 | received 2 messages from server 9
+2023-10-30 16:32:10 | 9 | Received: QUERYSERVERS,Instr_3
+2023-10-30 16:32:10 | 9 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:32:10 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:32:10 | received 2 messages from server 14
+2023-10-30 16:32:10 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:32:10 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:32:22 | 10 | Sent: SEND_MSG,P3_GROUP_99,P3_GROUP_6,Here u go
+2023-10-30 16:32:22 | 5 | Sent: Successfully sent message
+2023-10-30 16:32:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:32:23 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:32:39 | 10 | server disconnected
+2023-10-30 16:33:04 | 13 | Sent: SEND_MSG,P3_GROUP_69,P3_GROUP_6,R u there?
+2023-10-30 16:33:04 | 5 | Sent: Successfully sent message
+2023-10-30 16:33:04 | 13 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_69,Thank you for reaching out to us. Your message has been received by GROUP_69. We will review it and get back to you as soon as possible. We appreciate your patience.
+
+Warm regards,
+GROUP_69
+P3_GROUP_69:Thank you for reaching out to us. Your message has been received by GROUP_69. We will review it and get back to you as soon as possible. We appreciate your patience.
+
+Warm regards,
+GROUP_69
+2023-10-30 16:33:07 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:33:07 | 10 | server connected from 46.239.223.189
+2023-10-30 16:33:07 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:33:07 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:33:07 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:33:07 | 12 | server connected from 46.239.223.189
+2023-10-30 16:33:07 | received 2 messages from server 10
+2023-10-30 16:33:07 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:33:07 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:33:07 | received 3 messages from server 12
+2023-10-30 16:33:07 | 12 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:33:07 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:33:07 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:33:07 | 12 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:33:12 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:33:12 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:33:12 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:33:12 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:33:12 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:33:12 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:33:12 | 7 | Received: SEND_MSG,P3_GROUP_6,NUMBER,
+036e3491ba499df64611c82b6bcdd37d
+NUMBER:
+036e3491ba499df64611c82b6bcdd37d
+2023-10-30 16:33:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:33:23 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:34:17 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:34:17 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:34:17 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:34:17 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:34:17 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:34:17 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:34:18 | 12 | server disconnected
+2023-10-30 16:34:18 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:34:18 | 10 | server disconnected
+2023-10-30 16:34:18 | 11 | server disconnected
+2023-10-30 16:34:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:34:45 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:34:45 | 10 | server connected from 46.239.223.189
+2023-10-30 16:34:45 | received 3 messages from server 10
+2023-10-30 16:34:45 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:34:45 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:34:45 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:34:45 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:34:45 | 10 | server disconnected
+2023-10-30 16:34:47 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:34:47 | 10 | server connected from 46.239.223.189
+2023-10-30 16:34:47 | 10 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:34:47 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:34:47 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:34:47 | 11 | server connected from 46.239.223.189
+2023-10-30 16:34:47 | received 2 messages from server 10
+2023-10-30 16:34:47 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:34:47 | 10 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:34:47 | 11 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:34:47 | 11 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_99,46.239.223.189,-1;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:34:47 | received 2 messages from server 11
+2023-10-30 16:34:47 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:34:47 | 11 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:34:55 | 11 | server disconnected
+2023-10-30 16:34:55 | 10 | server disconnected
+2023-10-30 16:35:20 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:35:20 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:35:20 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:35:20 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:35:20 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:35:20 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:35:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:35:47 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:35:47 | 10 | server connected from 153.92.138.87
+2023-10-30 16:35:47 | 10 | Received: QUERYSERVERS,P3_GROUP_56
+2023-10-30 16:35:47 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_56,153.92.138.87,-1;
+2023-10-30 16:36:06 | 10 | server disconnected
+2023-10-30 16:36:21 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:36:21 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:36:21 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:36:21 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:36:21 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:36:21 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:36:21 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:36:21 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:36:21 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:36:21 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:36:21 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:36:21 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:36:21 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:36:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:36:23 | 6 | Sent: SEND_MSG,P3_GROUP_56,P3_GROUP_6,R u there?
+2023-10-30 16:36:23 | 8 | Sent: SEND_MSG,P3_GROUP_56,P3_GROUP_6,R u there?
+2023-10-30 16:36:23 | 9 | Sent: SEND_MSG,P3_GROUP_56,P3_GROUP_6,R u there?
+2023-10-30 16:36:23 | 5 | Sent: Sent messages to Instructor, GROUP was unknown
+2023-10-30 16:36:35 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:36:35 | 10 | server connected from 10.2.17.63
+2023-10-30 16:36:35 | 10 | Received: QUERYSERVERS,P3_GROUP_12
+2023-10-30 16:36:35 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_12,10.2.17.63,-1;
+2023-10-30 16:36:35 | 10 | Received: SERVERS,P3_GROUP_12,10.2.17.63,4001;Instr_3,130.208.243.61,4003;P3_GROUP_6,130.208.243.61,4006;P3_Group_38,194.144.191.50,8120;ORACLE,130.208.243.61,4004;Instr_2,130.208.243.61,4002;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;
+2023-10-30 16:36:35 | 11 | Connected to server 194.144.191.50:8120
+2023-10-30 16:36:35 | 12 | Connected to server 130.208.243.61:4011
+2023-10-30 16:36:35 | 12 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:36:35 | 11 | adding server unknown11,194.144.191.50,8120; to servers set
+2023-10-30 16:36:35 | 12 | adding server unknown12,130.208.243.61,4011; to servers set
+2023-10-30 16:36:35 | received 2 messages from server 12
+2023-10-30 16:36:35 | 12 | Received: QUERYSERVERS,P3_Group_19
+2023-10-30 16:36:35 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_12,10.2.17.63,4001;unknown11,194.144.191.50,8120;P3_Group_19,130.208.243.61,4011;
+2023-10-30 16:36:35 | 12 | Received: SERVERS,P3_Group_19,130.208.243.61,4011;Instr_3,130.208.243.61,4003;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_30,130.208.243.61,-1;P3_GROUP_12,10.2.17.63,-1;P3_GROUP_6,130.208.243.61,-1;
+2023-10-30 16:36:41 | 11 | server disconnected
+2023-10-30 16:36:46 | 10 | Sent: SEND_MSG,P3_GROUP_12,P3_GROUP_6,R u there?
+2023-10-30 16:36:46 | 5 | Sent: Successfully sent message
+2023-10-30 16:37:11 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:37:11 | 11 | server connected from 46.239.223.189
+2023-10-30 16:37:11 | 11 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:37:11 | 11 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_12,10.2.17.63,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:37:11 | received 2 messages from server 11
+2023-10-30 16:37:11 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:37:11 | 11 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:37:12 | 11 | server disconnected
+2023-10-30 16:37:14 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:37:14 | 11 | server connected from 46.239.223.189
+2023-10-30 16:37:14 | received 3 messages from server 11
+2023-10-30 16:37:14 | 11 | Received: QUERYSERVERS,P3_GROUP_99
+2023-10-30 16:37:14 | 11 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_12,10.2.17.63,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_99,46.239.223.189,-1;
+2023-10-30 16:37:14 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:37:14 | 11 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_99,Please send me messages
+P3_GROUP_99:Please send me messages
+2023-10-30 16:37:15 | 11 | server disconnected
+2023-10-30 16:37:17 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 13 | Received: KEEPALIVE,0
+2023-10-30 16:37:23 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:37:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:37:45 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:37:45 | 11 | server connected from 130.208.243.61
+2023-10-30 16:37:45 | 11 | Received: QUERYSERVERS,P3_GROUP_39,130.208.243.61,4039
+2023-10-30 16:37:45 | 11 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_GROUP_12,10.2.17.63,4001;P3_Group_19,130.208.243.61,4011;P3_GROUP_39,130.208.243.61,-1;
+2023-10-30 16:37:45 | 11 | Received: SERVERS,P3_GROUP_39,130.208.243.61,4039;Instr_3,130.208.243.61,4003;
+2023-10-30 16:37:59 | declined incoming connection from 194.144.191.50. MAX connections hit
+2023-10-30 16:38:12 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:38:15 | 13 | server disconnected
+2023-10-30 16:38:17 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:38:18 | 10 | server disconnected
+2023-10-30 16:38:20 | 11 | Sent: SEND_MSG,P3_GROUP_39,P3_GROUP_6,R u there?
+2023-10-30 16:38:20 | 5 | Sent: Successfully sent message
+2023-10-30 16:38:29 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:38:29 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:38:29 | received 2 messages from server 7
+2023-10-30 16:38:29 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:38:29 | 7 | Received: SEND_MSG,P3_GROUP_6,NUMBER,2091c76f726f21a61b6d2f8b885cc39d
+NUMBER:2091c76f726f21a61b6d2f8b885cc39d
+2023-10-30 16:38:29 | received 2 messages from server 8
+2023-10-30 16:38:29 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:38:29 | 8 | Received: SEND_MSG,P3_GROUP_6,NUMBER,2091c76f726f21a61b6d2f8b885cc39d
+NUMBER:2091c76f726f21a61b6d2f8b885cc39d
+2023-10-30 16:38:29 | received 2 messages from server 9
+2023-10-30 16:38:29 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:38:29 | 9 | Received: SEND_MSG,P3_GROUP_6,NUMBER,2091c76f726f21a61b6d2f8b885cc39d
+NUMBER:2091c76f726f21a61b6d2f8b885cc39d
+2023-10-30 16:38:29 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 12 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:38:29 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:38:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:38:43 | 10 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:38:43 | 10 | server connected from 130.208.243.61
+2023-10-30 16:38:43 | 10 | Received: QUERYSERVERS,P3_GROUP_69,130.208.243.61,4080
+2023-10-30 16:38:43 | 10 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_39,130.208.243.61,4039;P3_GROUP_69,130.208.243.61,-1;
+2023-10-30 16:38:43 | 10 | Received: SERVERS,P3_GROUP_69,130.208.243.61,4080;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_39,130.208.243.61,4039;P3_GROUP_18,130.208.243.61,4064;P3_GROUP_6,130.208.243.61,4006;ORACLE,130.208.243.61,4004;
+2023-10-30 16:38:43 | 13 | Connected to server 130.208.243.61:4064
+2023-10-30 16:38:43 | 13 | adding server unknown13,130.208.243.61,4064; to servers set
+2023-10-30 16:38:50 | 11 | server disconnected
+2023-10-30 16:38:58 | 11 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:38:58 | 11 | server connected from 130.208.243.61
+2023-10-30 16:38:58 | 11 | Received: QUERYSERVERS,P3_GROUP_150,130.208.243.61,4073
+2023-10-30 16:38:58 | 11 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;unknown13,130.208.243.61,4064;P3_GROUP_150,130.208.243.61,-1;
+2023-10-30 16:38:58 | 11 | Received: SERVERS,P3_GROUP_150,130.208.243.61,4073;Instr_1,130.208.243.61,4001;Instr_2,130.208.243.61,4002;NUMBER,130.208.243.61,4005;P3_GROUP_14,130.208.243.61,4040;P3_GROUP_18,130.208.243.61,4064;P3_GROUP_6,130.208.243.61,4006;P3_GROUP_69,130.208.243.61,4080;
+2023-10-30 16:38:58 | 11 | Received: STATUSREQ,P3_GROUP_150
+2023-10-30 16:39:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:39:36 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:39:36 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:39:36 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:39:36 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:39:36 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:39:36 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:39:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:39:53 | declined incoming connection from 31.209.148.102. MAX connections hit
+2023-10-30 16:39:53 | declined incoming connection from 31.209.148.102. MAX connections hit
+2023-10-30 16:40:03 | 11 | Sent: SEND_MSG,P3_GROUP_150,P3_GROUP_6,Hello there
+2023-10-30 16:40:03 | 5 | Sent: Successfully sent message
+2023-10-30 16:40:03 | 11 | Received: KEEPALIVE,1
+2023-10-30 16:40:03 | 11 | Sent: FETCH_MSGS,P3_GROUP_6
+2023-10-30 16:40:03 | 11 | Received: SEND_MSG,P3_GROUP_6,P3_GROUP_150,You've reached GROUP 150! This is an automated message sent once to confirm your connection, you won't receive it again unless we had to restart. Please check your SERVERS reply as we've been getting some entries wrong from some groups
+P3_GROUP_150:You've reached GROUP 150! This is an automated message sent once to confirm your connection, you won't receive it again unless we had to restart. Please check your SERVERS reply as we've been getting some entries wrong from some groups
+2023-10-30 16:40:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:40:35 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 12 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:40:35 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:40:41 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:40:41 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:40:41 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:40:41 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:40:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:40:41 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:40:41 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:40:53 | 13 | server disconnected
+2023-10-30 16:41:10 | 13 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:41:10 | 13 | server connected from 130.208.243.61
+2023-10-30 16:41:10 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:41:10 | 13 | Received: QUERYSERVERS,P3_Group_44
+2023-10-30 16:41:10 | 13 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:41:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:41:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:41:41 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:41:42 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:41:42 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:41:42 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:41:42 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:41:42 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:42:01 | 13 | Received: QUERYSERVERS,P3_Group_44
+2023-10-30 16:42:01 | 13 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:11 | declined incoming connection from 130.208.243.61. MAX connections hit
+2023-10-30 16:42:11 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:42:21 | 13 | Sent: SEND_MSG,P3_Group_44,P3_GROUP_6,Do u copy?
+2023-10-30 16:42:21 | 5 | Sent: Successfully sent message
+2023-10-30 16:42:35 | received 2 messages from server 12
+2023-10-30 16:42:35 | 12 | Received: QUERYSERVERS,P3_Group_19
+2023-10-30 16:42:35 | 12 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:42:42 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:42:42 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:42:42 | 6 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 7 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 8 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 15 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 9 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 14 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 12 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 10 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 11 | Sent: KEEPALIVE,0
+2023-10-30 16:42:42 | 13 | Sent: KEEPALIVE,0
+2023-10-30 16:42:51 | received 2 messages from server 6
+2023-10-30 16:42:51 | 6 | Received: QUERYSERVERS,Instr_1
+2023-10-30 16:42:51 | 6 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:51 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:42:51 | received 2 messages from server 7
+2023-10-30 16:42:51 | 7 | Received: QUERYSERVERS,NUMBER
+2023-10-30 16:42:51 | 7 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:51 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:42:51 | received 2 messages from server 8
+2023-10-30 16:42:51 | 8 | Received: QUERYSERVERS,Instr_2
+2023-10-30 16:42:51 | 8 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:51 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:42:51 | received 2 messages from server 9
+2023-10-30 16:42:51 | 9 | Received: QUERYSERVERS,Instr_3
+2023-10-30 16:42:51 | 9 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:51 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:42:51 | 15 | Received: QUERYSERVERS,ORACLE
+2023-10-30 16:42:51 | 15 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_Group_44,130.208.243.61,-1;
+2023-10-30 16:42:51 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:43:01 | 13 | server disconnected
+2023-10-30 16:43:20 | 11 | Received: KEEPALIVE,0
+2023-10-30 16:43:20 | 13 | Sent: QUERYSERVERS,P3_GROUP_6,130.208.243.61,4006
+2023-10-30 16:43:20 | 13 | server connected from 10.2.17.88
+2023-10-30 16:43:20 | 13 | Received: QUERYSERVERS,P3_GROUP_699,10.2.17.88,4040
+2023-10-30 16:43:20 | 13 | Sent: SERVERS,P3_GROUP_6,130.208.243.61,4006;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;ORACLE,130.208.243.61,4004;Instr_3,130.208.243.61,4003;P3_GROUP_100,130.208.243.61,4069;P3_Group_19,130.208.243.61,4011;P3_GROUP_69,130.208.243.61,4080;P3_GROUP_150,130.208.243.61,4073;P3_GROUP_699,10.2.17.88,-1;
+2023-10-30 16:43:20 | 13 | Received: SERVERS,P3_GROUP_699,10.2.17.88,4040;Instr_1,130.208.243.61,4001;NUMBER,130.208.243.61,4005;Instr_2,130.208.243.61,4002;P3_GROUP_69,130.208.243.61,4080;P3_Group_43,130.208.243.61,4043;P3_GROUP_150,130.208.243.61,4073;P3_GROUP_6,130.208.243.61,4006;ORACLE,130.208.243.61,4004;
+2023-10-30 16:43:35 | 12 | Received: KEEPALIVE,0
+2023-10-30 16:43:41 | 10 | Received: KEEPALIVE,0
+2023-10-30 16:43:42 | 14 | Received: KEEPALIVE,0
+2023-10-30 16:44:00 | 9 | Received: KEEPALIVE,0
+2023-10-30 16:44:00 | 7 | Received: KEEPALIVE,0
+2023-10-30 16:44:00 | 15 | Received: KEEPALIVE,0
+2023-10-30 16:44:00 | 6 | Received: KEEPALIVE,0
+2023-10-30 16:44:00 | 8 | Received: KEEPALIVE,0
+2023-10-30 16:44:10 | 5 | client disconnected
