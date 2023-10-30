@@ -11,6 +11,7 @@
 #include "ip.h"
 #include "sendMessage.h"
 #include "serverCommands.h"
+#include "serverConnect.h"
 #include "utils.h"
 
 std::vector<unsigned char>
@@ -40,20 +41,36 @@ void handleERROR(int socket, const std::string message) {
 }
 
 void handleSERVERS(int socket, const std::string data,
-                   std::set<Client *> &servers) {
+                   std::set<Client *> &servers, std::set<Client *> &newServers,
+                   ServerSettings &groupSixServer, int serverPort) {
     int commaIndex = 0;
 
-    for (int i = 0; i < 2; i++)
-        commaIndex = data.find(",", commaIndex + 1);
+    std::vector<std::string> oneHopServers = splitString(data, ';');
 
-    int firstColon = data.find(";");
-    std::string incomingPort =
-        data.substr(commaIndex + 1, firstColon - commaIndex - 1);
+    if (oneHopServers.empty()) {
+        std::cerr << socket << "| ERROR: SERVERS response empty" << std::endl;
+        return;
+    }
+
+    std::string owner = oneHopServers.front();
+    std::vector<std::string> ownerData = splitString(owner, ',');
+
+    if (ownerData.size() != 3) {
+        std::cerr << socket
+                  << "| ERROR: Invalid number of owner attributes in owner "
+                     "SERVERS response. Should be <name>,<ip>,<port> but is "
+                  << owner << std::endl;
+        return;
+    }
+
+    std::string ownerName = ownerData[0];
+    std::string ownerIp = ownerData[1];
+    std::string ownerPort = ownerData[2];
 
     int port = -1;
-    if (!isConvertibleToInt(incomingPort, port)) {
-        std::cerr << socket << "| INVALID servers response - Port "
-                  << incomingPort << " invalid" << std::endl;
+    if (!isConvertibleToInt(ownerPort, port)) {
+        std::cerr << socket << "| INVALID servers response - Port " << ownerPort
+                  << " invalid" << std::endl;
         return;
     }
 
@@ -61,6 +78,56 @@ void handleSERVERS(int socket, const std::string data,
         if (server->sock == socket)
             server->port = port;
 
+    for (auto s = oneHopServers.begin() + 1; s != oneHopServers.end(); ++s) {
+
+        if (servers.size() + newServers.size() >= groupSixServer.maxConnections)
+            break;
+
+        std::vector<std::string> serverData = splitString(*s, ',');
+        if (serverData.size() != 3) // if there aren't three items, stop
+            continue;
+
+        if (serverData[0] ==
+            groupSixServer.serverName) // if the server is us, stop
+            continue;
+
+        int serverDataPort;
+        if (!isConvertibleToInt(
+                serverData[2],
+                serverDataPort)) // if the port is not an int, stop
+            continue;
+
+        if (serverDataPort < 0) // if the port is < 0, stop
+            continue;
+
+        // are we already connected to this server
+        bool isValid = true;
+        for (Client *connectedServer : servers)
+            if (connectedServer->name == serverData[0]) {
+                isValid = false;
+                break;
+            }
+
+        if (!isValid)
+            continue;
+
+        // We can't trust that within a single SERVERS response, two of the same
+        // servers can't appear
+        for (Client *unconnectedServer : newServers)
+            if (unconnectedServer->ip == serverData[1] &&
+                unconnectedServer->port == serverDataPort) {
+                isValid = false;
+                break;
+            }
+
+        if (!isValid)
+            continue;
+
+        Client *newClient = establishConnection(serverData[1], serverDataPort,
+                                                serverPort, groupSixServer);
+        if (newClient != nullptr)
+            newServers.insert(newClient);
+    }
     return;
 }
 

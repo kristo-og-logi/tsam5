@@ -162,7 +162,8 @@ void serverCommand(int serverSocket, fd_set *openSockets, int *maxfds,
     std::string data = message.substr(firstCommaIndex + 1, message.size() - 1);
 
     if (command == "SERVERS")
-        return handleSERVERS(serverSocket, data, servers);
+        return handleSERVERS(serverSocket, data, servers, newServers,
+                             groupSixServer, serverPort);
 
     if (command == "KEEPALIVE")
         return handleKEEPALIVE(serverSocket, data, servers, groupSixServer);

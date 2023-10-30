@@ -22,6 +22,22 @@ void sendQUERYSERVERS(int serverPort, int sock, ServerSettings &myServer) {
     sendMessage(sock, message);
 }
 
+Client *establishConnection(std::string ip, int port,
+                            int serverPort, ServerSettings &myServer) {
+
+    struct sockaddr_in addr;
+    int sock = createConnection(ip, port, addr);
+    if (sock < 0)
+        return nullptr;
+
+    sendQUERYSERVERS(serverPort, sock, myServer);
+
+    Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
+    newClient->name = "unknown" + std::to_string(sock);
+
+    return newClient;
+}
+
 // takes strings with format "<ip>,<port>" and creates connection through that
 // and sends QUERYSERVERS request
 Client *connectToServer(std::string &data, int serverPort,
@@ -56,16 +72,5 @@ Client *connectToServer(std::string &data, int serverPort,
             return nullptr;
         }
 
-    // Create a socket
-    struct sockaddr_in addr;
-    int sock = createConnection(ip, port, addr);
-    if (sock < 0)
-        return nullptr;
-
-    sendQUERYSERVERS(serverPort, sock, myServer);
-
-    Client *newClient = new Client(sock, ClientType::SERVER, ip, port);
-    newClient->name = "unknown" + std::to_string(sock);
-
-    return newClient;
+    return establishConnection(ip, port, serverPort, myServer);
 }
