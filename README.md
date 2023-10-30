@@ -26,7 +26,8 @@ The code itself can be found within the tar file.
 
 ### 2. 
 
-The wireshark trace of our client server communication can be found in client-server.tcpmp
+The wireshark trace of our client server communication can be found in client-server.pcapng
+We took this to mean all the communication between server and client.
 
 In addition to the necessary client commands, we also created the "CONNECT" command, which takes as arguments an ip address and a port, comma separated. That can also be seen in the wireshark trace.
 
@@ -86,11 +87,8 @@ This task was first started early on in the project, and this was the router whi
 
 To port forward, Kristófer opened up port 4006 on the router to map to port 4006 on his mac, which was assigned the inner NAT address 10.0.0.3. 
 To make sure this wouldn't change, Kristófer reserved the address 10.0.0.3 to his mac and locked it, so that the address would be reserved for his mac.
-We didn't have to change Kristófer's firewall settings at all. It just worked right away!
 
-The ip can be seen on the network in the server.log file by using:
-
-`grep "157.157.63.135"`
+While debugging and getting the router port to open up to outside connections worked generally, which we tested using a simple node express server, we didn't manage to connect to the tcp server this way. We're not sure why it worked generally, but not for this server specifically, but we're hoping to get an answer on [this piazza thread](https://piazza.com/class/llmkmqion5w282/post/360).
 
 
 ## Running the code
