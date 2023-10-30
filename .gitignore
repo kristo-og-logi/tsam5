@@ -39,3 +39,5 @@ tsamgroup6
 
 .vscode
 
+# Logging 
+*.log
