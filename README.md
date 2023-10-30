@@ -40,7 +40,11 @@ We successfully received messages from around 16 servers in total (which we logg
 
 ### 5.
 
-We also successfully sent messages back to 16 servers. This can be found with the command:
+We successfully sent messages to 26 servers. This can be found with the command:
+
+`grep -iEo -A 1 "SEND_MSG,P3_GROUP_[0-9]+,P3_GROUP_6" server.log | grep -B 1 "Successfully" | grep "P3_GROUP_6" | sort | uniq | wc -l`
+
+The above command greps all lines in the log where our group sent a message, and then checks whether the line below it reads "Successfully". This was necessary because in three cases, the group wasn't found in our connections, and our backup plan was to then send the SEND_MSG command to the instructor servers, hoping that they would send the message. We can't know whether those messages were received, so this will have to do.
 
 ### Bonus
 
